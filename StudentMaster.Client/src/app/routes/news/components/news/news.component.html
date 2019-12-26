@@ -1,0 +1,8 @@
+<div class="cell-8 offset-2">
+  <div class="row">
+    <mat-card class="new-item cell-md-3 cell-12" *ngFor="let item of news" (click)="openDialog(item.id)">
+      <mat-card-title>{{item.name}}</mat-card-title>
+      <mat-card-content>{{item.date | date:'medium'}}</mat-card-content>
+    </mat-card>
+  </div>
+</div>

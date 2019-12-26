@@ -1,0 +1,16 @@
+<mat-card>
+  <mat-card-title>Settings</mat-card-title>
+  <mat-card-content>
+    <mat-divider></mat-divider>
+    <br />
+    <div class="container-fluid">
+      <h3 class="f-w-400">Theme</h3>
+      <div class="m-l-8">
+        <mat-radio-group [(ngModel)]="options.theme" (change)="sendOptions()">
+          <mat-radio-button class="m-r-8" [value]="'light'">Light</mat-radio-button>
+          <mat-radio-button class="m-r-8" [value]="'dark'">Dark</mat-radio-button>
+        </mat-radio-group>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

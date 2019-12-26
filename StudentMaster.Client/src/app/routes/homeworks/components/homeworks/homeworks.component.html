@@ -1,0 +1,24 @@
+<div class="row">
+  <mat-card class="cell-11 cell-md-3" style="margin: 1rem;" *ngFor="let item of this.homeworks">
+    <mat-card-title>{{ item.subject }}</mat-card-title>
+    <mat-card-subtitle>{{ item.theme }}</mat-card-subtitle>
+    <mat-divider></mat-divider>
+    <mat-card-content style="height: auto; text-align: center; flex:content">
+      <a
+        [href]="this.fileAPI + this.item.path"
+        class="cell-11"
+        target="_blank"
+        style="margin: 1rem;"
+        mat-raised-button
+        color="primary"
+        download="download"
+        >Download</a
+      >
+      <button class="cell-11" style="margin: 1rem;" mat-raised-button color="accent">Upload</button>
+    </mat-card-content>
+    <mat-divider></mat-divider>
+    <mat-card-footer style="text-align: center">
+      <h3>To: {{ item.todate }}</h3>
+    </mat-card-footer>
+  </mat-card>
+</div>

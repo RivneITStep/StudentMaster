@@ -1,0 +1,86 @@
+<h1 mat-dialog-title>Add homework!</h1>
+<div mat-dialog-content>
+  <mat-horizontal-stepper [linear]="isLinear" #stepper>
+    <mat-step [stepControl]="infoForm">
+      <form [formGroup]="infoForm">
+        <ng-template matStepLabel>Setting</ng-template>
+        <mat-form-field class="cell-12">
+          <mat-label>Select subject</mat-label>
+          <mat-select formControlName="subject">
+            <mat-option *ngFor="let item of this.subjects" value="{{ item.id }}">
+              {{ item.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <br />
+        <mat-form-field class="cell-12">
+          <input
+            matInput
+            [matDatepicker]="datapicker"
+            [max]="this.maxDate"
+            [min]="this.minDate"
+            placeholder="Select date"
+            formControlName="date"
+          />
+          <mat-datepicker-toggle matSuffix [for]="datapicker"></mat-datepicker-toggle>
+          <mat-datepicker touchUi #datapicker></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field class="cell-12">
+          <mat-label>Input theme</mat-label>
+          <input matInput placeholder="Input Theme" formControlName="theme" />
+        </mat-form-field>
+        <div>
+          <button
+            mat-raised-button
+            color="primary"
+            [disabled]="this.infoForm.invalid"
+            (click)="onSubmitInfoForm(stepper)"
+          >
+            Next
+          </button>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step [stepControl]="dataForm">
+      <form [formGroup]="dataForm">
+        <ng-template matStepLabel>File</ng-template>
+        <button
+          mat-raised-button
+          color="primary"
+          style="margin: 2rem;"
+          (click)="this.onPickImage()"
+        >
+          Choose file!
+        </button>
+        <input id="fileSelector" type="file" style="display: none;" />
+        <!-- <img [src]="this.dataForm.value.homework" /> -->
+        <br />
+        <div>
+          <mat-spinner *ngIf="this.isLoading" color="accent"></mat-spinner>
+          <button
+            mat-raised-button
+            color="accent"
+            *ngIf="!this.isLoading"
+            style="margin-right: 1rem;"
+            matStepperPrevious
+          >
+            Back
+          </button>
+
+          <button
+            mat-raised-button
+            color="primary"
+            [disabled]="this.dataForm.invalid"
+            *ngIf="!this.isLoading"
+            (click)="this.onSubmitDataForm(stepper)"
+          >
+            Add
+          </button>
+        </div>
+      </form>
+    </mat-step>
+  </mat-horizontal-stepper>
+</div>
+<div mat-dialog-actions>
+  <button (click)="close()" mat-button>Close</button>
+</div>

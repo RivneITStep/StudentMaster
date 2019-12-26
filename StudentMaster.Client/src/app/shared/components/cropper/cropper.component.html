@@ -1,0 +1,15 @@
+<h1 mat-dialog-title>Cropper image!</h1>
+<div mat-dialog-content>
+  <div class="row">
+    <image-cropper class="cell-12" [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true"
+      [aspectRatio]="1 / 1" [resizeToHeight]="720" [resizeToWidth]="1280" format="png"
+      (imageCropped)="imageCropped($event)" [cropperMinWidth]="300" [cropperMinHeight]="300"></image-cropper>
+    <!-- <p class="cell-2"></p>
+    <img class="cell-4" [src]="this.croppedImage" style="height: 300; width: 300;" /> -->
+  </div>
+</div>
+<div mat-dialog-actions>
+  <mat-progress-bar *ngIf="this.isLoading" mode="indeterminate" class="cell-3"></mat-progress-bar>
+  <button *ngIf="!this.isLoading" [disabled]="this.isLoading" class="cell-3" mat-raised-button
+    (click)="this.save()">Save</button>
+</div>

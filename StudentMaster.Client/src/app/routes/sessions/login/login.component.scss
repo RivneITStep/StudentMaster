@@ -1,0 +1,20 @@
+.sign-in-spinner {
+  position: absolute;
+  z-index: 999;
+  visibility: visible;
+}
+
+.sign-in-hide-spinner {
+  position: absolute;
+  visibility: hidden;
+}
+
+.blur {
+  background: grey;
+  filter: blur(5px);
+  z-index: 1;
+}
+
+form {
+  position: relative;
+}

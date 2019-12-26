@@ -1,0 +1,319 @@
+$color1: #5271c2;
+$color2: #35a541;
+$color3: #bdb235;
+$color4: #db6623;
+$color5: #3e5eb3;
+$color6: #aa9e5c;
+$cyan: #60daaa;
+$yellow: #fbca67;
+$orange: #ff8a30;
+$red: #f45e61;
+$purple: #6477b9;
+$blue: #0eb7da;
+
+@function longshadow($color_a, $color_b, $stepnum, $opacity: 1) {
+  $gradient_steps: null;
+
+  @for $i from 1 through $stepnum {
+    $weight: (($i - 1) / $stepnum) * 100;
+    $colour_mix: mix($color_b, rgba($color_a, $opacity), $weight);
+    $seperator: null;
+
+    @if ($i != $stepnum) {
+      $seperator: #{','};
+    }
+    $gradient_steps: append(#{$gradient_steps}, #{$i}px #{$i}px $colour_mix $seperator);
+  }
+
+  @return $gradient_steps;
+}
+
+@mixin easeOut {
+  transition: all .6s cubic-bezier(.23, 1, .32, 1);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.draw {
+  transition: color .25s;
+
+  &::before,
+  &::after {
+    // Set border to invisible, so we don't see a 4px border on a 0x0 element before the transition starts
+    border: 2px solid transparent;
+    width: 0;
+    height: 0;
+  }
+
+  // This covers the top & right borders (expands right, then down)
+  &::before {
+    top: 0;
+    left: 0;
+  }
+
+  // And this the bottom & left borders (expands left, then up)
+  &::after {
+    bottom: 0;
+    right: 0;
+  }
+
+  &:hover {
+    color: $cyan;
+  }
+
+  // Hover styles
+  &:hover::before,
+  &:hover::after {
+    width: 100%;
+    height: 100%;
+  }
+
+  &:hover::before {
+    border-top-color: $cyan; // Make borders visible
+    border-right-color: $cyan;
+    transition: width .25s ease-out, height .25s ease-out .25s; // And then height
+  }
+
+  &:hover::after {
+    border-bottom-color: $cyan; // Make borders visible
+    border-left-color: $cyan;
+    transition: border-color 0s ease-out .5s, width .25s ease-out .5s,
+      height .25s ease-out .75s; // And finally height
+  }
+}
+
+// Inherits from .draw
+.meet {
+  &:hover {
+    color: $yellow;
+  }
+
+  // Start ::after in same position as ::before
+  &::after {
+    top: 0;
+    left: 0;
+  }
+
+  // Change colors
+  &:hover::before {
+    border-top-color: $yellow;
+    border-right-color: $yellow;
+  }
+
+  &:hover::after {
+    border-bottom-color: $yellow;
+    border-left-color: $yellow;
+    transition: .25s; // Animate height first, then width height 0.25s ease-out, width 0.25s ease-out 0.25s;
+  }
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  max-width: 100%;
+  width: 100%;
+  margin: 0 auto;
+  padding: 15px;
+  text-align: center;
+  overflow-x: hidden;
+}
+
+.card {
+  float: left;
+  position: relative;
+  width: 15%;
+  height: 170px;
+  margin: 0 30px 30px 0;
+  perspective: 1000;
+
+  &:nth-child(n) {
+    .card__front {
+      background: $color1;
+    }
+
+    .card__num {
+      text-shadow: longshadow(darken($color1, 15%), $color1, 100, .8);
+    }
+  }
+
+  &:nth-child(2n) {
+    .card__front {
+      background: $color2;
+    }
+
+    .card__num {
+      text-shadow: longshadow(darken($color2, 15%), $color2, 100, .8);
+    }
+  }
+
+  &::before,
+  &::after {
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    border-style: solid;
+    border-color: $color4;
+  }
+
+  &::before {
+    border-width: 2px 0 2px 0;
+    transform: scaleX(0);
+  }
+
+  &::after {
+    border-width: 0 2px 0 2px;
+    transform: scaleY(0);
+  }
+
+  &:hover::before,
+  &:hover::after {
+    transform: scale(1, 1);
+  }
+
+  &:hover {
+    -webkit-transform: scale(1.2);
+    -ms-transform: scale(1.2);
+    transform: scale(1.2);
+  }
+  // &:nth-child(3n) {
+  //   margin-right: 0;
+
+  //   .card__front {
+  //     background: $color3;
+  //   }
+
+  //   .card__num {
+  //     text-shadow: longshadow(darken($color3, 15%), $color3, 100, .8);
+  //   }
+  // }
+
+  // &:nth-child(4n) {
+  //   .card__front {
+  //     background: $color4;
+  //   }
+
+  //   .card__num {
+  //     text-shadow: longshadow(darken($color4, 15%), $color4, 100, .8);
+  //   }
+  // }
+
+  // &:nth-child(5n) {
+  //   .card__front {
+  //     background: $color5;
+  //   }
+
+  //   .card__num {
+  //     text-shadow: longshadow(darken($color5, 15%), $color5, 100, .8);
+  //   }
+  // }
+
+  // &:nth-child(6n) {
+  //   .card__front {
+  //     background: $color6;
+  //   }
+
+  //   .card__num {
+  //     text-shadow: longshadow(darken($color6, 15%), $color6, 100, .8);
+  //   }
+  // }
+
+  // &:last-child {
+  //   margin-right: 0;
+  // }
+
+  &__flipper {
+    cursor: pointer;
+    transform-style: preserve-3d;
+
+    @include easeOut;
+  }
+
+  &__front,
+  &__back {
+    position: absolute;
+    backface-visibility: hidden;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 150px;
+  }
+
+  &__front {
+    transform: rotateY(0);
+    z-index: 2;
+    overflow: hidden;
+  }
+
+  &__back {
+    transform: rotateY(180deg) scale(1.1);
+    background: lighten(black, 8);
+    display: flex;
+    flex-flow: column wrap;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 20px rgba(black, .3);
+
+    span {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+  }
+
+  &__name {
+    font-size: 32px;
+    line-height: .9;
+    font-weight: 700;
+
+    span {
+      font-size: 14px;
+    }
+  }
+
+  &__num {
+    font-size: 70px;
+    margin: 0 8px 0 0;
+    font-weight: 700;
+
+    @media (max-width: 700px) {
+      font-size: 70px;
+    }
+  }
+
+  @media (max-width: 700px) {
+    width: 100%;
+    height: 170px;
+    margin-right: 0;
+    float: none;
+
+    .card__front,
+    .card__back {
+      height: 150px;
+    }
+  }
+}
+
+/* Demo */
+// main {
+//   text-align: center;
+
+//   h1,
+//   p {
+//     margin: 0 0 12px 0;
+//   }
+
+//   h1 {
+//     margin-top: 12px;
+//     font-weight: 300;
+//   }
+// }
+
+// .fa-twitter {
+//   color: white;
+//   font-size: 30px;
+// }

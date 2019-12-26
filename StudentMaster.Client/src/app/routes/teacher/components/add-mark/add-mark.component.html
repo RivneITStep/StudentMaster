@@ -1,0 +1,96 @@
+<h1 mat-dialog-title>Add mark for: [{{ this.data.id }}]</h1>
+<div mat-dialog-content>
+  <mat-horizontal-stepper [linear]="isLinear" #stepper>
+    <mat-step [stepControl]="subjectForm">
+      <form [formGroup]="subjectForm">
+        <ng-template matStepLabel>Setting</ng-template>
+        <mat-form-field class="cell-12">
+          <mat-label>Select subject</mat-label>
+          <mat-select formControlName="subject">
+            <mat-option *ngFor="let item of this.subjects" value="{{ item.id }}">
+              {{ item.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <br />
+        <mat-form-field class="cell-12">
+          <input
+            matInput
+            [matDatepicker]="datapicker"
+            [max]="this.maxDate"
+            [min]="this.minDate"
+            placeholder="Select date"
+            formControlName="date"
+          />
+          <mat-datepicker-toggle matSuffix [for]="datapicker"></mat-datepicker-toggle>
+          <mat-datepicker touchUi #datapicker></mat-datepicker>
+        </mat-form-field>
+
+        <div>
+          <!-- <mat-progress-bar *ngIf="this.isLoading" mode="indeterminate" class="cell-3"></mat-progress-bar> -->
+          <mat-spinner *ngIf="this.isLoading"></mat-spinner>
+          <button
+            *ngIf="!this.isLoading"
+            mat-raised-button
+            color="primary"
+            [disabled]="this.subjectForm.invalid"
+            (click)="onSubmitSubjectForm(stepper)"
+          >
+            Next
+          </button>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step [stepControl]="markForm">
+      <form [formGroup]="markForm">
+        <ng-template matStepLabel>Mark</ng-template>
+        <mat-form-field class="cell-12">
+          <mat-label>Select mark</mat-label>
+          <mat-select formControlName="mark">
+            <mat-option value="-1"> --- </mat-option>
+            <mat-option *ngFor="let i of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]" [value]="i">
+              {{ i }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <br />
+        <mat-form-field class="cell-12">
+          <mat-label>Select type of mark</mat-label>
+          <mat-select formControlName="type">
+            <mat-option value="1"> Class work </mat-option>
+            <mat-option value="2"> Control work </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <div>
+          <button
+            *ngIf="!this.isLoading"
+            mat-raised-button
+            color="accent"
+            style="margin-right: 1rem;"
+            matStepperPrevious
+          >
+            Back
+          </button>
+          <!-- <mat-progress-bar
+            *ngIf="this.isLoading"
+            mode="indeterminate"
+            class="cell-3"
+          ></mat-progress-bar> -->
+          <mat-spinner *ngIf="this.isLoading"></mat-spinner>
+          <button
+            *ngIf="!this.isLoading"
+            mat-raised-button
+            color="primary"
+            [disabled]="this.markForm.invalid"
+            (click)="this.onSubmitMarkForm(stepper)"
+          >
+            Add
+          </button>
+        </div>
+      </form>
+    </mat-step>
+  </mat-horizontal-stepper>
+</div>
+<div mat-dialog-actions>
+  <button (click)="close()" mat-button>Close</button>
+</div>

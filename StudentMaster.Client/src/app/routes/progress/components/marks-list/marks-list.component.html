@@ -1,0 +1,22 @@
+<mat-form-field class="cell-12 cell-md-6">
+  <mat-label>Favorite subject</mat-label>
+  <mat-select (selectionChange)="subjectFilterOnChange($event)">
+    <mat-option *ngFor="let item of this.subjectsFilter" value="{{ item }}">
+      {{ item }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+<ul>
+  <li class="card draw" *ngFor="let item of this.marks">
+    <div class="card__flipper">
+      <div class="card__front">
+        <p class="card__name">
+          <span>{{ item.date }}</span
+          ><br />{{ item.indicator }}
+        </p>
+        <p class="card__num">{{ item.count }}</p>
+      </div>
+    </div>
+  </li>
+</ul>
+<button mat-button color="primary" (click)="addToMasive(null)">LOAD MARKS</button>
