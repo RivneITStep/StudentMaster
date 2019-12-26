@@ -82,11 +82,11 @@ namespace StudentMaster.BLL.Services
 
         }
 
-        public async Task<string> saveProfileImage(string uid, IFormFile file)
+        public async Task<string> saveProfileImage(string uid, string base64)
         {
             try
             {
-                var imgName = await saveFile(file);
+                var imgName = await saveImage(base64);
                 if (string.IsNullOrEmpty(imgName))
                     throw ErrorHelper.GetException("Server couldn't save your image...", "ERROR", "", 500);
                 var user = _userRepository.GetById(uid);

@@ -9,7 +9,7 @@ namespace StudentMaster.BLL.Interfaces
     public interface IFileService
     {
         Task<string> saveFile(IFormFile file);
-        Task<string> saveProfileImage(string uid, IFormFile file);
+        Task<string> saveProfileImage(string uid, string base64);
         Task<string> saveImage(string base64);
     }
 }
