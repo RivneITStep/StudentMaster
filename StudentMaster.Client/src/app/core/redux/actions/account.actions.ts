@@ -1,4 +1,5 @@
 import { Action } from '@ngrx/store';
+import { ErrorResponse } from '@core/models/errorResponse.model';
 
 
 // tslint:disable-next-line: no-namespace
@@ -18,4 +19,6 @@ export class ChangeAvatarSuccess implements Action {
 }
 export class ChangeAvatarError implements Action {
   public readonly type = ACCOUNT_ACTIONS.CHANGE_AVATAR_ERROR;
+
+  constructor(public payload: ErrorResponse) {}
 }

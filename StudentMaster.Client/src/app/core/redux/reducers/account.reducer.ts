@@ -8,7 +8,10 @@ import {
 } from '@core/redux/actions/account.actions';
 
 const initialState: AccountState = {
-  isLoading: false,
+  error: null,
+  failed: false,
+  success: false,
+  isLoading: false
 };
 
 export function accountReducer(state = initialState, action: ChangeAvatar | ChangeAvatarSuccess | ChangeAvatarError) {
@@ -17,16 +20,22 @@ export function accountReducer(state = initialState, action: ChangeAvatar | Chan
       return {
         ...state,
         isLoading: true,
+        success: false,
+        failed: false,
+        error: null,
       };
     case ACCOUNT_ACTIONS.CHANGE_AVATAR_SUCCESS:
       return {
         ...state,
         isLoading: false,
+        success: true,
       };
     case ACCOUNT_ACTIONS.CHANGE_AVATAR_ERROR:
       return {
         ...state,
         isLoading: false,
+        failed: true,
+        error: action.payload,
       };
     default:
       return state;

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AccountService } from '@core/services/account.service';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { catchError, map, switchMap } from 'rxjs/operators';
-import { Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { Action } from '@ngrx/store';
 import {
   ACCOUNT_ACTIONS,
@@ -10,6 +10,9 @@ import {
   ChangeAvatarError,
   ChangeAvatarSuccess,
 } from '@core/redux/actions/account.actions';
+import { HttpErrorResponse } from '@angular/common/http';
+import { ErrorResponse } from '@core/models/errorResponse.model';
+import { empty } from 'rxjs/internal/Observer';
 
 
 
@@ -24,8 +27,8 @@ export class AccountEffect {
         map(() => {
           return new ChangeAvatarSuccess();
         }),
-        catchError(error => {
-          return of(new ChangeAvatarError());
+        catchError((error): Observable<any> => {
+          return of(new ChangeAvatarError( (error as HttpErrorResponse).error));
         })
       );
     })

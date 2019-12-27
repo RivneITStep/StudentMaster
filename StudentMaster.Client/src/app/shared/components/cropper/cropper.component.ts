@@ -26,7 +26,13 @@ export class CropperComponent implements OnInit {
     }
     this.store.select('account').subscribe(x => {
       if (this.isLoading && !x.isLoading) {
-          this.dialogRef.close();
+        if (x.success) {
+          this.tools.showNotification('Success');
+        }
+        if (x.failed) {
+          this.tools.showNotification(x.error.message);
+        }
+        this.dialogRef.close();
       }
       this.isLoading = x.isLoading;
 
