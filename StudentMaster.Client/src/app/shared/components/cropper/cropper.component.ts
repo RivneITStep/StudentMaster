@@ -2,9 +2,15 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { ToolsService } from '@core/services/tools.service';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { IAppState } from '@core/redux/state/app.state';
 import { ChangeAvatar } from '@core/redux/actions/account.actions';
+import {
+  selectAccountError,
+  selectAccountIsFailed,
+  selectAccountIsLoading,
+  selectAccountIsSuccess,
+} from '@core/redux/selectors/account.selectors';
 @Component({
   selector: 'app-cropper',
   templateUrl: './cropper.component.html',
@@ -24,18 +30,29 @@ export class CropperComponent implements OnInit {
       this.tools.showNotification('Please select valid photo!');
       this.dialogRef.close();
     }
-    this.store.select('account').subscribe(x => {
-      if (this.isLoading && !x.isLoading) {
-        if (x.success) {
-          this.tools.showNotification('Success');
-        }
-        if (x.failed) {
-          this.tools.showNotification(x.error.message);
-        }
+
+    this.store.pipe(select(selectAccountIsLoading)).subscribe(isLoading => {
+      if (this.isLoading && !isLoading) {
         this.dialogRef.close();
       }
-      this.isLoading = x.isLoading;
+      this.isLoading = isLoading;
+    });
 
+    this.store.pipe(select(selectAccountIsSuccess)).subscribe(isSuccess => {
+      if (isSuccess) {
+        this.tools.showNotification('Success');
+      }
+    });
+
+    this.store.pipe(select(selectAccountIsFailed)).subscribe(isFailed => {
+      if (isFailed) {
+        this.store.pipe(select(selectAccountError)).subscribe(error => {
+          if (error != null) {
+            this.tools.showNotification(error.message);
+          }
+
+        });
+      }
     });
   }
 

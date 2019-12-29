@@ -16,11 +16,11 @@ namespace StudentMaster.API.Controllers
     public class AccountController : ControllerBase
     {
         private readonly IFileService _fileService;
-
         public AccountController(IFileService fileService)
         {
-            _fileService = fileService;
+            this._fileService  = fileService ?? throw new ArgumentNullException(nameof(fileService));
         }
+
 
         [HttpPost("change-avatar-image")]
         [Authorize]
