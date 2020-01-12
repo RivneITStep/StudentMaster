@@ -11,7 +11,7 @@ import { Actions } from '@ngrx/effects';
 @Injectable()
 export class AuthEffects {
   @Effect()
-  Authorize$: Observable<Action> = this.actions$.pipe(
+  authorize$: Observable<Action> = this.actions$.pipe(
     ofType(AUTH_ACTIONS.AUTHORIZE_REQUEST),
     map((action: Authorize) => action.payload),
     switchMap(payload => {
@@ -26,7 +26,7 @@ export class AuthEffects {
     })
   );
   @Effect()
-  LogOut$: Observable<Action> = this.actions$.pipe(
+  logOut$: Observable<Action> = this.actions$.pipe(
     ofType(AUTH_ACTIONS.AUTHORIZE_LOGOUT),
     switchMap(() => this.aS.logout())
   );

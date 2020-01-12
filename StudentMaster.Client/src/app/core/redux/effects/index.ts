@@ -4,6 +4,8 @@ import { HomeworksEffects } from './homeworks.effects';
 import { MarksEffects } from './marks.effects';
 import { TeacherEffects } from './teacher.effects';
 import { AuthEffects } from './auth.effects';
+import { AccountEffect } from './account.effects';
+
 
 export const effects = [
   LoaderEffects,
@@ -12,4 +14,5 @@ export const effects = [
   MarksEffects,
   TeacherEffects,
   AuthEffects,
+  AccountEffect,
 ];

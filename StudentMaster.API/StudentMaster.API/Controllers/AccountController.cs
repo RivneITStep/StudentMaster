@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using StudentMaster.BLL.DTO;
+using StudentMaster.BLL.DTO.dtoModels;
 using StudentMaster.BLL.Interfaces;
 
 namespace StudentMaster.API.Controllers
@@ -15,19 +16,20 @@ namespace StudentMaster.API.Controllers
     public class AccountController : ControllerBase
     {
         private readonly IFileService _fileService;
-
         public AccountController(IFileService fileService)
         {
-            _fileService = fileService;
+            this._fileService  = fileService ?? throw new ArgumentNullException(nameof(fileService));
         }
+
 
         [HttpPost("change-avatar-image")]
         [Authorize]
-        public async Task<IActionResult> changeAvatarAsync([FromForm]fileViewModel model)
+        public async Task<IActionResult> changeAvatarAsync([FromBody]base64ViewModel model)
         {
             try
             {
-                return Ok(await this._fileService.saveProfileImage(User.Identity.Name, model.file));
+                await this._fileService.saveProfileImage(User.Identity.Name, model.base64);
+                return Ok();
             } catch (Exception e)
             {
                 return BadRequest(e.Data["ERROR"]);
