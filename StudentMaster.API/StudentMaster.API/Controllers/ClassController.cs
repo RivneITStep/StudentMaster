@@ -34,5 +34,25 @@ namespace StudentMaster.API.Controllers
                 return BadRequest(e.Data["ERROR"]);
             }
         }
+        
+        [HttpGet("get-subject-for-teacher-by-class-id/{classId}")] // ссилка по якій буде підклбючатись сервер щоб підтягнуть дані
+        [Authorize (Roles = "Teacher")]
+        public async Task<IActionResult> getSubjectsForTeacherByClassId(int classId) // klas Їбу як назвать
+        {
+        
+                return Ok(await _classServie.getTeacherClassSubjcets(User.Identity.Name, classId));
+           
+            //catch (Exception e)
+            //{
+            //
+            //    return BadRequest(e.Data["ERROR"]);
+            //}
+        }
+
+
+
+
+
+
     }
 }

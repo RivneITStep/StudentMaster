@@ -14,7 +14,7 @@ export class ClassesService {
     return this.http.get<StudentModel[]>(API + '/api/Class/get-students-by-class-id/' + id);
   }
   public getTeacherClassSubjects(id): Observable<SubjectModel[]> {
-    return this.http.get<SubjectModel[]>(API + '/api/Class/getTeacherClassSubjcets?classId=' + id);
+    return this.http.get<SubjectModel[]>(API + '/api/Class/get-subject-for-teacher-by-class-id/' + id);
   }
   public getStudentMarkByDateAndSubject(subjectId, uid, date): Observable<number> {
     return this.http.post<number>(API + '/api/Class/getStudentMarkByDateAndSubject', {
