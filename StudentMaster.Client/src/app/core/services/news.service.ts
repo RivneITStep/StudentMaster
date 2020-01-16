@@ -9,6 +9,6 @@ import { API } from '../config';
 export class NewsService {
   constructor(private http: HttpClient) {}
   getNews() {
-    return this.http.get<NewsModel[]>(API + '/api/News/getNews');
+    return this.http.get<NewsModel[]>(API + '/api/News/GET-NEWS');
   }
 }
