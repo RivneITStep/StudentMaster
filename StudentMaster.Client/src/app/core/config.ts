@@ -1,6 +1,6 @@
 // API
-export const API = 'https://localhost:44380';
-// export const API = 'https://studentmastertest.azurewebsites.net';
+// export const API = 'https://localhost:44380';
+export const API = 'http://studentmaster.azurewebsites.net';
 // export const API = '/';
 export const IMG_API = API + '/Images/';
 
