@@ -97,6 +97,7 @@ namespace StudentMaster.API
 
             services.AddCors();
 
+
             services.AddSingleton<IConfiguration>(Configuration);
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IJWTService, JWTService>();
