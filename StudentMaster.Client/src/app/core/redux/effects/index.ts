@@ -5,6 +5,7 @@ import { MarksEffects } from './marks.effects';
 import { TeacherEffects } from './teacher.effects';
 import { AuthEffects } from './auth.effects';
 import { AccountEffect } from './account.effects';
+import { StudentClassEffects } from './student-class.effects';
 
 
 export const effects = [
@@ -15,4 +16,5 @@ export const effects = [
   TeacherEffects,
   AuthEffects,
   AccountEffect,
+  StudentClassEffects,
 ];

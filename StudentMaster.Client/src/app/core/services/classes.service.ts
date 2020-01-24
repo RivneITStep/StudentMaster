@@ -32,4 +32,7 @@ export class ClassesService {
       mark,
     });
   }
+ public getClassmates() {
+   return this.http.get<StudentModel[]>(API + '/api/Class/get-classmates');
+ }
 }

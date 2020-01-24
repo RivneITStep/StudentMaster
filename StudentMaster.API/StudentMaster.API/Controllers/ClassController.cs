@@ -48,8 +48,12 @@ namespace StudentMaster.API.Controllers
             //    return BadRequest(e.Data["ERROR"]);
             //}
         }
-
-
+        [HttpGet("get-classmates")]
+        [Authorize]
+        public async Task<IActionResult> getClassmatesAsync()
+        {
+           return Ok(await _classServie.getStudentsFromClassByStudentId(User.Identity.Name));
+        }
 
 
 
