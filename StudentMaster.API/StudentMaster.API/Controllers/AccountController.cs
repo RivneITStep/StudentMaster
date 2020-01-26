@@ -16,11 +16,13 @@ namespace StudentMaster.API.Controllers
     public class AccountController : ControllerBase
     {
         private readonly IFileService _fileService;
-        public AccountController(IFileService fileService)
-        {
-            this._fileService  = fileService ?? throw new ArgumentNullException(nameof(fileService));
-        }
+        private readonly IEmailService _emailService;
 
+        public AccountController(IFileService fileService, IEmailService emailService)
+        {
+            _fileService = fileService;
+            _emailService = emailService;
+        }
 
         [HttpPost("change-avatar-image")]
         [Authorize]
@@ -36,6 +38,18 @@ namespace StudentMaster.API.Controllers
             }
             
            
+        }
+        [HttpGet("send-test-message-on-email/{email}")]
+        public async Task<IActionResult> sendTestMessageOnEmailAsync(string email)
+        {
+            //try
+            //{
+                await this._emailService.SendEmailAsync(email, "Hello " + email, "Something went wrong:(", "Bot is online", "");
+                return Ok(new { msg = "ok" });
+            //} catch(Exception)
+            //{
+            //    return BadRequest();
+            //}
         }
     }
 }
