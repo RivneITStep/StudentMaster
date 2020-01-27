@@ -4,4 +4,5 @@
 DEMO ACCOUNT:
  * USERNAME: test@mail.com
  * PASSWORD: qwerty
+ ***
 LAST DEMO UPDATE: 16.01.2020
