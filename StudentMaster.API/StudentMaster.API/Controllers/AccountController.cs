@@ -42,14 +42,15 @@ namespace StudentMaster.API.Controllers
         [HttpGet("send-test-message-on-email/{email}")]
         public async Task<IActionResult> sendTestMessageOnEmailAsync(string email)
         {
-            //try
-            //{
+            try
+            {
                 await this._emailService.SendEmailAsync(email, "Hello " + email, "Something went wrong:(", "Bot is online", "");
                 return Ok(new { msg = "ok" });
-            //} catch(Exception)
-            //{
-            //    return BadRequest();
-            //}
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
         }
     }
 }
