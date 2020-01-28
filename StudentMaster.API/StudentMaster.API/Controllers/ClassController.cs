@@ -35,9 +35,9 @@ namespace StudentMaster.API.Controllers
             }
         }
         
-        [HttpGet("get-subject-for-teacher-by-class-id/{classId}")] // ссилка по якій буде підклбючатись сервер щоб підтягнуть дані
+        [HttpGet("get-subject-for-teacher-by-class-id/{classId}")]
         [Authorize (Roles = "Teacher")]
-        public async Task<IActionResult> getSubjectsForTeacherByClassId(int classId) // klas Їбу як назвать
+        public async Task<IActionResult> getSubjectsForTeacherByClassId(int classId)
         {
         
                 return Ok(await _classServie.getTeacherClassSubjcets(User.Identity.Name, classId));
@@ -48,9 +48,12 @@ namespace StudentMaster.API.Controllers
             //    return BadRequest(e.Data["ERROR"]);
             //}
         }
-
-
-
+        [HttpGet("get-classmates")]
+        [Authorize]
+        public async Task<IActionResult> getClassmatesAsync()
+        {
+           return Ok(await _classServie.getStudentsFromClassByStudentId(User.Identity.Name));
+        }
 
 
 

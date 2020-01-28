@@ -19,6 +19,8 @@ import { ErrorCodeComponent } from './components/error-code/error-code.component
 import { CropperComponent } from './components/cropper/cropper.component';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { ShowImgComponent } from './components/show-img/show-img.component';
+import { LoadingFailedComponent } from './components/loading-failed/loading-failed.component';
+import { LoadingComponent } from './components/loading/loading.component';
 
 const THIRD_MODULES = [
   MaterialModule,
@@ -37,6 +39,8 @@ const COMPONENTS = [
   Text3dComponent,
   CropperComponent,
   ErrorCodeComponent,
+  LoadingFailedComponent,
+  LoadingComponent,
 ];
 const DIRECTIVES = [];
 const PIPES = [];
