@@ -107,7 +107,8 @@ namespace StudentMaster.API
             services.AddScoped<IEmailService, EmailService>();
             services.AddScoped<INewsService, NewsService>();
             services.AddScoped<IMarksService, MarksService>();
-
+            services.AddScoped<IRandomService, RandomService>();
+            services.AddScoped<IAccountService, AccountService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

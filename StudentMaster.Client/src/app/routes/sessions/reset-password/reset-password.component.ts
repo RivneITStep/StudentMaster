@@ -20,11 +20,17 @@ import { HttpErrorResponse } from '@angular/common/http';
 export class ResetPasswordComponent implements OnInit {
   isLinear = true;
   emailOrPhoneNumber: FormGroup;
+  confirmCode: FormGroup;
   newPasswrod: FormGroup;
-  error = '';
-  done = '';
+  error = 'Your password has been changed! ';
   isLoading = false;
   isSuccess = false;
+
+
+  email = '';
+  code = '';
+
+
   constructor(
     private formBuilder: FormBuilder,
     private tools: ToolsService,
@@ -34,6 +40,9 @@ export class ResetPasswordComponent implements OnInit {
   ngOnInit() {
     this.emailOrPhoneNumber = this.formBuilder.group({
       data: ['', Validators.required],
+    });
+    this.confirmCode = this.formBuilder.group({
+      code: ['', Validators.required],
     });
     this.newPasswrod = this.formBuilder.group(
       {
@@ -59,8 +68,31 @@ export class ResetPasswordComponent implements OnInit {
   }
   sendResetPasswordRequest(stepper: MatStepper) {
     const email = this.emailOrPhoneNumber.get('data').value;
+    this.email = email;
     this.isLoading = true;
     this.accountService.resetPasswordRequest(email).subscribe(_ => {
+      this.isLoading = false;
+      stepper.next();
+    }, _ => {
+      this.isLoading = false;
+    });
+  }
+  useConfirmCodeWithEmail(strepper: MatStepper) {
+    var code = this.confirmCode.get('code').value;
+    this.code = code;
+    this.isLoading = true;
+    this.accountService.useConfirmCodeWithEmail(this.email, code).subscribe(_ => {
+      this.isLoading = false;
+      strepper.next();
+    }, _ => {
+      this.isLoading = false;
+    });
+  }
+  changePassword(stepper: MatStepper) {
+    var password = this.newPasswrod.get('password').value;
+
+    this.isLoading = true;
+    this.accountService.chengePasswordWithoutPassword(this.email, this.code, password).subscribe(x => {
       this.isLoading = false;
       stepper.next();
     }, _ => {

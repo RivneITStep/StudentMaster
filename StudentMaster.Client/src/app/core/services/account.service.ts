@@ -15,4 +15,10 @@ export class AccountService {
   resetPasswordRequest(data: string) {
     return this.http.get<string>(API + '/api/Account/reset-password-request/' + data);
   }
+  useConfirmCodeWithEmail(email: string, code: string) {
+    return this.http.get<string>(API + '/api/Account/check-confirm-code/' + email + '/' + code);
+  }
+  chengePasswordWithoutPassword(email, code, password) {
+    return this.http.get<string>(API + '/api/Account/change-password-without-password/' + email + '/' + code + '/' + password);
+  }
 }
