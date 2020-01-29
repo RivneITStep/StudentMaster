@@ -27,6 +27,7 @@ import { reducers } from '@core/redux/reducers';
 import { EffectsModule } from '@ngrx/effects';
 import { effects } from '@core/redux/effects';
 import { NgApexchartsModule } from 'ng-apexcharts';
+import { StoreRouterConnectingModule } from '@ngrx/router-store';
 // import { NgApexchartsModule } from 'ng-apexcharts';
 export function tokenGetter() {
   return localStorage.getItem(JWT_TOKEN);
@@ -56,10 +57,12 @@ export function tokenGetter() {
     }),
     StoreModule.forRoot(reducers),
     EffectsModule.forRoot(effects),
+    StoreRouterConnectingModule.forRoot(),
     StoreDevtoolsModule.instrument({
       maxAge: 25, // Retains last 25 states
       logOnly: environment.production, // Restrict extension to log-only mode
     }),
+
   ],
   providers: [
     // { provide: HTTP_INTERCEPTORS, useClass: DefaultInterceptor, multi: true },

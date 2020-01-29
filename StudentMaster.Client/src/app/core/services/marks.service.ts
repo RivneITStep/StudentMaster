@@ -12,6 +12,6 @@ export class MarksService {
     return this.http.get(API + '/api/Marks/getByDate?date=' + date);
   }
   getMyMarkForChart() {
-    return this.http.get(API + '/api/Marks/getForChart');
+    return this.http.get(API + '/api/Marks/get-marks-for-chart');
   }
 }

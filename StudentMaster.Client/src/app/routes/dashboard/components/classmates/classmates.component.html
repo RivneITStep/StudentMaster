@@ -1,0 +1,16 @@
+
+
+<mat-card  class="cell-md-3 cell-12">
+    <mat-list *ngIf="this.isSuccess">
+      <h3 mat-subheader>Classmates</h3>
+      <mat-list-item *ngFor="let student of students">
+        <mat-icon mat-list-icon>person_pin</mat-icon>
+        <h4 mat-line>{{student.pib}}</h4>
+      </mat-list-item>
+    </mat-list>
+    <app-loading-failed *ngIf="this.isFailed"></app-loading-failed>
+    <p *ngIf="this.isFailed" cell="cell-12 text-center" style="text-align: center;">
+      <app-loading class="text-center " style="text-align:center"></app-loading>
+    </p>
+
+</mat-card>

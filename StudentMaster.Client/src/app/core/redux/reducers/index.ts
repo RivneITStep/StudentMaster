@@ -5,9 +5,11 @@ import * as fromMarks from './marks.reducer';
 import * as fromTeacher from './teacher.reducer';
 import * as fromAuth from './auth.reducer';
 import * as fromAccount from './account.reducer';
+import * as fromStudentClass from './student-class.reducer';
 import { from } from 'rxjs';
 
 export const reducers = {
+  studentclass: fromStudentClass.studentclassReducer,
   homeworks: fromHomeworks.homeworksReducer,
   loader: fromLoader.loaderReducer,
   news: fromNews.newsReducer,
@@ -15,4 +17,5 @@ export const reducers = {
   teacher: fromTeacher.teacherReducer,
   auth: fromAuth.authReducer,
   account: fromAccount.accountReducer,
+
 };
