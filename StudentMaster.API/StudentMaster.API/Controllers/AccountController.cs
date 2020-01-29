@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using StudentMaster.BLL.DTO;
 using StudentMaster.BLL.DTO.dtoModels;
+using StudentMaster.BLL.Helpers;
 using StudentMaster.BLL.Interfaces;
 
 namespace StudentMaster.API.Controllers
@@ -36,6 +37,12 @@ namespace StudentMaster.API.Controllers
             }
             
            
+        }
+
+        [HttpGet("reset-password-request/{data}")]
+        public async Task<IActionResult> resetPasswordRequest(string data)
+        {
+            return BadRequest(ErrorHelper.GetException("Test", "error"));
         }
     }
 }

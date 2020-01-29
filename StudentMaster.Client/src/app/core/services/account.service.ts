@@ -12,4 +12,7 @@ export class AccountService {
   changeAvatar(base64: string) {
     return this.http.post<string>(API + '/api/Account/change-avatar-image', {base64});
   }
+  resetPasswordRequest(data: string) {
+    return this.http.get<string>(API + '/api/Account/reset-password-request/' + data);
+  }
 }
