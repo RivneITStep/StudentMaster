@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
-import { AuthenticationService } from '@core';
+import { AuthenticationService, Servers, changeAPI } from '@core';
 import { IAppState } from '@core/redux/state/app.state';
 import { Store } from '@ngrx/store';
 import { Logout, Authorize } from '@core/redux/actions/auth.actions';
+import {Server} from '@core/models/server';
+import { MatSelectChange } from '@angular/material';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -13,7 +15,8 @@ import { Logout, Authorize } from '@core/redux/actions/auth.actions';
 export class LoginComponent implements OnInit {
   reactiveForm: FormGroup;
   isLoading = false;
-
+  servers: Server[] = [];
+  selectedServer: number = 0;
   constructor(
     private fb: FormBuilder,
     private store: Store<IAppState>,
@@ -27,6 +30,7 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.servers = Servers;
     this.store.dispatch(new Logout());
   }
   Test() {
@@ -48,5 +52,8 @@ export class LoginComponent implements OnInit {
       }
     });
     // this.router.navigateByUrl('/');
+  }
+  onServerChange(event: MatSelectChange ) {
+    changeAPI(this.servers.find( x => x.id === event.value).url);
   }
 }

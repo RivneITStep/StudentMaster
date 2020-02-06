@@ -1,5 +1,16 @@
+import {Server} from './models/server';
+
+
+// servers
+
+export const Servers: Server[] = [
+  {name: 'LATEST', url: 'http://studentmaster.azurewebsites.net', id: 1, status: 'Online'},
+  {name: 'LOCALHOST', url: 'https://localhost:44380', id: 2, status: 'Online'},
+  {name: 'NEXT', url: 'http://next-studentmaster.azurewebsites.net', id: 3, status: 'Offline'},
+];
+
 // API
-export const API = 'https://localhost:44380';
+export let API = Servers[0].url;
 // export const API = 'https://studentmastertest.azurewebsites.net';
 // export const API = '/';
 export const IMG_API = API + '/Images/';
@@ -19,6 +30,7 @@ export const REFRESH_TOKEN = 'REFRESH_TOKEN';
 export const THEME = 'THEME';
 export const CURRENT_USER = 'CURRENT_USER';
 export const TOKEN_VALID_TO = 'TOKEN_VALID_TO';
+export const SELECTED_SERVER = 'SERVER';
 
 // Notify options
 
@@ -37,6 +49,11 @@ export const MAT_NOTIFY_OPTIONS = {
   verticalPosition: 'top',
 };
 
+export function changeAPI(url: string) {
+  console.log(url);
+  API = url;
+  localStorage.setItem(SELECTED_SERVER, url);
+}
 // // Perpmissions SignaLR
 
 // export const ALLOW_ALL = '*';
