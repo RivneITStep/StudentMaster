@@ -29,7 +29,14 @@
           />
           <mat-error *ngIf="reactiveForm.get('password').invalid">Please enter password</mat-error>
         </mat-form-field>
-
+        <mat-form-field>
+          <mat-label>Select the server</mat-label>
+          <mat-select (selectionChange)="onServerChange($event)"  name="Server">
+            <mat-option *ngFor="let server of servers" [disabled] = "server.status.toLocaleLowerCase() === 'offline'" [value]="server.id">
+              {{server.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
         <div class="m-y-16" fxLayout="row" fxLayoutAlign="space-between center">
           <mat-checkbox>Remember Me</mat-checkbox>
           <a routerLink="/auth/reset/password">Forgot Password?</a>
