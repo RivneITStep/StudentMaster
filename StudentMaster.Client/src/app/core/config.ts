@@ -13,7 +13,7 @@ export const Servers: Server[] = [
 export let API = Servers[0].url;
 // export const API = 'https://studentmastertest.azurewebsites.net';
 // export const API = '/';
-export const IMG_API = API + '/Images/';
+export let IMG_API = '';
 
 // USER ROLES
 
@@ -52,6 +52,7 @@ export const MAT_NOTIFY_OPTIONS = {
 export function changeAPI(url: string) {
   console.log(url);
   API = url;
+  IMG_API =  API + '/Images/';
   localStorage.setItem(SELECTED_SERVER, url);
 }
 // // Perpmissions SignaLR

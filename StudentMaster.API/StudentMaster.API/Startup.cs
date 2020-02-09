@@ -109,6 +109,7 @@ namespace StudentMaster.API
             services.AddScoped<IMarksService, MarksService>();
             services.AddScoped<IRandomService, RandomService>();
             services.AddScoped<IAccountService, AccountService>();
+            services.AddScoped<IHomeworkService, HomeworkService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
