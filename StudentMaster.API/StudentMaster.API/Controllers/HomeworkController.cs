@@ -21,7 +21,7 @@ namespace StudentMaster.API.Controllers
             this._homeworkService = homeworkService;
         }
 
-        [HttpPost]
+        [HttpPost("add-homework")]
         [Authorize(Roles = "Teacher")]
         public async Task<IActionResult> AddHomeWorkAsync([FromForm]AddHomeWorkViewModel model)
         {
@@ -67,7 +67,7 @@ namespace StudentMaster.API.Controllers
 
 
     }
-        [HttpGet]
+        [HttpGet("get-my-homeworks")]
         [Authorize]
         public IActionResult getMyHomeworks()
         {
