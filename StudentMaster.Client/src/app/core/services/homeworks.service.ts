@@ -17,9 +17,9 @@ export class HomeworksService {
   };
 
   AddHomeWorkAsync(data: FormData) {
-    return this.http.post(API + '/api/HomeWork/AddHomeWorkAsync', data);
+    return this.http.post(API + '/api/HomeWork/add-homework', data);
   }
   getMyHomeworksRedux() {
-    return this.http.get<Homework[]>(API + '/api/HomeWork/getMyHomeworks');
+    return this.http.get<Homework[]>(API + '/api/HomeWork/get-my-homeworks');
   }
 }

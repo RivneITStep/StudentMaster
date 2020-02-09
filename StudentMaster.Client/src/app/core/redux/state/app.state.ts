@@ -5,6 +5,7 @@ import { MarksState } from './reducers-state/marks.state';
 import { TeacherState } from './reducers-state/teacher.state';
 import { AuthState } from './reducers-state/auth.state';
 import { AccountState } from '@core/redux/state/reducers-state/account.state';
+import { StudentClassState } from './reducers-state/student-class.state';
 
 export interface IAppState {
   homeworks: HomeworksSate;
@@ -14,4 +15,5 @@ export interface IAppState {
   marks: MarksState;
   auth: AuthState;
   account: AccountState;
+  studentclass: StudentClassState;
 }

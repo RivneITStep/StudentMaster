@@ -9,6 +9,7 @@ import { LoginComponent } from './sessions/login/login.component';
 import { RegisterComponent } from './sessions/register/register.component';
 import { AuthGuard } from '@core';
 import { RedirectGuard } from '@core/guards/redirect.guard';
+import { ResetPasswordComponent } from './sessions/reset-password/reset-password.component';
 
 const routes: Routes = [
   {
@@ -78,6 +79,11 @@ const routes: Routes = [
         component: RegisterComponent,
         data: { title: 'Register', titleI18n: 'Register' },
       },
+      {
+        path: 'reset/password',
+        component: ResetPasswordComponent,
+        data: {title: 'Reset password', titleI18n: 'Reset password'}
+      }
     ],
   },
   { path: '**', redirectTo: 'dashboard' },

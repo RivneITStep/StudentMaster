@@ -9,6 +9,9 @@ import {
   ChangeAvatar,
   ChangeAvatarError,
   ChangeAvatarSuccess,
+  ResetPassword,
+  AccountSuccess,
+  AccountError,
 } from '@core/redux/actions/account.actions';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ErrorResponse } from '@core/models/errorResponse.model';
@@ -34,5 +37,20 @@ export class AccountEffect {
     })
   );
 
+  @Effect()
+  resetPassword: Observable<Action> = this.actions$.pipe(
+    ofType(ACCOUNT_ACTIONS.RESET_PASSWORD_REQUEST),
+    map((action: ResetPassword ) => action.payload),
+    switchMap(payload => {
+      return this.aS.resetPasswordRequest(payload).pipe(
+        map(() => {
+          return new AccountSuccess();
+        }),
+        catchError((error): Observable<any> => {
+          return of(new AccountError( (error as HttpErrorResponse).error));
+        })
+      );
+    })
+  );
   constructor(private aS: AccountService, private actions$: Actions) {}
 }

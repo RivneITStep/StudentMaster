@@ -3,12 +3,13 @@ import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { User } from '../models/user';
-import { CURRENT_USER, API, JWT_TOKEN, REFRESH_TOKEN } from '../config';
+import { CURRENT_USER, API, JWT_TOKEN, REFRESH_TOKEN, SELECTED_SERVER, changeAPI } from '../config';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { Router } from '@angular/router';
 import { IAppState } from '@core/redux/state/app.state';
 import { Store } from '@ngrx/store';
 import { AuthorizeSuccess } from '@core/redux/actions/auth.actions';
+import { isNullOrUndefined } from 'util';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
@@ -21,6 +22,10 @@ export class AuthenticationService {
     this.currentUserSubject = new BehaviorSubject<User>(
       JSON.parse(localStorage.getItem(CURRENT_USER))
     );
+    if (localStorage.getItem(SELECTED_SERVER) !== undefined && localStorage.getItem(SELECTED_SERVER) !== null) {
+      changeAPI(localStorage.getItem(SELECTED_SERVER));
+    }
+
     this.store.dispatch(new AuthorizeSuccess(JSON.parse(localStorage.getItem(CURRENT_USER))));
     this.store.select('auth').subscribe(data => {
       this.user = data.user;
@@ -57,6 +62,7 @@ export class AuthenticationService {
           localStorage.setItem(CURRENT_USER, JSON.stringify(user));
           localStorage.setItem(JWT_TOKEN, user.access_token);
           localStorage.setItem(REFRESH_TOKEN, user.refresh_token);
+          localStorage.setItem(SELECTED_SERVER, API);
         }
 
         return user;
@@ -91,6 +97,7 @@ export class AuthenticationService {
     localStorage.removeItem(CURRENT_USER);
     localStorage.removeItem(JWT_TOKEN);
     localStorage.removeItem(REFRESH_TOKEN);
+    localStorage.removeItem(SELECTED_SERVER);
     this.router.navigate(['/auth/login']);
 
     return new Observable<any>();
