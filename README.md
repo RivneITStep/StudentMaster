@@ -4,7 +4,7 @@
 DEMO ACCOUNT:
  * USERNAME: test@mail.com
  * PASSWORD: qwerty
- * LASTEST DEMO UPDATE: 16.01.2020
+ * LASTEST DEMO UPDATE: 09.02.2020
 
 ***
  * ASP.NET Core 3.1
