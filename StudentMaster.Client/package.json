@@ -42,7 +42,7 @@
     "@ngx-translate/http-loader": "~4.0.0",
     "apexcharts": "^3.15.5",
     "ng-apexcharts": "^1.2.0",
-    "ng-matero": "^0.10.1",
+    "ng-matero": "^0.13.0",
     "ngx-image-cropper": "^2.1.2",
     "ngx-spinner": "^8.1.0",
     "ngx-toastr": "^11.3.3",
