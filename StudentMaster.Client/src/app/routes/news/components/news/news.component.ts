@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { ShowNewComponent } from './show-new/show-new.component';
 import { NewsModel } from '@core/models/news-model';
 import { IAppState } from '@core/redux/state/app.state';

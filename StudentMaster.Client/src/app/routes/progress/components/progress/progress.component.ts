@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ShowMarksComponent } from '../showMarks/showMarks.component';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { MarksService } from '@core';
 import { ShowMarksModel } from '@core/models/showMarksModel';
 

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ClassesService } from '@core/services/classes.service';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { AddMarkComponent } from '../add-mark/add-mark.component';
 import { AddHomeworkComponent } from '../add-homework/add-homework.component';
 import { GetSubject, GetClassStudents } from '@core/redux/actions/teacher.actions';

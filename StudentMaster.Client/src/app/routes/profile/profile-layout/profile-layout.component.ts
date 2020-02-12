@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from '@core';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { CropperComponent } from '@shared/components/cropper/cropper.component';
 import { Store } from '@ngrx/store';
 import { IAppState } from '@core/redux/state/app.state';

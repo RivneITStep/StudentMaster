@@ -20,7 +20,7 @@ import {
 } from '@core/config';
 import { User } from '@core/models/user';
 import { AuthenticationService } from '@core/services/authentication.service';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ToolsService } from '@core/services/tools.service';
 
 @Injectable({
