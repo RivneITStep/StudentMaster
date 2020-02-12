@@ -6,7 +6,7 @@ import { IAppState } from '@core/redux/state/app.state';
 import { Store } from '@ngrx/store';
 import { Logout, Authorize } from '@core/redux/actions/auth.actions';
 import {Server} from '@core/models/server';
-import { MatSelectChange } from '@angular/material';
+import { MatSelectChange } from '@angular/material/select';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',

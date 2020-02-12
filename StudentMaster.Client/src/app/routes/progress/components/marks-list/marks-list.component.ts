@@ -2,7 +2,7 @@ import { Component, OnInit, DoCheck } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { IAppState } from '@core/redux/state/app.state';
 import { GetMarks } from '@core/redux/actions/marks.actions';
-import { MatSelectChange } from '@angular/material';
+import { MatSelectChange } from '@angular/material/select';
 
 @Component({
   selector: 'app-marks-list',

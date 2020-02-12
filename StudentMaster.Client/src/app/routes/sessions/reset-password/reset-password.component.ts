@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AuthenticationService } from '@core';
 import { ToolsService } from '@core/services/tools.service';
-import { MatStepper } from '@angular/material';
+import { MatStepper } from '@angular/material/stepper';
 import { Store, select } from '@ngrx/store';
 import { IAppState } from '@core/redux/state/app.state';
 import { ResetPassword } from '@core/redux/actions/account.actions';
