@@ -56,13 +56,13 @@
         <!-- <img [src]="this.dataForm.value.homework" /> -->
         <br />
         <div>
-          <mat-spinner *ngIf="this.isLoading" color="accent"></mat-spinner>
           <button
             mat-raised-button
-            color="accent"
-            *ngIf="!this.isLoading"
+            [disabled]=" this.isLoading"
+            [class.spinner]="this.isLoading"
             style="margin-right: 1rem;"
             matStepperPrevious
+
           >
             Back
           </button>
@@ -70,8 +70,8 @@
           <button
             mat-raised-button
             color="primary"
-            [disabled]="this.dataForm.invalid"
-            *ngIf="!this.isLoading"
+            [disabled]="this.dataForm.invalid || this.isLoading"
+            [class.spinner]="this.isLoading"
             (click)="this.onSubmitDataForm(stepper)"
           >
             Add
