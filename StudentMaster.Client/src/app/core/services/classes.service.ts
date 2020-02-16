@@ -17,14 +17,14 @@ export class ClassesService {
     return this.http.get<SubjectModel[]>(API + '/api/Class/get-subject-for-teacher-by-class-id/' + id);
   }
   public getStudentMarkByDateAndSubject(subjectId, uid, date): Observable<number> {
-    return this.http.post<number>(API + '/api/Class/getStudentMarkByDateAndSubject', {
+    return this.http.post<number>(API + '/api/Marks/get-student-mark-by-subject-and-date', {
       subjectId,
       uid,
       date,
     });
   }
   public addMarkForStudentAsync(uid, type, subjectId, mark, date) {
-    return this.http.post<number>(API + '/api/Class/addMarkForStudentAsync', {
+    return this.http.post<number>(API + '/api/Marks/add-mark-for-student', {
       subjectId,
       uid,
       date,

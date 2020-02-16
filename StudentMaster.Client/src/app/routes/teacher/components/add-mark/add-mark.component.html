@@ -29,9 +29,9 @@
         <div>
           <!-- <mat-progress-bar *ngIf="this.isLoading" mode="indeterminate" class="cell-3"></mat-progress-bar> -->
           <button
-            mat-raised-buttonccc
+            mat-raised-button
             color="primary"
-            [disabled]=" this.isLoading"
+            [disabled]=" this.isLoading || this.subjectForm.invalid"
             [class.spinner]="this.isLoading"
             (click)="onSubmitSubjectForm(stepper)"
           >
@@ -62,25 +62,20 @@
         </mat-form-field>
         <div>
           <button
-            *ngIf="!this.isLoading"
             mat-raised-button
             color="accent"
             style="margin-right: 1rem;"
             matStepperPrevious
+            [disabled]=" this.isLoading"
+            [class.spinner]="this.isLoading"
           >
             Back
           </button>
-          <!-- <mat-progress-bar
-            *ngIf="this.isLoading"
-            mode="indeterminate"
-            class="cell-3"
-          ></mat-progress-bar> -->
-          <mat-spinner *ngIf="this.isLoading"></mat-spinner>
           <button
-            *ngIf="!this.isLoading"
             mat-raised-button
             color="primary"
-            [disabled]="this.markForm.invalid"
+            [disabled]=" this.isLoading || this.markForm.invalid"
+            [class.spinner]="this.isLoading"
             (click)="this.onSubmitMarkForm(stepper)"
           >
             Add
