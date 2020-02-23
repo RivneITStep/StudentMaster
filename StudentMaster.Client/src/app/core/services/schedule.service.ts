@@ -20,7 +20,7 @@ export class ScheduleService {
   }
   GetSchedule() {
     this.Spinner.show();
-    this.http.get<ScheduleModel[]>(API + '/api/Schedule/GetSchedules').subscribe(
+    this.http.get<ScheduleModel[]>(API + '/api/Class/get-schedule').subscribe(
       x => {
         this.Schedule.next(x);
         this.Spinner.hide();

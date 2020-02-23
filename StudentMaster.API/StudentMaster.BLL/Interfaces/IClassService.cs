@@ -13,6 +13,7 @@ namespace StudentMaster.BLL.Interfaces
         Task<IEnumerable<studentResult>> getStudentsFromClassByStudentId(string userId);
 
         Task<IEnumerable<subjectResult>> getTeacherClassSubjcets(string teacherId, int classId);
+        Task<IEnumerable<scheduleResult>> GetSchedule(string uid);
     }
 
     
