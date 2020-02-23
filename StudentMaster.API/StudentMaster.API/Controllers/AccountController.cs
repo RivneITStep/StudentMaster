@@ -103,5 +103,11 @@ namespace StudentMaster.API.Controllers
                 return BadRequest(e.Data["ERROR"]);
             }
         }
+        [HttpGet("get-my-classes")]
+        [Authorize]
+        public async Task<IActionResult> getMyClasses()
+        {
+            return Ok(await _accountService.getMyClasses(User.Identity.Name));
+        }
     }
 }

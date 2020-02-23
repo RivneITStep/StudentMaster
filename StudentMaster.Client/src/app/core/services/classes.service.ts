@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { API } from '@core/config';
 import { StudentModel } from '@core/models/student-model';
 import { SubjectModel } from '@core/models/subject-model';
+import { ClassModel } from '@core/models/classes-model';
 
 @Injectable({
   providedIn: 'root',
@@ -34,5 +35,8 @@ export class ClassesService {
   }
  public getClassmates() {
    return this.http.get<StudentModel[]>(API + '/api/Class/get-classmates');
+ }
+ public getClasses() {
+   return this.http.get<ClassModel[]>(API + '/api/Account/get-my-classes');
  }
 }
