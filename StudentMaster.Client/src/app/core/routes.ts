@@ -11,10 +11,22 @@ export const Routes: Menu[] = [
   },
   {
     state: 'teacher',
-    name: 'Teacher/Dashboard',
-    type: 'link',
+    name: 'Teacher',
+    type: 'sub',
     icon: 'dashboard',
     role: teacherRole,
+    children: [
+      {
+        state: 'dashboard',
+        name: 'Dashboard',
+        type: 'link',
+      },
+      {
+        state: 'Homeworks',
+        name: 'Homeworks',
+        type: 'link',
+      },
+    ],
   },
   {
     state: 'progress',
