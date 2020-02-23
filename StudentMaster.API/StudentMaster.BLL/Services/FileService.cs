@@ -101,6 +101,28 @@ namespace StudentMaster.BLL.Services
             }
         }
 
+   
+
+            public async Task<string> saveProfileNumber(string uid, string num)
+            {
+               try
+               {
+              
+                if (string.IsNullOrEmpty(num))
+                    throw ErrorHelper.GetException("Server couldn't save your image...", "ERROR", "", 500);
+                var user = _userRepository.GetById(uid);
+                user.PhoneNumber = num;
+                this._userRepository.Edit(user);
+                return "Saved";
+
+                }
+                catch (Exception)
+                {
+
+                throw ErrorHelper.GetException("Unknown error...", "ERROR", "", 500);
+
+               }
+            }
 
     }
 }

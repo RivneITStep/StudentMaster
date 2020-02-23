@@ -103,5 +103,20 @@ namespace StudentMaster.API.Controllers
                 return BadRequest(e.Data["ERROR"]);
             }
         }
+
+        [HttpGet("change-phonenumber")]
+        [Authorize]
+        public async Task<IActionResult> changePhoneNumber([FromBody]base64ViewModel model)
+        {
+            try
+            {
+                await this._fileService.saveProfileNumber(User.Identity.Name, model.base64);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Data["ERROR"]);
+            }
+        }
     }
 }
