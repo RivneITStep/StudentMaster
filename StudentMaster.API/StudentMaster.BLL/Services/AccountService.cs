@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using StudentMaster.BLL.DTO.dtoResults;
 using StudentMaster.BLL.Helpers;
 using StudentMaster.BLL.Interfaces;
 using StudentMaster.DAL.Entities;
@@ -18,13 +19,15 @@ namespace StudentMaster.BLL.Services
         private readonly IEmailService _emailService;
         private readonly IRandomService _randromService;
         private readonly IRepository<ConfirmCode> _confirmCodeRepository;
+        private readonly IRepository<UserClasses> _teacherClassesRepository;
 
-        public AccountService(UserManager<User> userManager, IEmailService emailService, IRandomService randromService, IRepository<ConfirmCode> confirmCodeRepository)
+        public AccountService(UserManager<User> userManager, IEmailService emailService, IRandomService randromService, IRepository<ConfirmCode> confirmCodeRepository, IRepository<UserClasses> teacherClassesRepository)
         {
             _userManager = userManager;
             _emailService = emailService;
             _randromService = randromService;
             _confirmCodeRepository = confirmCodeRepository;
+            _teacherClassesRepository = teacherClassesRepository;
         }
 
         public async Task<bool> changePasswordWithoutOldPassword(string email, string password, int code)
@@ -73,6 +76,17 @@ namespace StudentMaster.BLL.Services
             {
                 throw ErrorHelper.GetException("User not found", "404", "", 404);
             }
+        }
+
+        public async Task<IEnumerable<myClassResult>> getMyClasses(string uid)
+        {
+            var result = new List<myClassResult>();
+            foreach(var el in await _teacherClassesRepository.GetQueryable(x => x.UserId == uid).Include(x => x.Class).Include(x => x.Class).ToListAsync())
+            {
+                result.Add(new myClassResult() { id = el.Class.Id, name = el.Class.Name });
+            }
+
+            return result;
         }
 
         public async Task<bool> sendConfirmCodeOnEmailAsync(string email)
