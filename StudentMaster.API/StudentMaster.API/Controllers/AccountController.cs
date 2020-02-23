@@ -118,5 +118,20 @@ namespace StudentMaster.API.Controllers
                 return BadRequest(e.Data["ERROR"]);
             }
         }
+        [HttpGet("change-nickname")]
+        [Authorize]
+        public async Task<IActionResult> changeNickName([FromBody]base64ViewModel model)
+        {
+            try
+            {
+                await this._fileService.saveNickName(User.Identity.Name, model.base64);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Data["ERROR"]);
+            }
+        }
+
     }
 }

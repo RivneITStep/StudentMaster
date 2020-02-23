@@ -49,7 +49,7 @@ namespace StudentMaster.BLL.Services
             }
             catch (Exception)
             {
-                throw ErrorHelper.GetException("Server couldn't save your image...", "ERROR", "", 500);
+                throw ErrorHelper.GetException("Server couldn't save your file...", "ERROR", "", 500);
             }
         }
 
@@ -101,28 +101,47 @@ namespace StudentMaster.BLL.Services
             }
         }
 
-   
 
-            public async Task<string> saveProfileNumber(string uid, string num)
+
+        public async Task<string> saveProfileNumber(string uid, string num)
+        {
+            try
             {
-               try
-               {
-              
+
                 if (string.IsNullOrEmpty(num))
-                    throw ErrorHelper.GetException("Server couldn't save your image...", "ERROR", "", 500);
+                    throw ErrorHelper.GetException("Server couldn't save your phonenumber...", "ERROR", "", 500);
                 var user = _userRepository.GetById(uid);
                 user.PhoneNumber = num;
                 this._userRepository.Edit(user);
                 return "Saved";
 
-                }
-                catch (Exception)
-                {
+            }
+            catch (Exception)
+            {
 
                 throw ErrorHelper.GetException("Unknown error...", "ERROR", "", 500);
 
-               }
             }
+        }
+        public async Task<string> saveNickName(string uid, string name)
+        {
+            try
+            {
 
+                if (string.IsNullOrEmpty(name))
+                    throw ErrorHelper.GetException("Server couldn't save your nickname...", "ERROR", "", 500);
+                var user = _userRepository.GetById(uid);
+                user.Login = name;
+                this._userRepository.Edit(user);
+                return "Saved";
+
+            }
+            catch (Exception)
+            {
+
+                throw ErrorHelper.GetException("Unknown error...", "ERROR", "", 500);
+
+            }
+        }
     }
 }

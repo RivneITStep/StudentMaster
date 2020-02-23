@@ -11,6 +11,7 @@ namespace StudentMaster.BLL.Interfaces
         Task<string> saveFile(IFormFile file);
         Task<string> saveProfileImage(string uid, string base64);
         Task<string> saveImage(string base64);
-        Task<string> saveProfileNumber(string uid, string base64);
+        Task<string> saveProfileNumber(string uid, string base64); //
+        Task<string> saveNickName(string uid, string base64);  //string uid or string name ?
     }
 }
