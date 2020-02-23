@@ -39,14 +39,14 @@ namespace StudentMaster.API.Controllers
 
         [HttpPost("add-mark-for-student")]
         [Authorize(Roles = "Teacher")]
-        public async Task<IActionResult> getStudentMarkBySubjectAndDate([FromBody]addMarkForStudent model)
+        public async Task<IActionResult> addMarkForStudent([FromBody]addMarkForStudent model)
         {
            try
             {
                 if (await _marksService.addMarkForStudentAsync(model, User.Identity.Name))
                     return Ok(new { msg = "Added" });
                 else
-                    return BadRequest();
+                    return BadRequest(new { msg = "Err"});
             }
             catch(Exception e)
             {

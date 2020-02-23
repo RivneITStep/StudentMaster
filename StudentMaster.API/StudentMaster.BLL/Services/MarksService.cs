@@ -69,7 +69,9 @@ namespace StudentMaster.BLL.Services
             var mark = _markRepository.GetQueryable(x => x.Owner.Id == model.uid &&
                                                    x.Teacher.Id == teacherID &&
                                                    x.Subject.Id == subject.Id &&
-                                                   x.Date.ToShortDateString() == model.date.ToShortDateString())
+                                                   x.Date.Year  == model.date.Year &&
+                                                   x.Date.Month == model.date.Month &&
+                                                   x.Date.Day == model.date.Year)
                                                         .Include(x => x.Teacher)
                                                         .Include(x => x.Subject)
                                                         .Include(x => x.Owner).Select(x => x).FirstOrDefault();
@@ -106,21 +108,21 @@ namespace StudentMaster.BLL.Services
         {
             var mod = model;
             Thread.Sleep(1000);
-            //var mark = _markRepository.GetQueryable(x => 
+            var mark = _markRepository.GetQueryable(x =>
 
-            //                                        x.Owner.Id == model.uid &&
+                                                    x.Owner.Id == model.uid &&
 
-            //                                        x.Teacher.Id == teacherID &&
+                                                    x.Teacher.Id == teacherID &&
 
-            //                                        x.Subject.Id == Convert.ToInt32( model.subjectId) &&
+                                                    x.Subject.Id == Convert.ToInt32(model.subjectId) &&
 
-            //                                        x.Date.ToShortDateString() == model.date.ToShortDateString())
-            //                                             .Include(x => x.Teacher)
-            //                                             .Include(x => x.Subject)
-            //                                             .Include(x => x.Owner)
-            //                                                 .Select(x => x.Value).FirstOrDefault();
-            var mark = 0;
-            return mark;
+                                                   x.Date.Year == model.date.Year &&
+                                                   x.Date.Month == model.date.Month &&
+                                                   x.Date.Day == model.date.Year)
+                                                         .Include(x => x.Teacher)
+                                                         .Include(x => x.Subject)
+                                                         .Include(x => x.Owner).Select(x=>x.Value);
+            return mark.FirstOrDefault();
         }
     }
 }
