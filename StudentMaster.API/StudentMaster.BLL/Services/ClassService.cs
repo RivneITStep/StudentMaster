@@ -18,14 +18,35 @@ namespace StudentMaster.BLL.Services
         private readonly IRepository<TeacherSubject> _tsRepository;
         private readonly IRepository<ClassSubject> _csRepository;
         private readonly IRepository<User> _userRepository;
+        private readonly IRepository<Schedule> _scheduleRepository;
 
-        public ClassService(IRepository<Class> classRepository, IRepository<TeacherSubject> tsRepository, IRepository<ClassSubject> csRepository, IRepository<User> userRepository)
+        public ClassService(IRepository<Class> classRepository, IRepository<TeacherSubject> tsRepository, IRepository<ClassSubject> csRepository, IRepository<User> userRepository, IRepository<Schedule> scheduleRepository)
         {
             _classRepository = classRepository;
             _tsRepository = tsRepository;
             _csRepository = csRepository;
             _userRepository = userRepository;
+            _scheduleRepository = scheduleRepository;
         }
+
+        public async Task<IEnumerable<scheduleResult>> GetSchedule(string uid)
+        {
+            var cl = _classRepository.GetSingle(x => x.Students.FirstOrDefault(y => y.Id == uid) != null);
+            if (cl != null)
+            {
+                var result = new List<scheduleResult>();
+                foreach (var el in await _scheduleRepository.GetQueryable(x=>x.Class == cl).Include(x=>x.Items).ToListAsync())
+                    result.Add(new scheduleResult()
+                    {
+                        Day = el.Day,
+                        Id = el.Id,
+                        Items = el.Items
+                    });
+                return result;
+            }
+            throw ErrorHelper.GetException("Class not found", "404", "", 404);
+        }
+    
 
         public async Task<IEnumerable<studentResult>> getStudentByClassId(int classId)
         {

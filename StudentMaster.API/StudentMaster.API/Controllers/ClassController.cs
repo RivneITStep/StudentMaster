@@ -52,9 +52,28 @@ namespace StudentMaster.API.Controllers
         [Authorize]
         public async Task<IActionResult> getClassmatesAsync()
         {
-           return Ok(await _classServie.getStudentsFromClassByStudentId(User.Identity.Name));
+           try
+           {
+                return Ok(await _classServie.getStudentsFromClassByStudentId(User.Identity.Name));
+           } catch(Exception e)
+            {
+                return BadRequest(e.Data["ERROR"]);
+            }
+         
         }
-
+        [HttpGet("get-schedule")]
+        [Authorize]
+        public async Task<IActionResult> getSchedule()
+        {
+            try
+            {
+                return Ok(await _classServie.GetSchedule(User.Identity.Name));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Data["ERROR"]);
+            }
+        }
 
 
     }
