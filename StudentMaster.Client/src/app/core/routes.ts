@@ -1,4 +1,4 @@
-import { userRole, teacherRole } from '@core/config';
+import { userRole, teacherRole, adminRole } from '@core/config';
 import { Menu } from './services/menu.service';
 
 export const Routes: Menu[] = [
@@ -33,6 +33,7 @@ export const Routes: Menu[] = [
     name: 'Admin',
     type: 'sub',
     icon: 'dashboard',
+    role: adminRole,
     children: [
       {
         state: 'classes',

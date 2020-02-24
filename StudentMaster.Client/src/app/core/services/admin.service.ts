@@ -13,4 +13,7 @@ export class AdminService {
   public getAllClasses() {
     return this.http.get<ClassModel[]>(API + '/api/Admin/get-all-classes');
   }
+  public inviteUser(email, classId) {
+    return this.http.get(API + '/api/Admin/invite-user/' + email + '/' + classId);
+  }
 }

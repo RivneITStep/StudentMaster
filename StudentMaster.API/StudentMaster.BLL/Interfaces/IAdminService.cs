@@ -9,5 +9,7 @@ namespace StudentMaster.BLL.Interfaces
     public interface IAdminService
     {
         Task<IEnumerable<myClassResult>> getAllClasses();
+        Task<bool> inviteUser(string email);
+        Task<bool> inviteUser(string email, int classId);
     }
 }

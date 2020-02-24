@@ -14,11 +14,44 @@ namespace StudentMaster.BLL.Services
 {
     public class AdminService : IAdminService
     {
-        private IRepository<Class> _classRepository;
+        private readonly IRepository<Class> _classRepository;
+        private readonly UserManager<User> _userManager;
+        private readonly IEmailService _emailService;
+        private readonly IRandomService _randomService;
+        private readonly IRepository<ConfirmCode> _confirmCodeRepository;
+        private readonly IRepository<User> _userRepository;
 
-        public AdminService(IRepository<Class> classRepository)
+        public AdminService(IRepository<Class> classRepository, UserManager<User> userManager, IEmailService emailService, IRandomService randomService, IRepository<ConfirmCode> confirmCodeRepository, IRepository<User> userRepository)
         {
             _classRepository = classRepository;
+            _userManager = userManager;
+            _emailService = emailService;
+            _randomService = randomService;
+            _confirmCodeRepository = confirmCodeRepository;
+            _userRepository = userRepository;
+        }
+
+        public async Task<bool> inviteUser(string email)
+        {
+            var user = new User();
+            user.Email = email;
+            user.UserName = email;
+            var result = await  _userManager.CreateAsync(user);
+
+            if (result.Succeeded)
+            {
+                var code = _randomService.RandomNumber(111111, 999999);
+                _confirmCodeRepository.Add(new ConfirmCode() { Code = code, CreationTime = DateTime.Now, UserID = (await _userManager.FindByEmailAsync(email)).Id });
+
+                await _emailService.SendEmailAsync(email, "Please, create your account.", "An invitation code to create an account: ", email, code.ToString());
+
+                return true;
+            }
+            
+            else
+                foreach (var el in result.Errors)
+                    throw ErrorHelper.GetException(el.Description, el.Code, "", 400);
+            return false;
         }
 
         public async Task<IEnumerable<myClassResult>> getAllClasses()
@@ -31,6 +64,23 @@ namespace StudentMaster.BLL.Services
             }
 
             return result;
+        }
+
+        public async Task<bool> inviteUser(string email, int classId)
+        {
+            bool result = await inviteUser(email);
+
+            if (result)
+            {
+                var user = await _userManager.FindByEmailAsync(email);
+                user.myClass = await _classRepository.GetByIdAsync(classId);
+                _userRepository.Edit(user);
+                return true;
+            }
+            else
+                return false;
+           
+                
         }
     }
 }

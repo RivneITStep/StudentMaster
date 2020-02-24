@@ -1,8 +1,8 @@
 <mat-tab-group (selectedIndexChange)="onChange($event)" mat-align-tabs="center" animationDuration="2000ms">
   <mat-tab *ngFor="let item of this.classes" label="{{item.name}}">
     <div class="container-fluid">
-      <button mat-stroked-button color="accent" style="margin:1rem;" (click)="this.addHomeWork()"
-      class="cell-md-3 cell-12">Add homework</button>
+      <button mat-stroked-button color="accent" style="margin:1rem;" (click)="this.inviteStudent()"
+      class="cell-md-3 cell-12">Invite a student</button>
       <br>
       <table mat-table [dataSource]="dataSource">
 

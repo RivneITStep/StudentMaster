@@ -8,6 +8,7 @@ import { GetSubject, GetClassStudents } from '@core/redux/actions/teacher.action
 import { AddMarkComponent } from 'app/routes/teacher/components/add-mark/add-mark.component';
 import { AddHomeworkComponent } from 'app/routes/teacher/components/add-homework/add-homework.component';
 import { AdminService } from '@core/services/admin.service';
+import { InviteUserComponent } from '../modal/invite-user/invite-user.component';
 
 @Component({
   selector: 'app-classes',
@@ -43,8 +44,8 @@ export class ClassesComponent implements OnInit {
     });
     dialogRef.afterClosed();
   }
-  addHomeWork(): void {
-    const dialogRef = this.dialog.open(AddHomeworkComponent, {
+  inviteStudent(): void {
+    const dialogRef = this.dialog.open(InviteUserComponent, {
       width: '90%',
       data: { classId: this.selectedClass },
     });

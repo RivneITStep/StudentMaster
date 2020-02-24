@@ -20,6 +20,7 @@ namespace StudentMaster.API.Controllers
         {
             _adminService = adminService;
         }
+
         [HttpGet("get-all-classes")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> getAllClasses()
@@ -27,6 +28,44 @@ namespace StudentMaster.API.Controllers
             Thread.Sleep(1000);
     
             return Ok(await _adminService.getAllClasses());
+        }
+
+        [HttpGet("invite-user/{email}")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> inviteUser(string email)
+        {
+            Thread.Sleep(1000);
+            try
+            {
+                if (await _adminService.inviteUser(email))
+                    return Ok(new { msg = "Ok" });
+                else
+                    return BadRequest();
+            }
+            catch (Exception e)
+            {
+
+                return BadRequest(e.Data["ERROR"]);
+            }
+        }
+        [HttpGet("invite-user/{email}/{classId}")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> inviteUser(string email, int classId)
+        {
+            Thread.Sleep(1000);
+            try
+            {
+                if (await _adminService.inviteUser(email, classId))
+                    return Ok(new { msg = "Ok" });
+                else
+                    return BadRequest();
+            }
+            catch (Exception e)
+            {
+
+                return BadRequest(e.Data["ERROR"]);
+            }
+
         }
     }
 }
