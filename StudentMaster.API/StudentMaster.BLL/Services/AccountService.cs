@@ -99,6 +99,7 @@ namespace StudentMaster.BLL.Services
             var result = await _userManager.AddPasswordAsync(user, model.password);
             if (result.Succeeded)
             {
+                await _userManager.AddToRoleAsync(user, "User");
                 _userRepository.Edit(user);
                 code.IsUsed = true;
                 _confirmCodeRepository.Edit(code);
