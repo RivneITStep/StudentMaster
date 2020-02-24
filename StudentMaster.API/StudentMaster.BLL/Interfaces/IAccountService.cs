@@ -1,4 +1,5 @@
-﻿using StudentMaster.BLL.DTO.dtoResults;
+﻿using StudentMaster.BLL.DTO.dtoModels;
+using StudentMaster.BLL.DTO.dtoResults;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -12,5 +13,7 @@ namespace StudentMaster.BLL.Interfaces
         Task<bool> checkConfirmCodeWithEmail(string email, int code);
         Task<bool> changePasswordWithoutOldPassword(string email, string password, int code);
         Task<IEnumerable<myClassResult>> getMyClasses(string uid);
+
+        Task<bool> createAccount(registerViewModel model);
     }
 }

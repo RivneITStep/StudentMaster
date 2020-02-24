@@ -21,4 +21,7 @@ export class AccountService {
   chengePasswordWithoutPassword(email, code, password) {
     return this.http.get<string>(API + '/api/Account/change-password-without-password/' + email + '/' + code + '/' + password);
   }
+  createAccount(username, firstname, name, lastname, password, code) {
+    return this.http.post(API + '/api/Account/create-account', {username, firstname, name, lastname, password, code});
+  }
 }

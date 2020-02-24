@@ -109,5 +109,21 @@ namespace StudentMaster.API.Controllers
         {
             return Ok(await _accountService.getMyClasses(User.Identity.Name));
         }
+
+        [HttpPost("create-account")]
+        public async Task<IActionResult> createAccount(registerViewModel model)
+        {
+            try
+            {
+                if (await this._accountService.createAccount(model))
+                    return Ok(new { msg = "Account created" });
+                else
+                    return BadRequest();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Data["ERROR"]);
+            }
+        }
     }
 }
