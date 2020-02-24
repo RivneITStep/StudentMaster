@@ -20,8 +20,10 @@ import {
 } from '@core/config';
 import { User } from '@core/models/user';
 import { AuthenticationService } from '@core/services/authentication.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { ToolsService } from '@core/services/tools.service';
+import { ShowLoader, HideLoader } from '@core/redux/actions/loader.actions';
+import { IAppState } from '@core/redux/state/app.state';
+import { Store } from '@ngrx/store';
 
 @Injectable({
   providedIn: 'root',
@@ -33,18 +35,21 @@ export class JwtInterceptor implements HttpInterceptor {
 
   constructor(
     private AuthService: AuthenticationService,
-    private tools: ToolsService
+    private tools: ToolsService,
+    private store: Store<IAppState>,
+    private router: Router
   ) {}
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     // Check if the user is logging in for the first time
-
+    this.store.dispatch(new ShowLoader());
     return next.handle(this.attachTokenToRequest(request)).pipe(
       tap((event: HttpEvent<any>) => {
         if (event instanceof HttpResponse) {
           console.log('Success');
         }
       }),
+      finalize(() => this.store.dispatch(new HideLoader())),
       catchError(
         (error): Observable<any> => {
           if (error instanceof HttpErrorResponse) {
@@ -68,6 +73,9 @@ export class JwtInterceptor implements HttpInterceptor {
     }
     if (error.status === 400) {
       errorString = error.error.message;
+    }
+    if (error.status === 403) {
+      this.router.navigate(['/sessions/403']);
     }
     if (error.error !== null ) {
       if (error.error.action === 'relogin') {

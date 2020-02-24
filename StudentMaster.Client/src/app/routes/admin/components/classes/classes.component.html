@@ -1,0 +1,39 @@
+<mat-tab-group (selectedIndexChange)="onChange($event)" mat-align-tabs="center" animationDuration="2000ms">
+  <mat-tab *ngFor="let item of this.classes" label="{{item.name}}">
+    <div class="container-fluid">
+      <button mat-stroked-button color="accent" style="margin:1rem;" (click)="this.inviteStudent()"
+      class="cell-md-3 cell-12">Invite a student</button>
+      <br>
+      <table mat-table [dataSource]="dataSource">
+
+        <!-- Position Column -->
+        <ng-container matColumnDef="position">
+          <th mat-header-cell *matHeaderCellDef> No. </th>
+          <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+        </ng-container>
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="PIB">
+          <th mat-header-cell *matHeaderCellDef> PIB </th>
+          <td mat-cell *matCellDef="let element"> {{element.pib}} </td>
+        </ng-container>
+        <ng-container matColumnDef="Marks">
+          <th mat-header-cell *matHeaderCellDef> Marks </th>
+          <td mat-cell *matCellDef="let element">
+            <button style="margin: 1rem;" (click)="this.openDialog(element.id)" mat-stroked-button color="accent">Add a
+              mark</button>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="ControlMark">
+          <th mat-header-cell *matHeaderCellDef> Control Work </th>
+          <td mat-cell *matCellDef="let element">
+          </td>
+        </ng-container>
+
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    </div>
+  </mat-tab>
+</mat-tab-group>

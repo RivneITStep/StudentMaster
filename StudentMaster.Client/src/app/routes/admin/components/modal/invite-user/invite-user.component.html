@@ -1,0 +1,26 @@
+<h1 mat-dialog-title>ADD STUDENT</h1>
+<div mat-dialog-content>
+  <mat-form-field class="cell-12">
+    <mat-label>Input user's email</mat-label>
+    <input matInput placeholder="Input user's emai" (input)="userEmail = $event.target.value">
+  </mat-form-field>
+  <button
+  mat-raised-button
+  color="primary"
+  style="margin-left: 1rem; margin-right: 1rem;"
+  [disabled]=" this.isLoading"
+  [class.spinner]="this.isLoading"
+  (click)="onSubmit()"
+  >Invite</button>
+  <button
+  mat-raised-button
+  color="accent"
+  style="margin-left: 1rem; margin-right: 1rem;"
+  [disabled]=" this.isLoading"
+  [class.spinner]="this.isLoading"
+  (click)="cancel()"
+  >Cancel</button>
+</div>
+<div mat-dialog-actions>
+  <!-- <button (click)="" mat-button>Close</button> -->
+</div>
