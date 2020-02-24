@@ -45,18 +45,30 @@ export class MarksChartComponent implements OnInit, OnDestroy {
       {
         chart: {
           height: 350,
-          type: 'heatmap',
+          type: 'scatter',
         },
         dataLabels: {
-          enabled: false,
+          enabled: true,
         },
-        stroke: {
-          width: 10,
-        },
+        // stroke: {
+        //   width: 10,
+        // },
         series,
         xaxis: {
           type: 'datetime',
           categories: dates,
+        },
+        grid: {
+          xaxis: {
+            lines: {
+              show: true
+            }
+          },
+          yaxis: {
+            lines: {
+              show: true
+            }
+          }
         },
         tooltip: {
           x: {
@@ -64,8 +76,8 @@ export class MarksChartComponent implements OnInit, OnDestroy {
           },
         },
         legend: {
-          position: 'top',
-          horizontalAlign: 'right',
+          position: 'bottom',
+          horizontalAlign: 'center',
         },
       },
     ];
