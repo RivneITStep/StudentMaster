@@ -30,6 +30,12 @@ const routes: Routes = [
         canActivate: [AuthGuard],
       },
       {
+        path: 'admin',
+        loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule),
+        data: { title: 'Admin', titleI18n: 'Admin' },
+        canActivate: [AuthGuard],
+      },
+      {
         path: 'sessions',
         loadChildren: () => import('./sessions/sessions.module').then(m => m.SessionsModule),
         data: { title: 'Sessions', titleI18n: 'Sessions' },

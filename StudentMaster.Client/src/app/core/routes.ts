@@ -29,6 +29,24 @@ export const Routes: Menu[] = [
     ],
   },
   {
+    state: 'admin',
+    name: 'Admin',
+    type: 'sub',
+    icon: 'dashboard',
+    children: [
+      {
+        state: 'classes',
+        name: 'Classes',
+        type: 'link',
+      },
+      {
+        state: 'students',
+        name: 'Students',
+        type: 'link',
+      },
+    ],
+  },
+  {
     state: 'progress',
     name: 'Progress',
     type: 'link',
