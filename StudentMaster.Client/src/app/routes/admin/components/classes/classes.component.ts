@@ -9,6 +9,7 @@ import { AddMarkComponent } from 'app/routes/teacher/components/add-mark/add-mar
 import { AddHomeworkComponent } from 'app/routes/teacher/components/add-homework/add-homework.component';
 import { AdminService } from '@core/services/admin.service';
 import { InviteUserComponent } from '../modal/invite-user/invite-user.component';
+import { ToolsService } from '@core/services/tools.service';
 
 @Component({
   selector: 'app-classes',
@@ -16,11 +17,10 @@ import { InviteUserComponent } from '../modal/invite-user/invite-user.component'
   styleUrls: ['./classes.component.scss']
 })
 export class ClassesComponent implements OnInit {
-  constructor(public dialog: MatDialog, private store: Store<IAppState>, private admin: AdminService) {}
+  constructor(public dialog: MatDialog, private store: Store<IAppState>, private admin: AdminService, private tools: ToolsService) {}
   displayedColumns: string[] = ['position', 'PIB', 'Marks', 'ControlMark'];
   dataSource: any;
   selectedClass = 0;
-
   classes = [];
   ngOnInit() {
     this.admin.getAllClasses().subscribe((data: ClassModel[]) => {
@@ -31,7 +31,7 @@ export class ClassesComponent implements OnInit {
         this.store.dispatch(new GetClassStudents(data[0].id));
       }
 
-    })
+    });
 
     this.store.select('teacher').subscribe(data => {
       this.dataSource = data.students;
@@ -49,7 +49,13 @@ export class ClassesComponent implements OnInit {
       width: '90%',
       data: { classId: this.selectedClass },
     });
-    dialogRef.afterClosed();
+    dialogRef.afterClosed().subscribe(_ =>  this.store.dispatch(new GetClassStudents(this.selectedClass)));
+  }
+  removeFromClass(id: string) {
+    this.admin.removeStudentFromClass(id).subscribe(() => {
+      this.tools.showNotification('Student has been removed!');
+      this.store.dispatch(new GetClassStudents(this.selectedClass));
+    });
   }
   onChange(event: any) {
     this.selectedClass = this.classes[event].id;

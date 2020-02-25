@@ -11,5 +11,8 @@ namespace StudentMaster.BLL.Interfaces
         Task<IEnumerable<myClassResult>> getAllClasses();
         Task<bool> inviteUser(string email);
         Task<bool> inviteUser(string email, int classId);
+
+
+        Task<bool> removeStudentFromClass(string studentID);
     }
 }

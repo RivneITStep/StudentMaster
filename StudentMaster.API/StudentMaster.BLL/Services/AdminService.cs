@@ -82,5 +82,20 @@ namespace StudentMaster.BLL.Services
            
                 
         }
+
+        public async Task<bool> removeStudentFromClass(string studentID)
+        {
+
+            var user = await _userRepository.GetQueryable(x=>x.Id == studentID).Include(x=>x.myClass).FirstOrDefaultAsync();
+
+            if (user == null)
+                throw ErrorHelper.GetException("User not found...", "404", "", 404);
+
+            var cl = _classRepository.GetById(user.myClass.Id);
+            cl.Students.Remove(user);
+            _classRepository.Edit(cl);
+
+            return true;
+        }
     }
 }

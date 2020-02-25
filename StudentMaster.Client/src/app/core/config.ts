@@ -13,7 +13,7 @@ export const Servers: Server[] = [
 
 export let API = Servers[0].url;
 // export const API = 'https://studentmastertest.azurewebsites.net';
-//studentmaster.azurewebsites.net';
+// studentmaster.azurewebsites.net';
 
 // export const API = '/';
 export let IMG_API = '';

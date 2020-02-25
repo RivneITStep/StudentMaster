@@ -16,4 +16,7 @@ export class AdminService {
   public inviteUser(email, classId) {
     return this.http.get(API + '/api/Admin/invite-user/' + email + '/' + classId);
   }
+  public removeStudentFromClass(studentId) {
+    return this.http.get(API + '/api/Admin/remove-student-from-class/' + studentId);
+  }
 }

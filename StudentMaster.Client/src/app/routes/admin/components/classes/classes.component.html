@@ -18,10 +18,9 @@
           <td mat-cell *matCellDef="let element"> {{element.pib}} </td>
         </ng-container>
         <ng-container matColumnDef="Marks">
-          <th mat-header-cell *matHeaderCellDef> Marks </th>
+          <th mat-header-cell *matHeaderCellDef> Actions </th>
           <td mat-cell *matCellDef="let element">
-            <button style="margin: 1rem;" (click)="this.openDialog(element.id)" mat-stroked-button color="accent">Add a
-              mark</button>
+            <button style="margin: 1rem;" (click)="this.removeFromClass(element.id)" mat-raised-button color="warn">Remove from class</button>
           </td>
         </ng-container>
         <ng-container matColumnDef="ControlMark">
