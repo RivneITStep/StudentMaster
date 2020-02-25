@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using StudentMaster.BLL.DTO.dtoModels;
 using StudentMaster.BLL.DTO.dtoResults;
 using StudentMaster.BLL.Helpers;
 using StudentMaster.BLL.Interfaces;
@@ -20,14 +21,16 @@ namespace StudentMaster.BLL.Services
         private readonly IRandomService _randromService;
         private readonly IRepository<ConfirmCode> _confirmCodeRepository;
         private readonly IRepository<UserClasses> _teacherClassesRepository;
+        private readonly IRepository<User> _userRepository;
 
-        public AccountService(UserManager<User> userManager, IEmailService emailService, IRandomService randromService, IRepository<ConfirmCode> confirmCodeRepository, IRepository<UserClasses> teacherClassesRepository)
+        public AccountService(UserManager<User> userManager, IEmailService emailService, IRandomService randromService, IRepository<ConfirmCode> confirmCodeRepository, IRepository<UserClasses> teacherClassesRepository, IRepository<User> userRepository)
         {
             _userManager = userManager;
             _emailService = emailService;
             _randromService = randromService;
             _confirmCodeRepository = confirmCodeRepository;
             _teacherClassesRepository = teacherClassesRepository;
+            _userRepository = userRepository;
         }
 
         public async Task<bool> changePasswordWithoutOldPassword(string email, string password, int code)
@@ -76,6 +79,34 @@ namespace StudentMaster.BLL.Services
             {
                 throw ErrorHelper.GetException("User not found", "404", "", 404);
             }
+        }
+
+        public async Task<bool> createAccount(registerViewModel model)
+        {
+            var code = (await _confirmCodeRepository.GetQueryable(x => x.Code == model.code && x.IsUsed == false).Include(x => x.user).FirstOrDefaultAsync());
+            
+            if (code == null)
+                throw ErrorHelper.GetException("Code is wrong! Try again!", "400", "", 400);
+            var user = code.user;
+            if (user == null)
+                throw ErrorHelper.GetException("User not found", "404", "", 404);
+
+            user.LastName = model.lastname;
+            user.FirstName = model.firstName;
+            user.Name = model.name;
+            user.Login = model.username;
+            user.EmailConfirmed = true;
+            var result = await _userManager.AddPasswordAsync(user, model.password);
+            if (result.Succeeded)
+            {
+                await _userManager.AddToRoleAsync(user, "User");
+                _userRepository.Edit(user);
+                code.IsUsed = true;
+                _confirmCodeRepository.Edit(code);
+                return true;
+            } else
+                throw ErrorHelper.GetException("We couldn't save your account!", "400", "", 400);
+
         }
 
         public async Task<IEnumerable<myClassResult>> getMyClasses(string uid)
