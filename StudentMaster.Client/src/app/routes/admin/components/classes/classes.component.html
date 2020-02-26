@@ -15,7 +15,7 @@
         <!-- Name Column -->
         <ng-container matColumnDef="PIB">
           <th mat-header-cell *matHeaderCellDef> PIB </th>
-          <td mat-cell *matCellDef="let element"> {{element.pib}} </td>
+          <td mat-cell *matCellDef="let element"> <p *ngIf="element.pib"> {{element.pib}} </p> <strong  *ngIf="element.pib.trim().length == 0">[UNKNOWN]</strong> </td>
         </ng-container>
         <ng-container matColumnDef="Marks">
           <th mat-header-cell *matHeaderCellDef> Actions </th>
