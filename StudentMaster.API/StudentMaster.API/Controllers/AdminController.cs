@@ -67,5 +67,26 @@ namespace StudentMaster.API.Controllers
             }
 
         }
+
+        [HttpGet("remove-student-from-class/{studentId}")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> removeStudentFromClass(string studentId)
+        {
+            Thread.Sleep(1000);
+            try
+            {
+                if (await _adminService.removeStudentFromClass(studentId))
+                    return Ok(new { msg = "Ok" });
+                else
+                    return BadRequest();
+            }
+            catch (Exception e)
+            {
+
+                return BadRequest(e.Data["ERROR"]);
+            }
+
+        }
+
     }
 }
