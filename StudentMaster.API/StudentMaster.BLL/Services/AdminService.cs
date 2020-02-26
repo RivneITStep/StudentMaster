@@ -20,15 +20,19 @@ namespace StudentMaster.BLL.Services
         private readonly IRandomService _randomService;
         private readonly IRepository<ConfirmCode> _confirmCodeRepository;
         private readonly IRepository<User> _userRepository;
+        private readonly IRepository<ClassSubject> _classSubjectRepository;
+        private readonly IRepository<Subject> _subjectRepository;
 
-        public AdminService(IRepository<Class> classRepository, UserManager<User> userManager, IEmailService emailService, IRandomService randomService, IRepository<ConfirmCode> confirmCodeRepository, IRepository<User> userRepository)
+        public AdminService(IRepository<Class> classRepository, UserManager<User> userManager, IEmailService emailService, IRandomService randomService, IRepository<ConfirmCode> confirmCodeRepository, IRepository<User> userRepository, IRepository<ClassSubject> classSubjectRepository, IRepository<Subject> subjectRepository)
         {
-            _classRepository = classRepository;
-            _userManager = userManager;
-            _emailService = emailService;
-            _randomService = randomService;
-            _confirmCodeRepository = confirmCodeRepository;
-            _userRepository = userRepository;
+            _classRepository = classRepository ?? throw new ArgumentNullException(nameof(classRepository));
+            _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
+            _emailService = emailService ?? throw new ArgumentNullException(nameof(emailService));
+            _randomService = randomService ?? throw new ArgumentNullException(nameof(randomService));
+            _confirmCodeRepository = confirmCodeRepository ?? throw new ArgumentNullException(nameof(confirmCodeRepository));
+            _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
+            _classSubjectRepository = classSubjectRepository ?? throw new ArgumentNullException(nameof(classSubjectRepository));
+            _subjectRepository = subjectRepository ?? throw new ArgumentNullException(nameof(subjectRepository));
         }
 
         public async Task<bool> inviteUser(string email)
@@ -96,6 +100,43 @@ namespace StudentMaster.BLL.Services
             _classRepository.Edit(cl);
 
             return true;
+        }
+
+        public async Task<bool> editSubjectsInClass(int classId, int subjectId)
+        {
+            var cl = await _classRepository.GetByIdAsync(classId);
+            var sub = await _subjectRepository.GetByIdAsync(subjectId);
+
+            if (cl == null)
+                throw ErrorHelper.GetException("Class not found...", "404", "", 404);
+            if (sub == null)
+                throw ErrorHelper.GetException("Subject not found...", "404", "", 404);
+
+            var cs = await _classSubjectRepository.GetQueryable(x => x.ClassId == classId && x.SubjectId == subjectId).FirstOrDefaultAsync();
+
+            if (cs == null)
+                _classSubjectRepository.Add(new ClassSubject { Class = cl, Subject = sub });
+            else
+                _classSubjectRepository.Delete(cs);
+            return true;
+        }
+
+        public async Task<IEnumerable<subjectResult>> getAllSubjects()
+        {
+            var result = new List<subjectResult>();
+
+            foreach (var el in await _subjectRepository.GetAsync())
+                result.Add(new subjectResult() { id = el.Id, Name = el.Name });
+            return result;
+        }
+
+        public async Task<IEnumerable<subjectResult>> getClassSubjects(int classId)
+        {
+            var result = new List<subjectResult>();
+
+            foreach (var el in  _classSubjectRepository.GetQueryable(x=>x.ClassId == classId).Include(x=>x.Subject))
+                result.Add(new subjectResult() { id = el.Subject.Id, Name = el.Subject.Name });
+            return result;
         }
     }
 }

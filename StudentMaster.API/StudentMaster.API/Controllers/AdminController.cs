@@ -88,5 +88,37 @@ namespace StudentMaster.API.Controllers
 
         }
 
+        [HttpGet("edit-subjects-in-class/{classId}/{subjectId}")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> editSubjectsInClass(int classId, int subjectId)
+        {
+            try
+            {
+                if (await _adminService.editSubjectsInClass(classId, subjectId))
+                    return Ok(new { msg = "Ok" });
+                else
+                    return BadRequest();
+            }
+            catch (Exception e)
+            {
+
+                return BadRequest(e.Data["ERROR"]);
+            }
+
+        }
+        [HttpGet("get-all-subjects")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> getAllSubjects()
+        {
+
+            return Ok(await _adminService.getAllSubjects());
+        }
+        [HttpGet("get-class-subjects/{classId}")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> getClassSubjects(int classId)
+        {
+
+            return Ok(await _adminService.getClassSubjects(classId));
+        }
     }
 }

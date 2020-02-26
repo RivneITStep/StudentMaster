@@ -10,6 +10,7 @@ import { AddHomeworkComponent } from 'app/routes/teacher/components/add-homework
 import { AdminService } from '@core/services/admin.service';
 import { InviteUserComponent } from '../modal/invite-user/invite-user.component';
 import { ToolsService } from '@core/services/tools.service';
+import { EditSubjectsInClassComponent } from '../modal/edit-subjects-in-class/edit-subjects-in-class.component';
 
 @Component({
   selector: 'app-classes',
@@ -50,6 +51,13 @@ export class ClassesComponent implements OnInit {
       data: { classId: this.selectedClass },
     });
     dialogRef.afterClosed().subscribe(_ =>  this.store.dispatch(new GetClassStudents(this.selectedClass)));
+  }
+  editSubjects() {
+    const dialogRef = this.dialog.open(EditSubjectsInClassComponent, {
+      width: '90%',
+      data: { classId: this.selectedClass },
+    });
+    dialogRef.afterClosed();
   }
   removeFromClass(id: string) {
     this.admin.removeStudentFromClass(id).subscribe(() => {
