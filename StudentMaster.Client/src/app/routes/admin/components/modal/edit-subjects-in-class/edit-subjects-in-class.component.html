@@ -17,6 +17,7 @@
         [formControl]="fruitCtrl"
         [matAutocomplete]="auto"
         [matChipInputFor]="chipList"
+        [disabled] = "this.isLoading"
         (matChipInputTokenEnd)="add($event)">
     </mat-chip-list>
     <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
@@ -27,5 +28,5 @@
   </mat-form-field>
 </div>
 <div mat-dialog-actions>
-  <!-- <button (click)="" mat-button>Close</button> -->
+  <button (click)="close()" [disabled]="this.isLoading" [class.spinner]="this.isLoading" mat-button>Close</button>
 </div>

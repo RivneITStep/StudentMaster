@@ -85,10 +85,12 @@ export class EditSubjectsInClassComponent implements OnInit {
   }
 
   update() {
+    this.isLoading = true;
     this.adminService.getAllSubjects().subscribe((data) => {
       this.allSubjects = data;
       this.adminService.getClassSubjects(this.data.classId).subscribe((subjects) => {
         this.subjects = subjects;
+        this.isLoading = false;
         this.subjects.forEach(element => {
           if (this.allSubjects.find(x => x.id === element.id)) {
             this.allSubjects =  this.allSubjects.filter(x => x.id !== element.id);
@@ -96,6 +98,9 @@ export class EditSubjectsInClassComponent implements OnInit {
         });
       });
     });
+  }
+  close() {
+    this.dialogRef.close();
   }
 
 }
