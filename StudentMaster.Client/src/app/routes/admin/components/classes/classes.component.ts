@@ -11,6 +11,7 @@ import { AdminService } from '@core/services/admin.service';
 import { InviteUserComponent } from '../modal/invite-user/invite-user.component';
 import { ToolsService } from '@core/services/tools.service';
 import { EditSubjectsInClassComponent } from '../modal/edit-subjects-in-class/edit-subjects-in-class.component';
+import { EditTeachersInClassComponent } from '../modal/edit-teachers-in-class/edit-teachers-in-class.component';
 
 @Component({
   selector: 'app-classes',
@@ -54,6 +55,13 @@ export class ClassesComponent implements OnInit {
   }
   editSubjects() {
     const dialogRef = this.dialog.open(EditSubjectsInClassComponent, {
+      width: '90%',
+      data: { classId: this.selectedClass },
+    });
+    dialogRef.afterClosed();
+  }
+  editTeachers() {
+    const dialogRef = this.dialog.open(EditTeachersInClassComponent, {
       width: '90%',
       data: { classId: this.selectedClass },
     });

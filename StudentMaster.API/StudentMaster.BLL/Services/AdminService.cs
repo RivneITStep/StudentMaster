@@ -22,8 +22,9 @@ namespace StudentMaster.BLL.Services
         private readonly IRepository<User> _userRepository;
         private readonly IRepository<ClassSubject> _classSubjectRepository;
         private readonly IRepository<Subject> _subjectRepository;
+        private readonly IRepository<UserClasses> _teachersClassRepository;
 
-        public AdminService(IRepository<Class> classRepository, UserManager<User> userManager, IEmailService emailService, IRandomService randomService, IRepository<ConfirmCode> confirmCodeRepository, IRepository<User> userRepository, IRepository<ClassSubject> classSubjectRepository, IRepository<Subject> subjectRepository)
+        public AdminService(IRepository<Class> classRepository, UserManager<User> userManager, IEmailService emailService, IRandomService randomService, IRepository<ConfirmCode> confirmCodeRepository, IRepository<User> userRepository, IRepository<ClassSubject> classSubjectRepository, IRepository<Subject> subjectRepository, IRepository<UserClasses> teachersClassRepository)
         {
             _classRepository = classRepository ?? throw new ArgumentNullException(nameof(classRepository));
             _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
@@ -33,6 +34,7 @@ namespace StudentMaster.BLL.Services
             _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
             _classSubjectRepository = classSubjectRepository ?? throw new ArgumentNullException(nameof(classSubjectRepository));
             _subjectRepository = subjectRepository ?? throw new ArgumentNullException(nameof(subjectRepository));
+            _teachersClassRepository = teachersClassRepository ?? throw new ArgumentNullException(nameof(teachersClassRepository));
         }
 
         public async Task<bool> inviteUser(string email)
@@ -137,6 +139,42 @@ namespace StudentMaster.BLL.Services
             foreach (var el in  _classSubjectRepository.GetQueryable(x=>x.ClassId == classId).Include(x=>x.Subject))
                 result.Add(new subjectResult() { id = el.Subject.Id, Name = el.Subject.Name });
             return result;
+        }
+
+        public async Task<IEnumerable<teacherResult>> getAllTeachers()
+        {
+            var result = new List<teacherResult>();
+            foreach (var el in await _userManager.GetUsersInRoleAsync("Teacher"))
+                result.Add(new teacherResult() { id = el.Id, pib = el.FirstName + ' ' + el.Name + ' ' +  el.LastName });
+            return result;
+        }
+
+        public async Task<IEnumerable<teacherResult>> getClassTeachers(int classId)
+        {
+            var result = new List<teacherResult>();
+
+            foreach (var el in await _teachersClassRepository.GetQueryable(x => x.ClassId == classId).Include(x => x.User).ToArrayAsync())
+                result.Add(new teacherResult() { id = el.User.Id, pib = el.User.FirstName + ' ' + el.User.Name + ' ' + el.User.LastName });
+            return result;
+        }
+
+        public async Task<bool> editTeachersInClass(int classId, string teacherId)
+        {
+            var cl = await _classRepository.GetByIdAsync(classId);
+            var th = await _userRepository.GetByIdAsync(teacherId);
+
+            if (cl == null)
+                throw ErrorHelper.GetException("Class not found...", "404", "", 404);
+            if (th == null)
+                throw ErrorHelper.GetException("Teacher not found...", "404", "", 404);
+
+            var cs = await _teachersClassRepository.GetQueryable(x => x.ClassId == classId && x.UserId == teacherId).FirstOrDefaultAsync();
+
+            if (cs == null)
+                _teachersClassRepository.Add(new UserClasses { Class = cl, User = th });
+            else
+                _teachersClassRepository.Delete(cs);
+            return true;
         }
     }
 }
