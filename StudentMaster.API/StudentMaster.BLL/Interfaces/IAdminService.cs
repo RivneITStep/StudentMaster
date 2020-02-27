@@ -14,5 +14,11 @@ namespace StudentMaster.BLL.Interfaces
 
 
         Task<bool> removeStudentFromClass(string studentID);
+
+
+        Task<bool> editSubjectsInClass(int classId, int subjectId);
+
+        Task<IEnumerable<subjectResult>> getAllSubjects();
+        Task<IEnumerable<subjectResult>> getClassSubjects(int classId);
     }
 }
