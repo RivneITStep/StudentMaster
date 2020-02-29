@@ -20,5 +20,9 @@ namespace StudentMaster.BLL.Interfaces
 
         Task<IEnumerable<subjectResult>> getAllSubjects();
         Task<IEnumerable<subjectResult>> getClassSubjects(int classId);
+
+        Task<bool> editTeachersInClass(int classId, string teacherId);
+        Task<IEnumerable<teacherResult>> getAllTeachers();
+        Task<IEnumerable<teacherResult>> getClassTeachers(int classId);
     }
 }

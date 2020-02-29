@@ -120,5 +120,38 @@ namespace StudentMaster.API.Controllers
 
             return Ok(await _adminService.getClassSubjects(classId));
         }
+
+        [HttpGet("get-all-teachers")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> getAllTeachers()
+        {
+
+            return Ok(await _adminService.getAllTeachers());
+        }
+        [HttpGet("get-class-teachers/{teacherId}")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> getClassTeachers(int teacherId)
+        {
+
+            return Ok(await _adminService.getClassTeachers(teacherId));
+        }
+        [HttpGet("edit-teachers-in-class/{classId}/{teacherId}")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> editTeachersInClass(int classId, string teacherId)
+        {
+            try
+            {
+                if (await _adminService.editTeachersInClass(classId, teacherId))
+                    return Ok(new { msg = "Ok" });
+                else
+                    return BadRequest();
+            }
+            catch (Exception e)
+            {
+
+                return BadRequest(e.Data["ERROR"]);
+            }
+
+        }
     }
 }

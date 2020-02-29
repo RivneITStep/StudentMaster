@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { ClassModel } from '@core/models/classes-model';
 import { API } from '@core/config';
 import { SubjectModel } from '@core/models/subject-model';
+import { TeacherModel } from '@core/models/teacher-model';
 
 @Injectable({
   providedIn: 'root'
@@ -28,5 +29,15 @@ export class AdminService {
   }
   public editSubjectsInClass(classId, subjectId) {
     return this.http.get<SubjectModel[]>(API + `/api/Admin/edit-subjects-in-class/${classId}/${subjectId}`);
+  }
+
+  public getClassTeachers(classId) {
+    return this.http.get<TeacherModel[]>(API + '/api/Admin/get-class-teachers/' + classId);
+  }
+  public getAllTeachers() {
+    return this.http.get<TeacherModel[]>(API + '/api/Admin/get-all-teachers');
+  }
+  public editTeachersInClass(classId, teacherId) {
+    return this.http.get(API + `/api/Admin/edit-teachers-in-class/${classId}/${teacherId}`);
   }
 }

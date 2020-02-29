@@ -1,29 +1,30 @@
-import { Component, OnInit, Inject, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { SubjectModel } from '@core/models/subject-model';
 import { ToolsService } from '@core/services/tools.service';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { InviteUserComponent } from '../invite-user/invite-user.component';
 import { AdminService } from '@core/services/admin.service';
-import { FormControl } from '@angular/forms';
-import { Observable } from 'rxjs';
-import { MatAutocomplete, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatChipInputEvent } from '@angular/material/chips';
-import { startWith, map } from 'rxjs/operators';
-import { SubjectModel } from '@core/models/subject-model';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { TeacherModel } from '@core/models/teacher-model';
 
 @Component({
-  selector: 'app-edit-subjects-in-class',
-  templateUrl: './edit-subjects-in-class.component.html',
-  styleUrls: ['./edit-subjects-in-class.component.scss']
+  selector: 'app-edit-teachers-in-class',
+  templateUrl: './edit-teachers-in-class.component.html',
+  styleUrls: ['./edit-teachers-in-class.component.scss']
 })
-export class EditSubjectsInClassComponent implements OnInit {
+export class EditTeachersInClassComponent implements OnInit {
+
   visible = true;
   selectable = true;
   removable = true;
 
-  fruitCtrl = new FormControl();
-  filteredFruits: Observable<string[]>;
-  subjects: SubjectModel[] = [];
-  allSubjects: SubjectModel[] = [];
+  teacherCtrl = new FormControl();
+  filteredTeachers: Observable<string[]>;
+  teachers: TeacherModel[] = [];
+  allTeachers: TeacherModel[] = [];
 
 
   constructor(
@@ -53,11 +54,11 @@ export class EditSubjectsInClassComponent implements OnInit {
     const value = event.value;
     console.log(event);
 
-    this.fruitCtrl.setValue(null);
+    this.teacherCtrl.setValue(null);
   }
 
-  remove(subject: SubjectModel): void {
-    this.adminService.editSubjectsInClass(this.data.classId, subject.id).subscribe(() => {
+  remove(teacher: TeacherModel): void {
+    this.adminService.editTeachersInClass(this.data.classId, teacher.id).subscribe(() => {
       this.tools.showNotification('Success');
       this.update();
     });
@@ -65,7 +66,7 @@ export class EditSubjectsInClassComponent implements OnInit {
 
   selected(event: MatAutocompleteSelectedEvent): void {
     console.log(event);
-    this.adminService.editSubjectsInClass(this.data.classId, event.option.value.id).subscribe(() => {
+    this.adminService.editTeachersInClass(this.data.classId, event.option.value.id).subscribe(() => {
       this.tools.showNotification('Success');
       this.update();
     });
@@ -76,14 +77,14 @@ export class EditSubjectsInClassComponent implements OnInit {
 
   update() {
     this.isLoading = true;
-    this.adminService.getAllSubjects().subscribe((data) => {
-      this.allSubjects = data;
-      this.adminService.getClassSubjects(this.data.classId).subscribe((subjects) => {
-        this.subjects = subjects;
+    this.adminService.getAllTeachers().subscribe((data) => {
+      this.allTeachers = data;
+      this.adminService.getClassTeachers(this.data.classId).subscribe((teachers) => {
+        this.teachers = teachers;
         this.isLoading = false;
-        this.subjects.forEach(element => {
-          if (this.allSubjects.find(x => x.id === element.id)) {
-            this.allSubjects =  this.allSubjects.filter(x => x.id !== element.id);
+        this.teachers.forEach(element => {
+          if (this.allTeachers.find(x => x.id === element.id)) {
+            this.allTeachers =  this.allTeachers.filter(x => x.id !== element.id);
           }
         });
       });

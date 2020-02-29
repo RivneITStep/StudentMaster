@@ -1,27 +1,27 @@
-<h1 mat-dialog-title>EDIT SUBJECTS</h1>
+<h1 mat-dialog-title>EDIT TEACHERS</h1>
 <div mat-dialog-content>
   <mat-form-field class="cell-12">
     <mat-chip-list #chipList aria-label="Subjects selection">
       <mat-chip
-        *ngFor="let el of subjects"
+        *ngFor="let el of teachers"
         [selectable]="selectable"
         [removable]="removable"
         color="accent"
         (removed)="remove(el)">
-        {{el.name}}
+        {{el.pib}}
         <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
       </mat-chip>
       <input
-        placeholder="Subjects"
+        placeholder="Teachers"
         #fruitInput
-        [formControl]="fruitCtrl"
+        [formControl]="teacherCtrl"
         [matAutocomplete]="auto"
         [matChipInputFor]="chipList"
         (matChipInputTokenEnd)="add($event)">
     </mat-chip-list>
     <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
-      <mat-option *ngFor="let el of allSubjects" [value]="el">
-        {{el.name}}
+      <mat-option *ngFor="let el of allTeachers" [value]="el">
+        {{el.pib}}
       </mat-option>
     </mat-autocomplete>
   </mat-form-field>

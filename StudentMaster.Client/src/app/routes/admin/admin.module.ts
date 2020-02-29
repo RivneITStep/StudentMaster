@@ -7,15 +7,16 @@ import { SharedModule } from '@shared';
 import { MaterialModule } from 'app/material.module';
 import { InviteUserComponent } from './components/modal/invite-user/invite-user.component';
 import { EditSubjectsInClassComponent } from './components/modal/edit-subjects-in-class/edit-subjects-in-class.component';
+import { EditTeachersInClassComponent } from './components/modal/edit-teachers-in-class/edit-teachers-in-class.component';
 
 
 @NgModule({
-  declarations: [ClassesComponent, InviteUserComponent, EditSubjectsInClassComponent],
+  declarations: [ClassesComponent, InviteUserComponent, EditSubjectsInClassComponent, EditTeachersInClassComponent],
   imports: [
     CommonModule,
     AdminRoutingModule,
     SharedModule,
   ],
-  entryComponents: [InviteUserComponent, EditSubjectsInClassComponent],
+  entryComponents: [InviteUserComponent, EditSubjectsInClassComponent, EditTeachersInClassComponent],
 })
 export class AdminModule { }
