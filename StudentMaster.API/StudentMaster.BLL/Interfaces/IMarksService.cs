@@ -12,5 +12,7 @@ namespace StudentMaster.BLL.Interfaces
         Task<marksForChartResult> getMarksForChartByUID(string uid);
         Task<int> getStudentMarkBySubjectAndDate(getStudentMarkByDateAndSubjectViewModel model, string teacherID);
         Task<bool> addMarkForStudentAsync(addMarkForStudent model, string teacherID);
+        
+        Task<IEnumerable<marksubjectResult>> getMarksSubjects(string uid);
     }
 }

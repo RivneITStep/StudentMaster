@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -52,7 +53,7 @@ namespace StudentMaster.API.Controllers
         [Authorize]
         public async Task<IActionResult> getClassmatesAsync()
         {
-           try
+            try
            {
                 return Ok(await _classServie.getStudentsFromClassByStudentId(User.Identity.Name));
            } catch(Exception e)

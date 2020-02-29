@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -26,6 +27,13 @@ namespace StudentMaster.API.Controllers
         public async Task<IActionResult> getMarksForChartAsync()
         {
             return Ok(await this._marksService.getMarksForChartByUID(User.Identity.Name));
+        }
+
+        [HttpGet("get-avarage-marks")]
+        [Authorize]
+        public async Task<IActionResult> getAverageMarks()
+        {
+            return Ok(await this._marksService.getMarksSubjects(User.Identity.Name));
         }
 
         [HttpPost("get-student-mark-by-subject-and-date")]
