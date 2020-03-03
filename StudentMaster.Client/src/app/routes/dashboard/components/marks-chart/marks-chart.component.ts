@@ -11,6 +11,9 @@ import { Store } from '@ngrx/store';
 import { IAppState } from '@core/redux/state/app.state';
 
 import ApexCharts from 'apexcharts';
+import { MarksService } from '@core';
+import { marksForChartResult } from '@core/models/markForChart';
+import { element } from 'protractor';
 @Component({
   selector: 'app-marks-chart',
   templateUrl: './marks-chart.component.html',
@@ -24,20 +27,24 @@ export class MarksChartComponent implements OnInit, OnDestroy {
   constructor(
     private store: Store<IAppState>,
     private ngZone: NgZone,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private marksService: MarksService
   ) {
   }
 
   ngOnInit() {
-    this.store.select('marks').subscribe(x => {
-      if (x.marksForChart != null && x.marksForChart !== undefined) {
-        if (x.marksForChart.marks !== null) {
-          this.ngZone.runOutsideAngular(() =>
-            this.initChart(x.marksForChart.marks, x.marksForChart.dates)
-          );
-        }
-      }
+    this.marksService.getMyMarkForChart().subscribe((data: marksForChartResult) => {
+      this.initChart(data.marks, data.dates);
     });
+    // this.store.select('marks').subscribe(x => {
+    //   if (x.marksForChart != null && x.marksForChart !== undefined) {
+    //     if (x.marksForChart.marks !== null) {
+    //       this.ngZone.runOutsideAngular(() =>
+    //         this.initChart(x.marksForChart.marks, x.marksForChart.dates)
+    //       );
+    //     }
+    //   }
+    // });
   }
 
   generateChart(series: any[], dates: any[]) {
@@ -45,7 +52,7 @@ export class MarksChartComponent implements OnInit, OnDestroy {
       {
         chart: {
           height: 350,
-          type: 'scatter',
+          type: 'heatmap',
         },
         dataLabels: {
           enabled: true,
@@ -86,7 +93,6 @@ export class MarksChartComponent implements OnInit, OnDestroy {
   }
 
   initChart(siries: any, dates: any): any {
-    this.chartDestroy();
     const options = this.generateChart([...siries], [...dates]);
     this.chart1 = new ApexCharts(document.querySelector('#chart1'), options[0]);
     this.chart1.render();
