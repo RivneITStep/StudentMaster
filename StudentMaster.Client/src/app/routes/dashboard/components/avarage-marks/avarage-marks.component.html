@@ -1,0 +1,16 @@
+
+
+<mat-card  class="cell-12">
+  <mat-list *ngIf="this.isSuccess">
+    <h3 mat-subheader>Statistic</h3>
+    <mat-list-item *ngFor="let el of marks">
+      <mat-icon mat-list-icon>star</mat-icon>
+      <h4 mat-line>{{el.subject}}: <strong>{{el.mark}}</strong></h4>
+    </mat-list-item>
+  </mat-list>
+  <app-loading-failed *ngIf="this.isFailed"></app-loading-failed>
+
+  <app-loading *ngIf="this.isLoading" class="text-center " style="text-align:center"></app-loading>
+
+
+</mat-card>

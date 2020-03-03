@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { API } from './../config';
+import { AvarageMarks } from '@core/models/average-marks';
 
 @Injectable({
   providedIn: 'root',
@@ -13,5 +14,8 @@ export class MarksService {
   }
   getMyMarkForChart() {
     return this.http.get(API + '/api/Marks/get-marks-for-chart');
+  }
+  getAverageMarks() {
+    return this.http.get<AvarageMarks[]>(API + '/api/Marks/get-avarage-marks');
   }
 }

@@ -124,5 +124,32 @@ namespace StudentMaster.BLL.Services
                                                          .Include(x => x.Owner).Select(x=>x.Value);
             return mark.FirstOrDefault();
         }
+        public async Task<IEnumerable<marksubjectResult>> getMarksSubjects(string uid)
+        {
+
+            
+
+            var result = new List<marksubjectResult>();
+            var allMarks =  _markRepository.GetQueryable(x=>x.Owner.Id == uid).Include(x=>x.Owner).Include(x=>x.Subject);
+            var subjectsId = new List<int>();
+            foreach(var el in allMarks)
+            {
+                if (!subjectsId.Contains(el.Subject.Id))
+                    subjectsId.Add(el.Subject.Id);
+            }
+
+            foreach (var el in subjectsId)
+            {
+                var mark = await _markRepository.GetQueryable(x => x.Owner.Id == uid && x.Subject.Id == el).Include(x => x.Owner).Include(x => x.Subject).Select(x=>x.Value).AverageAsync();
+                var sub_name = await _markRepository.GetQueryable(x => x.Owner.Id == uid && x.Subject.Id == el).Include(x => x.Owner).Include(x => x.Subject).Select(x => x.Subject.Name).FirstOrDefaultAsync();
+
+                result.Add(new marksubjectResult()
+                {
+                    mark = mark,
+                    subject = sub_name
+                });
+            }
+            return result.ToArray();
+        }
     }
 }
