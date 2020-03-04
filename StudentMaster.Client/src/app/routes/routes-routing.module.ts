@@ -69,6 +69,11 @@ const routes: Routes = [
         loadChildren: () => import('./homeworks/homeworks.module').then(m => m.HomeworksModule),
         data: { title: 'Homeworks', titleI18n: 'Home works' },
       },
+      {
+        path: 'chat',
+        loadChildren: () => import('./chat/chat.module').then(m => m.ChatModule),
+        data: { title: 'chat', titleI18n: 'chat' },
+      },
     ],
   },
   {

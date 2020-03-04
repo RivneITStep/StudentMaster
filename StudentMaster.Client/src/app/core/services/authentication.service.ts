@@ -43,6 +43,12 @@ export class AuthenticationService {
         map(user => {
           // login successful if there's a jwt token in the response
           if (user && user.access_token) {
+            if (user && user.access_token) {
+              localStorage.setItem(CURRENT_USER, JSON.stringify(user));
+              localStorage.setItem(JWT_TOKEN, user.access_token);
+              localStorage.setItem(REFRESH_TOKEN, user.refresh_token);
+              localStorage.setItem(SELECTED_SERVER, API);
+            }
             this.store.dispatch(new AuthorizeSuccess(user));
           }
 

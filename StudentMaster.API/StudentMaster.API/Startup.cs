@@ -20,6 +20,9 @@ using System.IO;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.AspNetCore.Http;
+using System.Threading.Tasks;
+using StudentMaster.API.Hubs;
+using Microsoft.AspNetCore.SignalR;
 
 namespace StudentMaster.API
 {
@@ -49,7 +52,7 @@ namespace StudentMaster.API
             {
                 configuration.RootPath = "ClientApp/dist";
             });
-
+           
             services.AddDbContext<DBContext>(options =>
                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"), b => b.MigrationsAssembly("StudentMaster.API")));
             services.AddDefaultIdentity<User>()
@@ -88,15 +91,64 @@ namespace StudentMaster.API
                            IssuerSigningKey = SSK,
                            ValidateIssuerSigningKey = true,
                        };
+
+                       options.Events = new JwtBearerEvents
+                       {
+                           OnMessageReceived = context =>
+                           {
+                               var accessToken = context.Request.Query["access_token"];
+
+                           var path = context.HttpContext.Request.Path;
+                               if (!string.IsNullOrEmpty(accessToken) &&
+                                   (path.StartsWithSegments("/api/hubs")))
+                               {
+                               var token = accessToken.ToString();
+                                   //while (true)
+                                   //{
+                                   //    int id = -1;
+                                   //    id = token.IndexOf('"');
+                                   //    if (id == -1)
+                                   //        id = token.IndexOf('\\');
+                                   //    if (id == -1)
+                                   //        break;
+                                   //    token = token.Remove(id, 1);
+
+
+                                   //}
+                                   context.Token = token;
+                               }
+                               return Task.CompletedTask;
+                           }
+                       };
                    });
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "StudentMaster's API", Version = "0.0.1 BETA" });
             });
 
-            services.AddCors();
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy",
+                    builder => builder.AllowAnyOrigin()
+                                     .AllowAnyMethod()
+                                     .AllowAnyHeader());
+                options.AddPolicy("signalr",
+                 builder => builder
+                 .AllowAnyMethod()
+                 .AllowAnyHeader()
+
+                 .AllowCredentials()
+                 .SetIsOriginAllowed(hostName => true));
+            });
+
+            services.AddSignalR(o =>
+            {
+                o.EnableDetailedErrors = true;
+            });
+
 
             services.AddSingleton<IConfiguration>(Configuration);
+            services.AddSingleton<IUserIdProvider, CustomUserIdProvider>();
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IJWTService, JWTService>();
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
@@ -113,6 +165,7 @@ namespace StudentMaster.API
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        [Obsolete]
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -147,21 +200,22 @@ namespace StudentMaster.API
             });
             app.UseHttpsRedirection();
 
-            app.UseRouting();
-           
 
-            app.UseCors(x => x
-                .AllowAnyOrigin()
-                .AllowAnyMethod()
-                .AllowAnyHeader());
+
+
+
+
+            app.UseRouting();
+            // app.UseCors("CorsPolicy");
+            app.UseCors("CorsPolicy");
+
             app.UseAuthentication();
             app.UseAuthorization();
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<ChatHub>("/api/hubs/chat");
             });
-
             app.UseSpa(spa =>
             {
                 spa.Options.SourcePath = "ClientApp";

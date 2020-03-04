@@ -1,0 +1,21 @@
+.chat {
+  height: 350px;
+  overflow-y: scroll;
+
+  overflow-wrap: inherit;
+}
+.mat-option.mat-selected {
+  background: red !important;
+}
+.mat-option.mat-active {
+  background: blue !important;
+}
+mat-list-option[aria-selected="true"] {
+  background: rgba(0, 139, 139, 0.7);
+}
+.contacts {
+  height: 500px;
+  overflow-y: scroll;
+
+  overflow-wrap: inherit;
+}
