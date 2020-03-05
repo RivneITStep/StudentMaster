@@ -1,0 +1,49 @@
+
+<div class="row container-fluid chat-container">
+
+  <mat-card class="cell-md-4 cell-12 contacts">
+    <mat-card-subtitle>Contacts</mat-card-subtitle>
+    <mat-selection-list>
+      <mat-list-option [selected] = "el.selected" (click)= "onContactChange(el.id)" *ngFor="let el of this.contacts">
+        <img *ngIf="el.url !== null" matListAvatar [src]="this.imgAPI +  el.url " alt="">
+        <img *ngIf="el.url === null" matListAvatar src="https://banner2.cleanpng.com/20180430/jge/kisspng-computer-icons-font-awesome-hamburger-button-5ae723a4ebfc72.3953800615250973809666.jpg" alt="">
+        <h3 matLine>  {{el.pib}} </h3>
+        <!-- <p matLine>
+          <span>{{message.content}} </span>
+        </p> -->
+      </mat-list-option>
+    </mat-selection-list>
+  </mat-card>
+
+  <div class="cell-md-8 cell-12">
+    <div class="mat-content" class="chat">
+      <mat-card tdMediaToggle="gt-xs">
+        <mat-card-subtitle>Chat with: [{{selectedId}}]</mat-card-subtitle>
+        <mat-list >
+
+            <mat-list-item class="pad-top pad-bottom" *ngFor="let item of this.messages">
+              <img matListAvatar *ngIf="item.senderAvatar !== null" matListAvatar [src]="this.imgAPI +  item.senderAvatar " alt="">
+              <img matListAvatar *ngIf="item.senderAvatar === null" matListAvatar src="https://banner2.cleanpng.com/20180430/jge/kisspng-computer-icons-font-awesome-hamburger-button-5ae723a4ebfc72.3953800615250973809666.jpg" alt="">
+              <h3 matLine class="cursor-pointer"> <b [style.color] = "item.color">{{item.senderPib}}</b>: <span class="tc-grey-500 md-caption">{{item.date}}</span></h3>
+              <div matLine>
+                <div class="text-wrap" style="word-wrap:break-word;">
+                  {{item.message}}
+                </div>
+              </div>
+            </mat-list-item>
+        </mat-list>
+      </mat-card>
+    </div>
+    <mat-divider></mat-divider>
+
+    <mat-card>
+      <div layout="row" layout-align="start center">
+        <mat-form-field style="width: 100%" flex layout="row" floatPlaceholder="never">
+          <textarea [(ngModel)]="this.message" style="width: 100%" matInput placeholder="message"></textarea>
+
+        </mat-form-field>
+        <button  [disabled]="this.message.length == 0 || this.selectedId.length == 0" type="submit" color="primary" mat-raised-button mat-button (click)="this.Send()">Send</button>
+      </div>
+    </mat-card>
+  </div>
+</div>
