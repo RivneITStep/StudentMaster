@@ -6,6 +6,7 @@ import { AdminService } from '@core/services/admin.service';
 import { MatDialog } from '@angular/material/dialog';
 import { InviteUserComponent } from '../modal/invite-user/invite-user.component';
 import { GetClassStudents } from '@core/redux/actions/teacher.actions';
+import { ChangeRolesComponent } from '../modal/change-roles/change-roles.component';
 
 @Component({
   selector: 'app-users',
@@ -30,7 +31,11 @@ export class UsersComponent implements OnInit {
 
   }
   onRoles(id) {
-    console.log(id);
+    const dialogRef = this.dialog.open(ChangeRolesComponent, {
+      width: '90%',
+      data: { uid: id },
+    });
+    dialogRef.afterClosed();
   }
   addUser() {
     const dialogRef = this.dialog.open(InviteUserComponent, {

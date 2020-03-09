@@ -25,9 +25,9 @@ namespace StudentMaster.BLL.Services
         private readonly IRepository<ClassSubject> _classSubjectRepository;
         private readonly IRepository<Subject> _subjectRepository;
         private readonly IRepository<UserClasses> _teachersClassRepository;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
-
-        public AdminService(IRepository<Class> classRepository, UserManager<User> userManager, IEmailService emailService, IRandomService randomService, IRepository<ConfirmCode> confirmCodeRepository, IRepository<User> userRepository, IRepository<ClassSubject> classSubjectRepository, IRepository<Subject> subjectRepository, IRepository<UserClasses> teachersClassRepository)
+        public AdminService(IRepository<Class> classRepository, UserManager<User> userManager, IEmailService emailService, IRandomService randomService, IRepository<ConfirmCode> confirmCodeRepository, IRepository<User> userRepository, IRepository<ClassSubject> classSubjectRepository, IRepository<Subject> subjectRepository, IRepository<UserClasses> teachersClassRepository, RoleManager<IdentityRole> roleManager)
         {
             _classRepository = classRepository;
             _userManager = userManager;
@@ -38,6 +38,7 @@ namespace StudentMaster.BLL.Services
             _classSubjectRepository = classSubjectRepository;
             _subjectRepository = subjectRepository;
             _teachersClassRepository = teachersClassRepository;
+            _roleManager = roleManager;
         }
 
         public async Task<bool> inviteUser(string email)
@@ -201,6 +202,41 @@ namespace StudentMaster.BLL.Services
             result.CurrentPage = page;
             return result;
 
+        }
+
+        public async Task<IEnumerable<string>> getAllRoles()
+        {
+            return _roleManager.Roles.Select(x => x.Name);
+        }
+
+        public async Task<IEnumerable<string>> getUserRoles(string uid)
+        {
+            var user =  await _userManager.FindByIdAsync(uid);
+            if (user == null)
+                throw ErrorHelper.GetException("User not found...", "404", "", 404);
+            return await _userManager.GetRolesAsync(user);
+        }
+
+        public async Task<bool> editRoleOfUser(string uid, string role)
+        {
+            var user = await _userManager.FindByIdAsync(uid);
+            if (user == null)
+                throw ErrorHelper.GetException("User not found...", "404", "", 404);
+            var r = await _roleManager.FindByNameAsync(role);
+            if (r == null)
+                throw ErrorHelper.GetException("Role not found...", "404", "", 404);
+
+            if (await _userManager.IsInRoleAsync(user, r.Name))
+            {
+                await _userManager.RemoveFromRoleAsync(user, r.Name);
+                return true;
+            } else
+            {
+                await _userManager.AddToRoleAsync(user, r.Name);
+                return true;
+            }
+             
+           
         }
     }
 }

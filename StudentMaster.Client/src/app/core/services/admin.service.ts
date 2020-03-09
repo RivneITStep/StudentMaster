@@ -45,4 +45,13 @@ export class AdminService {
   public getAllUsers(page: number, count: number) {
     return this.http.get<Pagination<StudentModel>>(API + '/api/Admin/get-all-users/' + page + '/' + count );
   }
+  public getAllRoles() {
+    return this.http.get<string[]>(API + '/api/Admin/get-all-roles');
+  }
+  public getRolesByUID(uid) {
+    return this.http.get<string[]>(API + '/api/Admin/get-user-roles/' + uid );
+  }
+  public changeRolesInUser(uid, role) {
+    return this.http.get<string[]>(API + '/api/Admin/edit-roles-in-user/' + uid + '/' + role );
+  }
 }
