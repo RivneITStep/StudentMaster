@@ -135,6 +135,13 @@ namespace StudentMaster.API.Controllers
 
             return Ok(await _adminService.getClassTeachers(teacherId));
         }
+        [HttpGet("get-all-users/{page}/{count}")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> getClassTeachers(int page, int count = 10)
+        {
+
+            return Ok(await _adminService.getUsers(page, count));
+        }
         [HttpGet("edit-teachers-in-class/{classId}/{teacherId}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> editTeachersInClass(int classId, string teacherId)

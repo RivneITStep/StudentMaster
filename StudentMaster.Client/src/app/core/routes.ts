@@ -41,8 +41,8 @@ export const Routes: Menu[] = [
         type: 'link',
       },
       {
-        state: 'students',
-        name: 'Students',
+        state: 'users',
+        name: 'Users',
         type: 'link',
       },
     ],

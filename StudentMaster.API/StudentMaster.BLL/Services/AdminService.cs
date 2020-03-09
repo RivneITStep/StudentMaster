@@ -3,11 +3,13 @@ using Microsoft.EntityFrameworkCore;
 using StudentMaster.BLL.DTO.dtoResults;
 using StudentMaster.BLL.Helpers;
 using StudentMaster.BLL.Interfaces;
+using StudentMaster.DAL;
 using StudentMaster.DAL.Entities;
 using StudentMaster.DAL.Interfaces;
 using StudentMaster.DAL.Repository;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 namespace StudentMaster.BLL.Services
@@ -24,17 +26,18 @@ namespace StudentMaster.BLL.Services
         private readonly IRepository<Subject> _subjectRepository;
         private readonly IRepository<UserClasses> _teachersClassRepository;
 
+
         public AdminService(IRepository<Class> classRepository, UserManager<User> userManager, IEmailService emailService, IRandomService randomService, IRepository<ConfirmCode> confirmCodeRepository, IRepository<User> userRepository, IRepository<ClassSubject> classSubjectRepository, IRepository<Subject> subjectRepository, IRepository<UserClasses> teachersClassRepository)
         {
-            _classRepository = classRepository ?? throw new ArgumentNullException(nameof(classRepository));
-            _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
-            _emailService = emailService ?? throw new ArgumentNullException(nameof(emailService));
-            _randomService = randomService ?? throw new ArgumentNullException(nameof(randomService));
-            _confirmCodeRepository = confirmCodeRepository ?? throw new ArgumentNullException(nameof(confirmCodeRepository));
-            _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
-            _classSubjectRepository = classSubjectRepository ?? throw new ArgumentNullException(nameof(classSubjectRepository));
-            _subjectRepository = subjectRepository ?? throw new ArgumentNullException(nameof(subjectRepository));
-            _teachersClassRepository = teachersClassRepository ?? throw new ArgumentNullException(nameof(teachersClassRepository));
+            _classRepository = classRepository;
+            _userManager = userManager;
+            _emailService = emailService;
+            _randomService = randomService;
+            _confirmCodeRepository = confirmCodeRepository;
+            _userRepository = userRepository;
+            _classSubjectRepository = classSubjectRepository;
+            _subjectRepository = subjectRepository;
+            _teachersClassRepository = teachersClassRepository;
         }
 
         public async Task<bool> inviteUser(string email)
@@ -175,6 +178,29 @@ namespace StudentMaster.BLL.Services
             else
                 _teachersClassRepository.Delete(cs);
             return true;
+        }
+
+        public async Task<PaginationResult<studentResult>> getUsers(int page, int count = 10)
+        {
+            var result = new PaginationResult<studentResult>();
+
+            var listOfUsers = _userRepository.GetQueryable();
+
+            int countOfItems = await listOfUsers.CountAsync();
+
+            var users = listOfUsers.Skip((page - 1) * count).Take(count);
+
+            foreach (var el in users)
+                result.Data.Add(new studentResult()
+                {
+                    id = el.Id,
+                    pib = $"{el.FirstName} {el.Name} {el.LastName}",
+                    position = 0
+                });
+            result.CountOfPages = (int)Math.Ceiling((double)countOfItems / countOfItems);
+            result.CurrentPage = page;
+            return result;
+
         }
     }
 }
