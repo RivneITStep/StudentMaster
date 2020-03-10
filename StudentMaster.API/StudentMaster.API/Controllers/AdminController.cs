@@ -135,6 +135,29 @@ namespace StudentMaster.API.Controllers
 
             return Ok(await _adminService.getClassTeachers(teacherId));
         }
+        [HttpGet("get-all-users/{page}/{count}")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> getClassTeachers(int page, int count = 10)
+        {
+
+            return Ok(await _adminService.getUsers(page, count));
+        }
+      
+
+        [HttpGet("get-all-roles")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> getAllRoles()
+        {
+
+            return Ok(await _adminService.getAllRoles());
+        }
+        [HttpGet("get-user-roles/{uid}")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> getUserRoles(string uid)
+        {
+
+            return Ok(await _adminService.getUserRoles(uid));
+        }
         [HttpGet("edit-teachers-in-class/{classId}/{teacherId}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> editTeachersInClass(int classId, string teacherId)
@@ -142,6 +165,24 @@ namespace StudentMaster.API.Controllers
             try
             {
                 if (await _adminService.editTeachersInClass(classId, teacherId))
+                    return Ok(new { msg = "Ok" });
+                else
+                    return BadRequest();
+            }
+            catch (Exception e)
+            {
+
+                return BadRequest(e.Data["ERROR"]);
+            }
+
+        }
+        [HttpGet("edit-roles-in-user/{uid}/{role}")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> editRolesInUser(string uid, string role)
+        {
+            try
+            {
+                if (await _adminService.editRoleOfUser(uid, role))
                     return Ok(new { msg = "Ok" });
                 else
                     return BadRequest();

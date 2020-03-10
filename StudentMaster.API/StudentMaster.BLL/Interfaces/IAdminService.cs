@@ -17,12 +17,15 @@ namespace StudentMaster.BLL.Interfaces
 
 
         Task<bool> editSubjectsInClass(int classId, int subjectId);
-
+        Task<bool> editRoleOfUser(string uid, string role);
         Task<IEnumerable<subjectResult>> getAllSubjects();
+        Task<IEnumerable<string>> getAllRoles();
+        Task<IEnumerable<string>> getUserRoles(string uid);
         Task<IEnumerable<subjectResult>> getClassSubjects(int classId);
 
         Task<bool> editTeachersInClass(int classId, string teacherId);
         Task<IEnumerable<teacherResult>> getAllTeachers();
         Task<IEnumerable<teacherResult>> getClassTeachers(int classId);
+        Task<PaginationResult<studentResult>> getUsers(int page, int count = 10);
     }
 }

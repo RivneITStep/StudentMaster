@@ -41,8 +41,8 @@ export const Routes: Menu[] = [
         type: 'link',
       },
       {
-        state: 'students',
-        name: 'Students',
+        state: 'users',
+        name: 'Users',
         type: 'link',
       },
     ],
@@ -53,6 +53,12 @@ export const Routes: Menu[] = [
     type: 'link',
     icon: 'bookmark',
     role: userRole,
+  },
+  {
+    state: 'chat',
+    name: 'Chat',
+    type: 'link',
+    icon: 'question_answer',
   },
   {
     state: 'homeworks',
@@ -73,27 +79,27 @@ export const Routes: Menu[] = [
     type: 'link',
     icon: 'calendar_today',
   },
-  {
-    state: 'sessions',
-    name: 'Sessions',
-    type: 'sub',
-    icon: 'question_answer',
-    children: [
-      {
-        state: '403',
-        name: '403',
-        type: 'link',
-      },
-      {
-        state: '404',
-        name: '404',
-        type: 'link',
-      },
-      {
-        state: '500',
-        name: '500',
-        type: 'link',
-      },
-    ],
-  },
+  // {
+  //   state: 'sessions',
+  //   name: 'Sessions',
+  //   type: 'sub',
+  //   icon: 'question_answer',
+  //   children: [
+  //     {
+  //       state: '403',
+  //       name: '403',
+  //       type: 'link',
+  //     },
+  //     {
+  //       state: '404',
+  //       name: '404',
+  //       type: 'link',
+  //     },
+  //     {
+  //       state: '500',
+  //       name: '500',
+  //       type: 'link',
+  //     },
+  //   ],
+  // },
 ];

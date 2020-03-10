@@ -3,11 +3,13 @@ using Microsoft.EntityFrameworkCore;
 using StudentMaster.BLL.DTO.dtoResults;
 using StudentMaster.BLL.Helpers;
 using StudentMaster.BLL.Interfaces;
+using StudentMaster.DAL;
 using StudentMaster.DAL.Entities;
 using StudentMaster.DAL.Interfaces;
 using StudentMaster.DAL.Repository;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 namespace StudentMaster.BLL.Services
@@ -23,18 +25,20 @@ namespace StudentMaster.BLL.Services
         private readonly IRepository<ClassSubject> _classSubjectRepository;
         private readonly IRepository<Subject> _subjectRepository;
         private readonly IRepository<UserClasses> _teachersClassRepository;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
-        public AdminService(IRepository<Class> classRepository, UserManager<User> userManager, IEmailService emailService, IRandomService randomService, IRepository<ConfirmCode> confirmCodeRepository, IRepository<User> userRepository, IRepository<ClassSubject> classSubjectRepository, IRepository<Subject> subjectRepository, IRepository<UserClasses> teachersClassRepository)
+        public AdminService(IRepository<Class> classRepository, UserManager<User> userManager, IEmailService emailService, IRandomService randomService, IRepository<ConfirmCode> confirmCodeRepository, IRepository<User> userRepository, IRepository<ClassSubject> classSubjectRepository, IRepository<Subject> subjectRepository, IRepository<UserClasses> teachersClassRepository, RoleManager<IdentityRole> roleManager)
         {
-            _classRepository = classRepository ?? throw new ArgumentNullException(nameof(classRepository));
-            _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
-            _emailService = emailService ?? throw new ArgumentNullException(nameof(emailService));
-            _randomService = randomService ?? throw new ArgumentNullException(nameof(randomService));
-            _confirmCodeRepository = confirmCodeRepository ?? throw new ArgumentNullException(nameof(confirmCodeRepository));
-            _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
-            _classSubjectRepository = classSubjectRepository ?? throw new ArgumentNullException(nameof(classSubjectRepository));
-            _subjectRepository = subjectRepository ?? throw new ArgumentNullException(nameof(subjectRepository));
-            _teachersClassRepository = teachersClassRepository ?? throw new ArgumentNullException(nameof(teachersClassRepository));
+            _classRepository = classRepository;
+            _userManager = userManager;
+            _emailService = emailService;
+            _randomService = randomService;
+            _confirmCodeRepository = confirmCodeRepository;
+            _userRepository = userRepository;
+            _classSubjectRepository = classSubjectRepository;
+            _subjectRepository = subjectRepository;
+            _teachersClassRepository = teachersClassRepository;
+            _roleManager = roleManager;
         }
 
         public async Task<bool> inviteUser(string email)
@@ -175,6 +179,64 @@ namespace StudentMaster.BLL.Services
             else
                 _teachersClassRepository.Delete(cs);
             return true;
+        }
+
+        public async Task<PaginationResult<studentResult>> getUsers(int page, int count = 10)
+        {
+            var result = new PaginationResult<studentResult>();
+
+            var listOfUsers = _userRepository.GetQueryable();
+
+            int countOfItems = await listOfUsers.CountAsync();
+
+            var users = listOfUsers.Skip((page - 1) * count).Take(count);
+
+            foreach (var el in users)
+                result.Data.Add(new studentResult()
+                {
+                    id = el.Id,
+                    pib = $"{el.FirstName} {el.Name} {el.LastName}",
+                    position = 0
+                });
+            result.CountOfPages = (int)Math.Ceiling((double)countOfItems / countOfItems);
+            result.CurrentPage = page;
+            return result;
+
+        }
+
+        public async Task<IEnumerable<string>> getAllRoles()
+        {
+            return _roleManager.Roles.Select(x => x.Name);
+        }
+
+        public async Task<IEnumerable<string>> getUserRoles(string uid)
+        {
+            var user =  await _userManager.FindByIdAsync(uid);
+            if (user == null)
+                throw ErrorHelper.GetException("User not found...", "404", "", 404);
+            return await _userManager.GetRolesAsync(user);
+        }
+
+        public async Task<bool> editRoleOfUser(string uid, string role)
+        {
+            var user = await _userManager.FindByIdAsync(uid);
+            if (user == null)
+                throw ErrorHelper.GetException("User not found...", "404", "", 404);
+            var r = await _roleManager.FindByNameAsync(role);
+            if (r == null)
+                throw ErrorHelper.GetException("Role not found...", "404", "", 404);
+
+            if (await _userManager.IsInRoleAsync(user, r.Name))
+            {
+                await _userManager.RemoveFromRoleAsync(user, r.Name);
+                return true;
+            } else
+            {
+                await _userManager.AddToRoleAsync(user, r.Name);
+                return true;
+            }
+             
+           
         }
     }
 }
