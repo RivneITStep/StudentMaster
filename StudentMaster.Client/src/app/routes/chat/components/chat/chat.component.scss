@@ -19,3 +19,7 @@ mat-list-option[aria-selected="true"] {
 
   overflow-wrap: inherit;
 }
+.mat-pseudo-checkbox {
+  display: none !important;
+  visibility: hidden !important;
+}

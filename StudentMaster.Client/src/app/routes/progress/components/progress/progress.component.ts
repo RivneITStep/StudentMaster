@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ShowMarksComponent } from '../showMarks/showMarks.component';
 import { MatDialog } from '@angular/material/dialog';
 import { MarksService } from '@core';
-import { ShowMarksModel } from '@core/models/showMarksModel';
+import { ShowMarksModel, ShowMarkModel } from '@core/models/showMarksModel';
 
 @Component({
   selector: 'app-progress',
@@ -30,7 +30,7 @@ export class ProgressComponent implements OnInit {
     const getDate = new Date(date).toDateString();
     // console.log('string: ' + getDate);
 
-    this.mS.getMyMarksByDate(getDate).subscribe((x: ShowMarksModel) => {
+    this.mS.getMyMarksByDate(getDate).subscribe((x: ShowMarkModel[]) => {
       const dialogRef = this.dialog.open(ShowMarksComponent, {
         width: '60%',
         data: x,

@@ -4,6 +4,7 @@ export class ShowMarksModel {
 }
 
 export class ShowMarkModel {
-  mark: number;
-  subject: string;
+  value: number;
+  name: string;
+  type: string;
 }

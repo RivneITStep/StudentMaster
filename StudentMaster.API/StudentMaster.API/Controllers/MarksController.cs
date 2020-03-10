@@ -36,6 +36,13 @@ namespace StudentMaster.API.Controllers
             return Ok(await this._marksService.getMarksSubjects(User.Identity.Name));
         }
 
+        [HttpGet("get-my-marks-by-date/{date}")]
+        [Authorize]
+        public async Task<IActionResult> getMyMarksByDate(DateTime date)
+        {
+
+            return Ok(await _marksService.getMarksByDate(User.Identity.Name, date));
+        }
         [HttpPost("get-student-mark-by-subject-and-date")]
         [Authorize(Roles = "Teacher")]
         public async Task<IActionResult> getStudentMarkBySubjectAndDate([FromBody]getStudentMarkByDateAndSubjectViewModel model)

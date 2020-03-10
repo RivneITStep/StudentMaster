@@ -14,5 +14,6 @@ namespace StudentMaster.BLL.Interfaces
         Task<bool> addMarkForStudentAsync(addMarkForStudent model, string teacherID);
         
         Task<IEnumerable<marksubjectResult>> getMarksSubjects(string uid);
+        Task<IEnumerable<markResult>> getMarksByDate(string uid, DateTime date);
     }
 }
