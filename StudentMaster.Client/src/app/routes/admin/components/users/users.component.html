@@ -5,6 +5,11 @@
   <br>
   <mat-divider></mat-divider>
   <br>
+  <mat-form-field class="cell-12">
+    <mat-label>Filter</mat-label>
+    <input class="cell-12" matInput (keyup)="applyFilter($event)" placeholder="Filter...">
+  </mat-form-field>
+  <br>
   <table mat-table [dataSource]="dataSource" matSort>
 
     <!-- Progress Column -->
