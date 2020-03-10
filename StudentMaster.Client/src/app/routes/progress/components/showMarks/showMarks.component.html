@@ -1,9 +1,9 @@
-<h1 mat-dialog-title>{{data.date}}</h1>
+<h1 mat-dialog-title>Marks</h1>
 <div mat-dialog-content>
-  <p *ngIf="!this.data.marks.length" style="text-align: center; font-size: 20px; font-weight:500"><i>Empty:(</i></p>
-  <p style="margin-left: 2rem; font-size: 20px; font-weight:400" *ngFor="let item of this.data.marks; let i=index">
-    {{i + 1}}. <i>{{item.subject}}:</i> <span
-      style="margin-left: 1rem; font-size: 18px; font-weight: bold">{{item.mark}}</span> <br></p>
+  <p *ngIf="!this.data.length" style="text-align: center; font-size: 20px; font-weight:500"><i>No marks yet... :(</i></p>
+  <p style="margin-left: 2rem; font-size: 20px; font-weight:400" *ngFor="let item of this.data; let i=index">
+    {{i + 1}}. <i>{{item.name}}:</i> <span
+      style="margin-left: 1rem; font-size: 18px; font-weight: bold">{{item.value}}</span> <br></p>
 
 </div>
 <div mat-dialog-actions>

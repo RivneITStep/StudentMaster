@@ -4,6 +4,7 @@ import { API } from './../config';
 
 import { marksForChartResult } from '@core/models/markForChart';
 import { AvarageMarks } from '@core/models/average-marks';
+import { ShowMarkModel } from '@core/models/showMarksModel';
 
 @Injectable({
   providedIn: 'root',
@@ -12,7 +13,7 @@ export class MarksService {
   constructor(private http: HttpClient) {}
 
   getMyMarksByDate(date: any) {
-    return this.http.get(API + '/api/Marks/getByDate?date=' + date);
+    return this.http.get<ShowMarkModel[]>(API + '/api/Marks/get-my-marks-by-date/' + date);
   }
   getMyMarkForChart() {
     return this.http.get<marksForChartResult>(API + '/api/Marks/get-marks-for-chart');

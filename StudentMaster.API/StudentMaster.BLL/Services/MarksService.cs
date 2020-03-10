@@ -140,7 +140,7 @@ namespace StudentMaster.BLL.Services
 
             foreach (var el in subjectsId)
             {
-                var mark = await _markRepository.GetQueryable(x => x.Owner.Id == uid && x.Subject.Id == el).Include(x => x.Owner).Include(x => x.Subject).Select(x=>x.Value).AverageAsync();
+                var mark = Math.Ceiling(await _markRepository.GetQueryable(x => x.Owner.Id == uid && x.Subject.Id == el).Include(x => x.Owner).Include(x => x.Subject).Select(x=>x.Value).AverageAsync());
                 var sub_name = await _markRepository.GetQueryable(x => x.Owner.Id == uid && x.Subject.Id == el).Include(x => x.Owner).Include(x => x.Subject).Select(x => x.Subject.Name).FirstOrDefaultAsync();
 
                 result.Add(new marksubjectResult()
@@ -150,6 +150,17 @@ namespace StudentMaster.BLL.Services
                 });
             }
             return result.ToArray();
+        }
+
+        public async Task<IEnumerable<markResult>> getMarksByDate(string uid, DateTime date)
+        {
+          var marks = _markRepository.GetQueryable(x => x.Owner.Id == uid && x.Date.Year == date.Year && x.Date.Month == date.Month && date.Day == x.Date.Day).Include(x => x.Owner).Include(x => x.Subject);
+
+            var result = new List<markResult>();
+            foreach (var el in marks)
+                result.Add(new markResult() { name = el.Subject.Name, type = el.Type, value = el.Value });
+
+            return result;
         }
     }
 }
