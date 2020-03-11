@@ -68,7 +68,7 @@ namespace StudentMaster.BLL.Services
         {
             var result = new List<myClassResult>();
 
-            foreach(var el in (await _classRepository.GetAsync()))
+            foreach(var el in  _classRepository.GetQueryable(x=>x.isDeleted == false))
             {
                 result.Add(new myClassResult() { id = el.Id, name = el.Name });
             }
@@ -237,6 +237,44 @@ namespace StudentMaster.BLL.Services
             }
              
            
+        }
+
+        public void createSubject(string subjectName)
+        {
+           var sub = _subjectRepository.GetQueryable(x => x.Name == subjectName).FirstOrDefault();
+            if (sub != null)
+                throw ErrorHelper.GetException("Subject name " + subjectName + " is used!");
+            _subjectRepository.Add(new Subject()
+            {
+                Name = subjectName
+            });
+        }
+
+        public void removeSubject(string subjectName)
+        {
+            var sub = _subjectRepository.GetQueryable(x => x.Name == subjectName).FirstOrDefault();
+            if (sub == null)
+                throw ErrorHelper.GetException("Subject " + subjectName + " not found!");
+            sub.isDeleted = true;
+            _subjectRepository.Edit(sub);
+        }
+
+        public void rollbackSubject(string subjectName)
+        {
+            var sub = _subjectRepository.GetQueryable(x => x.Name == subjectName).FirstOrDefault();
+            if (sub == null)
+                throw ErrorHelper.GetException("Subject " + subjectName + " not found!");
+            sub.isDeleted = false;
+            _subjectRepository.Edit(sub);
+        }
+
+        public void changeNameSubject(string oldName, string newName)
+        {
+            var sub = _subjectRepository.GetQueryable(x => x.Name == oldName).FirstOrDefault();
+            if (sub == null)
+                throw ErrorHelper.GetException("Subject " + oldName + " not found!");
+            sub.Name = newName;
+            _subjectRepository.Edit(sub);
         }
     }
 }

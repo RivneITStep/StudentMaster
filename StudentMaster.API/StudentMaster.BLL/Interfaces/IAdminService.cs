@@ -27,5 +27,10 @@ namespace StudentMaster.BLL.Interfaces
         Task<IEnumerable<teacherResult>> getAllTeachers();
         Task<IEnumerable<teacherResult>> getClassTeachers(int classId);
         Task<PaginationResult<studentResult>> getUsers(int page, int count = 10);
+
+        void createSubject(string subjectName);
+        void removeSubject(string subjectName);
+        void rollbackSubject(string subjectName);
+        void changeNameSubject(string oldName, string newName);
     }
 }

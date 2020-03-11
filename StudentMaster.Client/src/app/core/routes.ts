@@ -45,6 +45,11 @@ export const Routes: Menu[] = [
         name: 'Users',
         type: 'link',
       },
+      {
+        state: 'console',
+        name: 'Console',
+        type: 'link',
+      },
     ],
   },
   {

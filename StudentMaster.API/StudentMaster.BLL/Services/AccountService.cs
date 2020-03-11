@@ -112,7 +112,7 @@ namespace StudentMaster.BLL.Services
         public async Task<IEnumerable<myClassResult>> getMyClasses(string uid)
         {
             var result = new List<myClassResult>();
-            foreach(var el in await _teacherClassesRepository.GetQueryable(x => x.UserId == uid).Include(x => x.Class).Include(x => x.Class).ToListAsync())
+            foreach(var el in await _teacherClassesRepository.GetQueryable(x => x.UserId == uid && x.Class.isDeleted == false).Include(x => x.Class).Include(x => x.Class).ToListAsync())
             {
                 result.Add(new myClassResult() { id = el.Class.Id, name = el.Class.Name });
             }

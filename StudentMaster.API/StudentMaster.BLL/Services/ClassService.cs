@@ -29,6 +29,35 @@ namespace StudentMaster.BLL.Services
             _scheduleRepository = scheduleRepository;
         }
 
+        public void createClass(string className)
+        {
+            var cl = _classRepository.GetQueryable(x => x.Name.ToLower() == className.ToLower()).FirstOrDefault();
+            if (cl != null)
+                throw ErrorHelper.GetException("Class name [" + className + "] is used", "400");
+
+            _classRepository.Add(new Class()
+            {
+                Name = className
+            });
+        }
+        public void removeClass(string className)
+        {
+            var cl = _classRepository.GetQueryable(x => x.Name.ToLower() == className.ToLower() && x.isDeleted == false).FirstOrDefault();
+            if (cl == null)
+                throw ErrorHelper.GetException("Class name [" + className + "] not found", "404");
+            cl.isDeleted = true;
+            _classRepository.Edit(cl);
+
+        }
+        public void rollbackClass(string className)
+        {
+            var cl = _classRepository.GetQueryable(x => x.Name.ToLower() == className.ToLower() && x.isDeleted == true).FirstOrDefault();
+            if (cl == null)
+                throw ErrorHelper.GetException("Class name [" + className + "] not found", "404");
+            cl.isDeleted = false;
+            _classRepository.Edit(cl);
+
+        }
         public async Task<IEnumerable<scheduleResult>> GetSchedule(string uid)
         {
             var cl = _classRepository.GetSingle(x => x.Students.FirstOrDefault(y => y.Id == uid) != null);
@@ -109,6 +138,16 @@ namespace StudentMaster.BLL.Services
             
             }
             return result.ToArray();
+        }
+
+        public void changeNameClass(string oldName, string newName)
+        {
+            var cl = _classRepository.GetQueryable(x => x.Name.ToLower() == oldName.ToLower()).FirstOrDefault();
+            if (cl == null)
+                throw ErrorHelper.GetException("Class not found", "404", "", 404);
+
+            cl.Name = newName;
+            _classRepository.Edit(cl);
         }
     }
 }
