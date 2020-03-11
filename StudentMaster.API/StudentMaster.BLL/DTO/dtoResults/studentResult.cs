@@ -9,5 +9,7 @@ namespace StudentMaster.BLL.DTO.dtoResults
         public int position { get; set; }
         public string id { get; set; }
         public string pib { get; set; }
+
+        public bool isTeacher { get; set; }
     }
 }

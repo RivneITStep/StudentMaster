@@ -23,6 +23,8 @@ namespace StudentMaster.BLL.Interfaces
         Task<IEnumerable<string>> getUserRoles(string uid);
         Task<IEnumerable<subjectResult>> getClassSubjects(int classId);
 
+        Task<IEnumerable<subjectResult>> getTeacherSubjects(string uid);
+        Task<bool> editSubjectsInTeacher(int subjectId, string teacherId);
         Task<bool> editTeachersInClass(int classId, string teacherId);
         Task<IEnumerable<teacherResult>> getAllTeachers();
         Task<IEnumerable<teacherResult>> getClassTeachers(int classId);

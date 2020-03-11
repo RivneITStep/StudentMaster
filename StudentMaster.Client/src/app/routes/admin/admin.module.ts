@@ -11,15 +11,16 @@ import { EditTeachersInClassComponent } from './components/modal/edit-teachers-i
 import { UsersComponent } from './components/users/users.component';
 import { ChangeRolesComponent } from './components/modal/change-roles/change-roles.component';
 import { ConsoleComponent } from './components/console/console.component';
+import { EditSubjectsInTeacherComponent } from './components/modal/edit-subjects-in-teacher/edit-subjects-in-teacher.component';
 
 
 @NgModule({
-  declarations: [ClassesComponent, InviteUserComponent, EditSubjectsInClassComponent, EditTeachersInClassComponent, UsersComponent, ChangeRolesComponent, ConsoleComponent],
+  declarations: [ClassesComponent, InviteUserComponent, EditSubjectsInClassComponent, EditTeachersInClassComponent, UsersComponent, ChangeRolesComponent, ConsoleComponent, EditSubjectsInTeacherComponent],
   imports: [
     CommonModule,
     AdminRoutingModule,
     SharedModule,
   ],
-  entryComponents: [InviteUserComponent, EditSubjectsInClassComponent, EditTeachersInClassComponent, ChangeRolesComponent],
+  entryComponents: [InviteUserComponent, EditSubjectsInClassComponent, EditTeachersInClassComponent, ChangeRolesComponent, EditSubjectsInTeacherComponent],
 })
 export class AdminModule { }

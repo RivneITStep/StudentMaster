@@ -15,11 +15,15 @@
     <!-- Progress Column -->
     <ng-container matColumnDef="pib">
       <th mat-header-cell *matHeaderCellDef> PIB </th>
-      <td mat-cell *matCellDef="let row"> <p *ngIf="row.pib"> {{row.pib}} </p> <strong  *ngIf="row.pib.trim().length == 0">[UNKNOWN]</strong>  </td>
+      <td mat-cell *matCellDef="let row"> <p *ngIf="row.pib && row.id !== myUID"> {{row.pib}} </p>  <p *ngIf="row.pib && row.id === myUID" style="color: darkred;"> {{row.pib}} </p>  <strong  *ngIf="row.pib.trim().length == 0">[UNKNOWN]</strong>  </td>
     </ng-container>
     <ng-container matColumnDef="roles">
       <th mat-header-cell *matHeaderCellDef> Roles </th>
-      <td mat-cell *matCellDef="let row"> <button mat-raised-button color="accent" (click)="onRoles(row.id)">Roles</button> </td>
+      <td mat-cell *matCellDef="let row">
+        <button mat-raised-button color="accent" style="margin-right: 1rem" (click)="onRoles(row.id)">Roles</button>
+        <!-- <button mat-raised-button color="primary" *ngIf="row.isTeacher" style="margin-right: 1rem" (click)="editClasses(row.id)">Edit classes</button> -->
+        <button mat-raised-button color="primary"  *ngIf="row.isTeacher" style="margin-right: 1rem" (click)="editSubjects(row.id)">Edit subjects</button>
+      </td>
     </ng-container>
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;">

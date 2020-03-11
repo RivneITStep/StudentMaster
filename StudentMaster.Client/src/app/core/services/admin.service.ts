@@ -29,10 +29,15 @@ export class AdminService {
   public getAllSubjects() {
     return this.http.get<SubjectModel[]>(API + '/api/Admin/get-all-subjects');
   }
+  public getTeacherSubjects(teacherId) {
+    return this.http.get<SubjectModel[]>(API + '/api/Admin/get-teacher-subjects/' + teacherId);
+  }
   public editSubjectsInClass(classId, subjectId) {
     return this.http.get<SubjectModel[]>(API + `/api/Admin/edit-subjects-in-class/${classId}/${subjectId}`);
   }
-
+  public editSubjectsInTeacher(teacherId, subjectId) {
+    return this.http.get<SubjectModel[]>(API + `/api/Admin/edit-subjects-in-teacher/${subjectId}/${teacherId}`);
+  }
   public getClassTeachers(classId) {
     return this.http.get<TeacherModel[]>(API + '/api/Admin/get-class-teachers/' + classId);
   }

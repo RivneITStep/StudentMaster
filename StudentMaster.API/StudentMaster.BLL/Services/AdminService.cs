@@ -26,8 +26,9 @@ namespace StudentMaster.BLL.Services
         private readonly IRepository<Subject> _subjectRepository;
         private readonly IRepository<UserClasses> _teachersClassRepository;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly IRepository<TeacherSubject> _teacherSubjectRepository;
 
-        public AdminService(IRepository<Class> classRepository, UserManager<User> userManager, IEmailService emailService, IRandomService randomService, IRepository<ConfirmCode> confirmCodeRepository, IRepository<User> userRepository, IRepository<ClassSubject> classSubjectRepository, IRepository<Subject> subjectRepository, IRepository<UserClasses> teachersClassRepository, RoleManager<IdentityRole> roleManager)
+        public AdminService(IRepository<Class> classRepository, UserManager<User> userManager, IEmailService emailService, IRandomService randomService, IRepository<ConfirmCode> confirmCodeRepository, IRepository<User> userRepository, IRepository<ClassSubject> classSubjectRepository, IRepository<Subject> subjectRepository, IRepository<UserClasses> teachersClassRepository, RoleManager<IdentityRole> roleManager, IRepository<TeacherSubject> teacherSubjectRepository)
         {
             _classRepository = classRepository;
             _userManager = userManager;
@@ -39,6 +40,7 @@ namespace StudentMaster.BLL.Services
             _subjectRepository = subjectRepository;
             _teachersClassRepository = teachersClassRepository;
             _roleManager = roleManager;
+            _teacherSubjectRepository = teacherSubjectRepository;
         }
 
         public async Task<bool> inviteUser(string email)
@@ -196,8 +198,10 @@ namespace StudentMaster.BLL.Services
                 {
                     id = el.Id,
                     pib = $"{el.FirstName} {el.Name} {el.LastName}",
-                    position = 0
-                });
+                    position = 0,
+                    isTeacher = await _userManager.IsInRoleAsync(el, "Teacher")
+
+                }); 
             result.CountOfPages = (int)Math.Ceiling((double)countOfItems / countOfItems);
             result.CurrentPage = page;
             return result;
@@ -275,6 +279,34 @@ namespace StudentMaster.BLL.Services
                 throw ErrorHelper.GetException("Subject " + oldName + " not found!");
             sub.Name = newName;
             _subjectRepository.Edit(sub);
+        }
+
+        public async Task<IEnumerable<subjectResult>> getTeacherSubjects(string uid)
+        {
+            var result = new List<subjectResult>();
+
+            foreach (var el in await _teacherSubjectRepository.GetQueryable(x => x.UserId == uid).Include(x => x.User).Include(x=>x.Subject).ToArrayAsync())
+                result.Add(new subjectResult() { id = el.Subject.Id, Name = el.Subject.Name });
+            return result;
+        }
+
+        public async Task<bool> editSubjectsInTeacher(int subjectId, string teacherId)
+        {
+            var cl = await _subjectRepository.GetByIdAsync(subjectId);
+            var th = await _userRepository.GetByIdAsync(teacherId);
+
+            if (cl == null)
+                throw ErrorHelper.GetException("Class not found...", "404", "", 404);
+            if (th == null)
+                throw ErrorHelper.GetException("Teacher not found...", "404", "", 404);
+
+            var cs = await _teacherSubjectRepository.GetQueryable(x => x.SubjectId == subjectId && x.UserId == teacherId).FirstOrDefaultAsync();
+
+            if (cs == null)
+                _teacherSubjectRepository.Add(new TeacherSubject { Subject = cl, User = th });
+            else
+                _teacherSubjectRepository.Delete(cs);
+            return true;
         }
     }
 }

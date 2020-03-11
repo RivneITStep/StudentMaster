@@ -7,6 +7,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { InviteUserComponent } from '../modal/invite-user/invite-user.component';
 import { GetClassStudents } from '@core/redux/actions/teacher.actions';
 import { ChangeRolesComponent } from '../modal/change-roles/change-roles.component';
+import { EditSubjectsInTeacherComponent } from '../modal/edit-subjects-in-teacher/edit-subjects-in-teacher.component';
+import { AuthenticationService } from '@core';
 
 @Component({
   selector: 'app-users',
@@ -17,25 +19,29 @@ export class UsersComponent implements OnInit {
   displayedColumns: string[] = ['pib', 'roles'];
   dataSource: MatTableDataSource<StudentModel>;
   pageSize = 10;
-  pageIndex = 1;
+  pageIndex = 0;
+  myUID = '';
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
-  constructor(public dialog: MatDialog, private adminService: AdminService) {
-   this.adminService.getAllUsers(1, 999).subscribe((x) => {
-    this.dataSource = new MatTableDataSource(x.data);
-    this.dataSource.paginator = this.paginator;
-   });
+  constructor(public dialog: MatDialog, private adminService: AdminService, private authService: AuthenticationService) {
+
   }
-
+  LoadUsers() {
+    this.adminService.getAllUsers(1, 999).subscribe((x) => {
+      this.dataSource = new MatTableDataSource(x.data);
+      this.dataSource.paginator = this.paginator;
+     });
+  }
   ngOnInit() {
-
+    this.LoadUsers();
+    this.myUID = this.authService.getUserId();
   }
   onRoles(id) {
     const dialogRef = this.dialog.open(ChangeRolesComponent, {
       width: '90%',
       data: { uid: id },
     });
-    dialogRef.afterClosed();
+    dialogRef.afterClosed().subscribe(() => { this.LoadUsers();});
   }
   addUser() {
     const dialogRef = this.dialog.open(InviteUserComponent, {
@@ -56,6 +62,16 @@ export class UsersComponent implements OnInit {
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
+  }
+  editClasses(uid) {
+
+  }
+  editSubjects(uid) {
+    const dialogRef = this.dialog.open(EditSubjectsInTeacherComponent, {
+      width: '90%',
+      data: { teacherId: uid },
+    });
+    dialogRef.afterClosed();
   }
 }
 

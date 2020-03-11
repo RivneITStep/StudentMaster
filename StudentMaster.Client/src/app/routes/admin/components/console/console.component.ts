@@ -55,7 +55,7 @@ export class ConsoleComponent implements OnInit {
     }, 0);
   }
   saveCommand(cmd: string) {
-    this.message =  cmd.split('|')[0];
+    this.message =  cmd.split(' ')[0];
   }
   Handler(err) {
     const error = err.message.toString();
