@@ -215,6 +215,7 @@ namespace StudentMaster.API
             {
                 endpoints.MapControllers();
                 endpoints.MapHub<ChatHub>("/api/hubs/chat");
+                endpoints.MapHub<ConsoleHub>("/api/hubs/console");
             });
             app.UseSpa(spa =>
             {

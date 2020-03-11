@@ -14,6 +14,10 @@ namespace StudentMaster.BLL.Interfaces
 
         Task<IEnumerable<subjectResult>> getTeacherClassSubjcets(string teacherId, int classId);
         Task<IEnumerable<scheduleResult>> GetSchedule(string uid);
+        void createClass(string className);
+        void removeClass(string className);
+        void rollbackClass(string className);
+        void changeNameClass(string oldName, string newName);
     }
 
     

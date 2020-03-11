@@ -15,6 +15,7 @@ namespace StudentMaster.DAL.Entities
         // public int @class { get; set; }
         public int Id { get; set; }
         public string Name { get; set; }
+        public bool isDeleted { get; set; }
         public virtual ICollection<UserClasses> UserClasses { get; set; }
         public virtual ICollection<ClassSubject> ClassSubjects { get; set; }
         public virtual ICollection<User> Students { get; set; }

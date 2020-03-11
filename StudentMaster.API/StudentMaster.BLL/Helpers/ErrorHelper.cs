@@ -22,6 +22,11 @@ namespace StudentMaster.BLL.Helpers
             });
 
             return e;
-        } 
+        }
+
+        internal static Exception GetException(string v)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

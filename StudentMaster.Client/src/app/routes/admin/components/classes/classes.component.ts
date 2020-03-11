@@ -20,7 +20,7 @@ import { EditTeachersInClassComponent } from '../modal/edit-teachers-in-class/ed
 })
 export class ClassesComponent implements OnInit {
   constructor(public dialog: MatDialog, private store: Store<IAppState>, private admin: AdminService, private tools: ToolsService) {}
-  displayedColumns: string[] = ['position', 'PIB', 'Marks', 'ControlMark'];
+  displayedColumns: string[] = ['position', 'PIB', 'Marks'];
   dataSource: any;
   selectedClass = 0;
   classes = [];
@@ -74,6 +74,7 @@ export class ClassesComponent implements OnInit {
     });
   }
   onChange(event: any) {
+    console.log(event);
     this.selectedClass = this.classes[event].id;
     this.store.dispatch(new GetSubject(this.classes[event].id));
     this.store.dispatch(new GetClassStudents(this.classes[event].id));
