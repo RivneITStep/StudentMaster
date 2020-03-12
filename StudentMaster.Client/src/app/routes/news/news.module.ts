@@ -6,10 +6,11 @@ import { NewsComponent } from './components/news/news.component';
 import { ShowNewComponent } from './components/news/show-new/show-new.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { SharedModule } from '@shared';
+import { AddNewComponent } from './components/add-new/add-new.component';
 
 @NgModule({
-  declarations: [NewsComponent, ShowNewComponent],
+  declarations: [NewsComponent, ShowNewComponent, AddNewComponent],
   imports: [CommonModule, NewsRoutingModule, SharedModule, NgxSpinnerModule],
-  entryComponents: [ShowNewComponent],
+  entryComponents: [ShowNewComponent, AddNewComponent],
 })
 export class NewsModule {}
