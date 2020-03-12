@@ -1,7 +1,10 @@
 <h1 mat-dialog-title>{{data.name}}</h1>
 <div mat-dialog-content>
-  <p>{{data.message}}</p>
+  <p style="margin-left: 1rem">{{data.message}}</p>
 </div>
+<mat-divider></mat-divider>
 <div mat-dialog-actions>
-  <button mat-button (click)="onNoClick()">Close</button>
+  <button mat-raised-button color="warn" *ngIf="this.isAdmin" (click)="deleteNew(data.id)">DELETE</button>
+  <button mat-raised-button (click)="onNoClick()">Close</button>
+
 </div>
