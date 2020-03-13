@@ -4,7 +4,7 @@ import {Server} from './models/server';
 // servers
 
 export const Servers: Server[] = [
-  {name: 'LATEST', url: 'http://studentmaster.azurewebsites.net', id: 1, status: 'Online'},
+  {name: 'LATEST', url: 'https://studentmaster.azurewebsites.net', id: 1, status: 'Online'},
   {name: 'LOCALHOST', url: 'https://localhost:44380', id: 2, status: 'Online'},
   {name: 'NEXT', url: 'http://next-studentmaster.azurewebsites.net', id: 3, status: 'Offline'},
 ];

@@ -1,4 +1,5 @@
-﻿using StudentMaster.BLL.DTO.dtoResults;
+﻿using StudentMaster.BLL.DTO.dtoModels;
+using StudentMaster.BLL.DTO.dtoResults;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -34,5 +35,8 @@ namespace StudentMaster.BLL.Interfaces
         void removeSubject(string subjectName);
         void rollbackSubject(string subjectName);
         void changeNameSubject(string oldName, string newName);
+
+        void addNew(addNewViewModel model);
+        void removeNew(int id);
     }
 }

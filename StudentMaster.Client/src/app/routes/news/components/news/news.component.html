@@ -1,4 +1,6 @@
 <div class="cell-8 offset-2">
+  <button mat-raised-button color="accent" class="cell-12" (click)="addNew()" *ngIf="this.isAdmin">Add a new</button>
+  <br>
   <div class="row">
     <mat-card class="new-item cell-md-3 cell-12" *ngFor="let item of news" (click)="openDialog(item.id)">
       <mat-card-title>{{item.name}}</mat-card-title>

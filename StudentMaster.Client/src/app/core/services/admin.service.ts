@@ -59,4 +59,10 @@ export class AdminService {
   public changeRolesInUser(uid, role) {
     return this.http.get<string[]>(API + '/api/Admin/edit-roles-in-user/' + uid + '/' + role );
   }
+  public removeNew(id) {
+    return this.http.get(API + '/api/Admin/remove-new/' + id );
+  }
+  public addNew(title: string, text: string) {
+    return this.http.post(API + '/api/Admin/add-new/', {Title: title, Text: text} );
+  }
 }

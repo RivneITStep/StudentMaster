@@ -1,0 +1,28 @@
+<h1 mat-dialog-title>Add a new :)</h1>
+<div mat-dialog-content>
+  <form [formGroup]="form">
+
+    <mat-form-field class="cell-12">
+      <mat-label>Input Title</mat-label>
+      <input matInput placeholder="Input Title" formControlName="title" />
+    </mat-form-field>
+    <br>
+    <mat-form-field class="cell-12">
+      <mat-label>Input Text</mat-label>
+      <textarea matInput placeholder="Input Text" formControlName="text"></textarea>
+    </mat-form-field>
+    <div>
+      <button
+        mat-raised-button
+        color="primary"
+        [disabled]="this.form.invalid"
+        (click)="onSubmit()"
+      >
+        Add
+      </button>
+    </div>
+  </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-raised-button  (click)="this.dialogRef.close()">Close</button>
+</div>

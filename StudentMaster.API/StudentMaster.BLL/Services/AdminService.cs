@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using StudentMaster.BLL.DTO.dtoModels;
 using StudentMaster.BLL.DTO.dtoResults;
 using StudentMaster.BLL.Helpers;
 using StudentMaster.BLL.Interfaces;
@@ -22,13 +23,14 @@ namespace StudentMaster.BLL.Services
         private readonly IRandomService _randomService;
         private readonly IRepository<ConfirmCode> _confirmCodeRepository;
         private readonly IRepository<User> _userRepository;
+        private readonly IRepository<New> _newRepository;
         private readonly IRepository<ClassSubject> _classSubjectRepository;
         private readonly IRepository<Subject> _subjectRepository;
         private readonly IRepository<UserClasses> _teachersClassRepository;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IRepository<TeacherSubject> _teacherSubjectRepository;
 
-        public AdminService(IRepository<Class> classRepository, UserManager<User> userManager, IEmailService emailService, IRandomService randomService, IRepository<ConfirmCode> confirmCodeRepository, IRepository<User> userRepository, IRepository<ClassSubject> classSubjectRepository, IRepository<Subject> subjectRepository, IRepository<UserClasses> teachersClassRepository, RoleManager<IdentityRole> roleManager, IRepository<TeacherSubject> teacherSubjectRepository)
+        public AdminService(IRepository<Class> classRepository, UserManager<User> userManager, IEmailService emailService, IRandomService randomService, IRepository<ConfirmCode> confirmCodeRepository, IRepository<User> userRepository, IRepository<New> newRepository, IRepository<ClassSubject> classSubjectRepository, IRepository<Subject> subjectRepository, IRepository<UserClasses> teachersClassRepository, RoleManager<IdentityRole> roleManager, IRepository<TeacherSubject> teacherSubjectRepository)
         {
             _classRepository = classRepository;
             _userManager = userManager;
@@ -36,6 +38,7 @@ namespace StudentMaster.BLL.Services
             _randomService = randomService;
             _confirmCodeRepository = confirmCodeRepository;
             _userRepository = userRepository;
+            _newRepository = newRepository;
             _classSubjectRepository = classSubjectRepository;
             _subjectRepository = subjectRepository;
             _teachersClassRepository = teachersClassRepository;
@@ -307,6 +310,26 @@ namespace StudentMaster.BLL.Services
             else
                 _teacherSubjectRepository.Delete(cs);
             return true;
+        }
+
+        public void addNew(addNewViewModel model)
+        {
+            if (string.IsNullOrEmpty(model.Text + model.Title))
+                throw ErrorHelper.GetException("Invalid data", "400");
+            _newRepository.Add(new New()
+            {
+                Date = DateTime.Now,
+                Name = model.Title,
+                Message = model.Text
+            });
+        }
+
+        public void removeNew(int id)
+        {
+            var n = _newRepository.GetById(id);
+            if (n == null)
+                throw ErrorHelper.GetException("New not found...", "404", "", 404);
+            _newRepository.Delete(n);
         }
     }
 }

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using StudentMaster.BLL.DTO.dtoModels;
 using StudentMaster.BLL.Interfaces;
 
 namespace StudentMaster.API.Controllers
@@ -194,6 +195,38 @@ namespace StudentMaster.API.Controllers
                     return Ok(new { msg = "Ok" });
                 else
                     return BadRequest();
+            }
+            catch (Exception e)
+            {
+
+                return BadRequest(e.Data["ERROR"]);
+            }
+
+        }
+        [HttpGet("remove-new/{id}")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> removeNew(int id)
+        {
+            try 
+            {
+                _adminService.removeNew(id);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+
+                return BadRequest(e.Data["ERROR"]);
+            }
+
+        }
+        [HttpPost("add-new")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> addNew(addNewViewModel model)
+        {
+            try
+            {
+                _adminService.addNew(model);
+                return Ok();
             }
             catch (Exception e)
             {
