@@ -132,7 +132,7 @@ namespace StudentMaster.BLL.Services
 
         public ICollection<teacherHomeworkResult> getTeacherHomeworks(string uid)
         {
-            var h = _homeworkItemRepository.GetQueryable(x => x.HomeWork.Creator.Id == uid).Include(x=>x.owner).Include(x => x.HomeWork).ThenInclude(x => x.Creator).Include(x=>x.HomeWork.Subject).Include(x=>x.HomeWork.File).Include(x=>x.File);
+            var h = _homeworkItemRepository.GetQueryable(x => x.HomeWork.Creator.Id == uid && x.Status != "CLOSED").Include(x=>x.owner).Include(x => x.HomeWork).ThenInclude(x => x.Creator).Include(x=>x.HomeWork.Subject).Include(x=>x.HomeWork.File).Include(x=>x.File);
             var result = new List<teacherHomeworkResult>();
             foreach (var el in h)
             {
