@@ -1,0 +1,37 @@
+<mat-card  *ngFor="let el of this.homeworks">
+  <mat-list role="list">
+    <mat-list-item role="listitem"><p class="cell-3">PIB:</p> {{el.pib}} </mat-list-item>
+    <mat-list-item role="listitem"><p class="cell-3">Subject:</p> {{el.subject}} </mat-list-item>
+    <mat-list-item role="listitem"><p class="cell-3">Theme:</p> {{el.theme}}</mat-list-item>
+    <mat-list-item role="listitem"><p class="cell-3">Task:</p>  <a   [href]="this.file_url + this.el.file"
+      class="cell-11"
+      target="_blank"
+      style="margin: 1rem;"
+      mat-raised-button
+      color="primary"
+      download="task"
+      class="cell-md-4 cell-6"
+      >Download</a></mat-list-item>
+      <mat-list-item role="listitem"><p class="cell-3">Student Work:</p>  <a   [href]="this.file_url + this.el.student_file"
+        class="cell-11"
+        target="_blank"
+        style="margin: 1rem;"
+        mat-raised-button
+        color="primary"
+        download="studentwork"
+        class="cell-md-4 cell-6"
+        >Download</a></mat-list-item>
+    <br>
+    <mat-list-item role="listitem"> <p class="cell-3">Mark:</p>
+      <mat-form-field class="cell-3">
+        <mat-label>Mark</mat-label>
+        <mat-select (selectionChange)="changeSelection(this.el.id, $event)">
+          <mat-option *ngFor="let i of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]" [value]="i">
+            {{ i }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </mat-list-item>
+  </mat-list>
+  <br>
+</mat-card>

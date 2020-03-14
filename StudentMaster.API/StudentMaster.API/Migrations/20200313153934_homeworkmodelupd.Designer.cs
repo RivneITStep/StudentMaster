@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using StudentMaster.DAL;
 
 namespace StudentMaster.API.Migrations
 {
     [DbContext(typeof(DBContext))]
-    partial class DBContextModelSnapshot : ModelSnapshot
+    [Migration("20200313153934_homeworkmodelupd")]
+    partial class homeworkmodelupd
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -325,16 +327,11 @@ namespace StudentMaster.API.Migrations
                     b.Property<DateTime>("Time")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("ownerId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("FileId");
 
                     b.HasIndex("HomeWorkId");
-
-                    b.HasIndex("ownerId");
 
                     b.ToTable("HomeworkItems");
                 });
@@ -756,10 +753,6 @@ namespace StudentMaster.API.Migrations
                     b.HasOne("StudentMaster.DAL.Entities.HomeWork", "HomeWork")
                         .WithMany("HomeworkItems")
                         .HasForeignKey("HomeWorkId");
-
-                    b.HasOne("StudentMaster.DAL.Entities.User", "owner")
-                        .WithMany()
-                        .HasForeignKey("ownerId");
                 });
 
             modelBuilder.Entity("StudentMaster.DAL.Entities.Mark", b =>

@@ -71,11 +71,48 @@ namespace StudentMaster.API.Controllers
         [Authorize]
         public IActionResult getMyHomeworks()
         {
-            Thread.Sleep(2000);
             var result = this._homeworkService.getMyHomeworks(User.Identity.Name);
             return Ok(result);
         }
 
+
+
+        [HttpGet("remove-my-homework/{wid}")]
+        [Authorize]
+        public IActionResult removeMyWork(int wid)
+        {
+            this._homeworkService.removeWork(User.Identity.Name, wid);
+            return Ok(new { msg = "Done"});
+        }
+
+        [HttpGet("get-teacher-homeworks")]
+        [Authorize]
+        public IActionResult getTeacherHomeworks()
+        {
+            var result = this._homeworkService.getTeacherHomeworks(User.Identity.Name);
+            return Ok(result);
+        }
+        [HttpGet("review-homework/{wid}/{mark}")]
+        [Authorize]
+        public IActionResult getTeacherHomeworks(int wid, int mark)
+        {
+            this._homeworkService.reviewHomework(User.Identity.Name,wid,mark);
+            return Ok(new { msg = "Done" });
+        }
+
+        [HttpPost("do-homework")]
+        [Authorize(Roles = "Teacher")]
+        public async Task<IActionResult> doHomeWorkAsync([FromForm]doHomeWorkViewModel model)
+        {
+            try
+            {
+               await _homeworkService.doHomeworkAsync(User.Identity.Name, model);
+                return Ok();
+            } catch (Exception e)
+            {
+                return BadRequest(e.Data["ERROR"]);
+            }
+        }
 
 
     }
