@@ -12,5 +12,7 @@ namespace StudentMaster.BLL.DTO.dtoModels
         public string Path { get; set; }
         public string Date { get; set; }
         public string Todate { get; set; }
+        public string Status { get; set; }
+        public int Mark { get; set; }
     }
 }

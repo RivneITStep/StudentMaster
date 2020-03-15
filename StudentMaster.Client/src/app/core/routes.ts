@@ -21,11 +21,11 @@ export const Routes: Menu[] = [
         name: 'Dashboard',
         type: 'link',
       },
-      // {
-      //   state: 'Homeworks',
-      //   name: 'Homeworks',
-      //   type: 'link',
-      // },
+       {
+         state: 'homeworks',
+         name: 'Homeworks',
+         type: 'link',
+       },
     ],
   },
   {
