@@ -8,7 +8,7 @@ export const Servers: Server[] = [
   {name: 'AZURE #2', url: 'http://next-studentmaster.azurewebsites.net', id: 2, status: 'Online'},
   {name: 'MYASP.NET #1', url: 'http://studentmaster-001-site1.itempurl.com', id: 6, status: 'Online'},
   {name: 'REALHOST #1', url: '', id: 3, status: 'Offline'},
-  {name: 'LOCALHOST', url: 'https://localhost:44380', id: 4, status: 'Offline'},
+  {name: 'LOCALHOST', url: 'https://localhost:44380', id: 4, status: 'Online'},
   {name: 'NEXT', url: 'http://next-studentmaster.azurewebsites.net', id: 5, status: 'Offline'},
 ];
 

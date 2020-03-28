@@ -6,6 +6,7 @@ import { SubjectModel } from '@core/models/subject-model';
 import { TeacherModel } from '@core/models/teacher-model';
 import { Pagination } from '@core/models/pagination.model';
 import { StudentModel } from '@core/models/student-model';
+import { StudentClass } from '@core/models/student-class.model';
 
 @Injectable({
   providedIn: 'root'
@@ -53,11 +54,17 @@ export class AdminService {
   public getAllRoles() {
     return this.http.get<string[]>(API + '/api/Admin/get-all-roles');
   }
+  public getStudentClasses(uid) {
+    return this.http.get<StudentClass[]>(API + '/api/Admin/get-student-classes/' + uid);
+  }
   public getRolesByUID(uid) {
     return this.http.get<string[]>(API + '/api/Admin/get-user-roles/' + uid );
   }
   public changeRolesInUser(uid, role) {
     return this.http.get<string[]>(API + '/api/Admin/edit-roles-in-user/' + uid + '/' + role );
+  }
+  public changeClassInStudent(classId, studentId) {
+    return this.http.get<string[]>(API + '/api/Admin/edit-class-in-student/' + classId + '/' + studentId );
   }
   public removeNew(id) {
     return this.http.get(API + '/api/Admin/remove-new/' + id );

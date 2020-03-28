@@ -19,9 +19,9 @@ export class HomeworksComponent implements OnInit {
   fileAPI = IMG_API;
   constructor(private hS: HomeworksService, private store: Store<IAppState>, private tools: ToolsService) {}
   ngOnInit() {
-   this.hS.getMyHomeworksRedux().subscribe((x) => {
-     this.homeworks = x;
-   });
+    this.hS.getMyHomeworksRedux().subscribe((x) => {
+      this.homeworks = x.filter(x => x.status === this.selectedType);
+    });
   }
   onChange(event) {
     this.selectedType = this.types[event];

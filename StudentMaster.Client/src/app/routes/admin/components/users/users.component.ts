@@ -9,6 +9,7 @@ import { GetClassStudents } from '@core/redux/actions/teacher.actions';
 import { ChangeRolesComponent } from '../modal/change-roles/change-roles.component';
 import { EditSubjectsInTeacherComponent } from '../modal/edit-subjects-in-teacher/edit-subjects-in-teacher.component';
 import { AuthenticationService } from '@core';
+import { ChangeClassInStudentComponent } from '../modal/change-class-in-student/change-class-in-student.component';
 
 @Component({
   selector: 'app-users',
@@ -63,8 +64,12 @@ export class UsersComponent implements OnInit {
       this.dataSource.paginator.firstPage();
     }
   }
-  editClasses(uid) {
-
+  editClass(uid) {
+    const dialogRef = this.dialog.open(ChangeClassInStudentComponent, {
+      width: '90%',
+      data: { uid },
+    });
+    dialogRef.afterClosed();
   }
   editSubjects(uid) {
     const dialogRef = this.dialog.open(EditSubjectsInTeacherComponent, {

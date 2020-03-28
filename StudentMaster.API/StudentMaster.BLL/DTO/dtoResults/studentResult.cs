@@ -11,5 +11,6 @@ namespace StudentMaster.BLL.DTO.dtoResults
         public string pib { get; set; }
 
         public bool isTeacher { get; set; }
+        public bool isStudent { get; set; }
     }
 }

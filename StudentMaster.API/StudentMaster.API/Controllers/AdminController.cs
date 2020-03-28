@@ -166,6 +166,14 @@ namespace StudentMaster.API.Controllers
 
             return Ok(await _adminService.getUserRoles(uid));
         }
+        [HttpGet("get-student-classes/{uid}")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> getStudentClasses(string uid)
+        {
+
+            return Ok(await _adminService.getStudentClassAndAllClasses(uid));
+        }
+
         [HttpGet("edit-teachers-in-class/{classId}/{teacherId}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> editTeachersInClass(int classId, string teacherId)
@@ -184,7 +192,24 @@ namespace StudentMaster.API.Controllers
             }
 
         }
+        [HttpGet("edit-class-in-student/{classId}/{studentId}")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> editClassInStudent(int classId, string studentId)
+        {
+            try
+            {
+                if (await _adminService.editStudentClass(classId, studentId))
+                    return Ok(new { msg = "Ok" });
+                else
+                    return BadRequest();
+            }
+            catch (Exception e)
+            {
 
+                return BadRequest(e.Data["ERROR"]);
+            }
+
+        }
         [HttpGet("edit-subjects-in-teacher/{subjectId}/{teacherId}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> editSubjectsInTeacher(int subjectId, string teacherId)

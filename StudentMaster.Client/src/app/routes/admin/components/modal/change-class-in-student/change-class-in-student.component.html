@@ -1,0 +1,14 @@
+<h1 mat-dialog-title>Change a class</h1>
+<div mat-dialog-content>
+  <mat-form-field class="cell-12">
+    <mat-label>Change a class</mat-label>
+    <mat-select [(ngModel)] = "selectedClass" (selectionChange) = "onChange($event)">
+      <mat-option *ngFor="let el of this.classes" [value]="el.id" >
+        {{el.name}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button (click)="close()" [disabled]="this.isLoading" [class.spinner]="this.isLoading" mat-button>Close</button>
+</div>
