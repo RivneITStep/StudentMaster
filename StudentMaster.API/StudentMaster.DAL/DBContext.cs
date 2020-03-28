@@ -72,5 +72,6 @@ namespace StudentMaster.DAL
         public DbSet<HomeworkItem> HomeworkItems { get; set; }
         public DbSet<ConfirmCode> ConfirmCodes { get; set; }
         public DbSet<ChatMessage> ChatMessages { get; set; }
+        public DbSet<Ban> Bans { get; set; }
     }
 }

@@ -23,6 +23,7 @@
         <button mat-raised-button color="accent" style="margin-right: 1rem" (click)="onRoles(row.id)">Roles</button>
         <!-- <button mat-raised-button color="primary" *ngIf="row.isTeacher" style="margin-right: 1rem" (click)="editClasses(row.id)">Edit classes</button> -->
         <button mat-raised-button color="primary"  *ngIf="row.isTeacher" style="margin-right: 1rem" (click)="editSubjects(row.id)">Edit subjects</button>
+        <button mat-raised-button color="primary"  *ngIf="row.isStudent" style="margin-right: 1rem" (click)="editClass(row.id)">Change a class</button>
       </td>
     </ng-container>
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

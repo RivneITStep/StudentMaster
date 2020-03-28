@@ -12,18 +12,19 @@
     <mat-card-content style="height: auto; text-align: center; flex:content">
       <a
         [href]="this.fileAPI + this.item.path"
-        class="cell-11"
+        class="cell-3"
         target="_blank"
         style="margin: 1rem;"
-        mat-raised-button
+        mat-icon-button
         color="primary"
         download="download"
-        >Download</a
+        aria-label="Download"
+        ><mat-icon>get_app</mat-icon></a
       >
       <input id="fileSelector" type="file" style="display: none;" />
-     <button class="cell-11" *ngIf="this.item.status === types[0]" style="margin: 1rem;" (click)="upload(item.id)" mat-raised-button color="accent">Upload</button>
-     <button class="cell-11" *ngIf="this.item.status === types[1]" style="margin: 1rem;" (click)="remove(item.id)" mat-raised-button color="warn">Remove</button>
-     <h2 class="cell-12" style="text-align: center " *ngIf="this.item.status === types[2]">Mark: {{item.mark}}</h2>
+     <button class="cell-3" *ngIf="this.item.status === types[0]" style="margin: 1rem;"   aria-label="Upload" (click)="upload(item.id)" mat-icon-button color="accent"> <mat-icon>publish</mat-icon></button>
+     <button class="cell-3" *ngIf="this.item.status === types[1]" style="margin: 1rem;"   aria-label="Delete" (click)="remove(item.id)" mat-icon-button color="warn"><mat-icon>delete</mat-icon></button>
+     <h2 class="cell-12" style="text-align: center " *ngIf="this.item.status === types[2]"><div class="mark">{{item.mark}}</div></h2>
     </mat-card-content>
     <mat-divider></mat-divider>
     <mat-card-footer style="text-align: center">

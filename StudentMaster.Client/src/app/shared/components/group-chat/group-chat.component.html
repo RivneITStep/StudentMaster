@@ -1,0 +1,30 @@
+<div class="cell-md-12 cell-12">
+  <div class="mat-content" class="chat">
+    <mat-card tdMediaToggle="gt-xs">
+      <mat-card-subtitle>Class Chat</mat-card-subtitle>
+      <mat-list >
+
+          <mat-list-item class="pad-top pad-bottom" *ngFor="let item of this.messages">
+            <h3 matLine class="cursor-pointer"> <b (click)="ban(item.senderId)" [style.color] = "item.color">{{item.senderPib}}</b>: <span class="tc-grey-500 md-caption">{{item.date}}</span></h3>
+            <div matLine>
+              <div class="text-wrap" style="word-wrap:break-word;">
+                <b style="padding-left: 1rem; cursor: pointer;" >{{item.message}}</b>
+              </div>
+            </div>
+          </mat-list-item>
+      </mat-list>
+    </mat-card>
+  </div>
+  <mat-divider></mat-divider>
+
+  <mat-card>
+    <div layout="row" layout-align="start center">
+      <mat-form-field style="width: 100%" flex layout="row" floatPlaceholder="never">
+        <textarea [(ngModel)]="this.message" style="width: 100%" matInput placeholder="message"></textarea>
+
+      </mat-form-field>
+      <button  [disabled]="this.message.length == 0" type="submit" color="primary" mat-raised-button mat-button (click)="this.Send()">Send</button>
+
+    </div>
+  </mat-card>
+</div>

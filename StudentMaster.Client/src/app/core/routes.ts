@@ -83,6 +83,7 @@ export const Routes: Menu[] = [
     name: 'Schedule',
     type: 'link',
     icon: 'calendar_today',
+    role: userRole,
   },
   // {
   //   state: 'sessions',

@@ -202,7 +202,8 @@ namespace StudentMaster.BLL.Services
                     id = el.Id,
                     pib = $"{el.FirstName} {el.Name} {el.LastName}",
                     position = 0,
-                    isTeacher = await _userManager.IsInRoleAsync(el, "Teacher")
+                    isTeacher = await _userManager.IsInRoleAsync(el, "Teacher"),
+                    isStudent = await _userManager.IsInRoleAsync(el, "User")
 
                 }); 
             result.CountOfPages = (int)Math.Ceiling((double)countOfItems / countOfItems);
@@ -330,6 +331,43 @@ namespace StudentMaster.BLL.Services
             if (n == null)
                 throw ErrorHelper.GetException("New not found...", "404", "", 404);
             _newRepository.Delete(n);
+        }
+
+        public async Task<IEnumerable<StudentClassResult>> getStudentClassAndAllClasses(string uid)
+        {
+            var result = new List<StudentClassResult>();
+
+            var student = _userRepository.GetQueryable(x => x.Id == uid).Include(x => x.myClass).FirstOrDefault();
+
+            foreach (var el in await _classRepository.GetAsync())
+            {
+                if (student.myClass != null && el.Id == student.myClass.Id)
+                    result.Add(new StudentClassResult()
+                    {
+                        Id = el.Id,
+                        Active = true,
+                        Name = el.Name
+                    });
+                else
+                    result.Add(new StudentClassResult()
+                    {
+                        Id = el.Id,
+                        Active = false,
+                        Name = el.Name
+                    });
+            }
+            return result;
+        }
+
+        public async Task<bool> editStudentClass(int classId, string studentId)
+        {
+            var cl = await _classRepository.GetByIdAsync(classId);
+
+            var student = await _userRepository.GetByIdAsync(studentId);
+            student.myClass = cl;
+            _userRepository.Edit(student);
+
+            return true;
         }
     }
 }

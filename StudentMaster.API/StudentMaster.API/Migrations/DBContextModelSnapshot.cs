@@ -169,6 +169,32 @@ namespace StudentMaster.API.Migrations
                     b.ToTable("Attachments");
                 });
 
+            modelBuilder.Entity("StudentMaster.DAL.Entities.Ban", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("DateOfBan")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Reason")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("To")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("userId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("userId");
+
+                    b.ToTable("Bans");
+                });
+
             modelBuilder.Entity("StudentMaster.DAL.Entities.ChatMessage", b =>
                 {
                     b.Property<int>("Id")
@@ -179,14 +205,17 @@ namespace StudentMaster.API.Migrations
                     b.Property<string>("color")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("date")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime>("date")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("message")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ownerId")
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("room")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("senderId")
                         .HasColumnType("nvarchar(450)");
@@ -693,6 +722,13 @@ namespace StudentMaster.API.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("StudentMaster.DAL.Entities.Ban", b =>
+                {
+                    b.HasOne("StudentMaster.DAL.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("userId");
                 });
 
             modelBuilder.Entity("StudentMaster.DAL.Entities.ChatMessage", b =>
