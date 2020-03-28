@@ -130,20 +130,20 @@ namespace StudentMaster.API.Hubs
         [Authorize]
         public async Task sendMessage(string message, int category)
         {
-            var ban = _banRepository.GetQueryable(x => x.userId == Context.User.Identity.Name && x.To > DateTime.Now).FirstOrDefault();
-            if (ban != null)
-            {
-                await Clients.User(Context.User.Identity.Name).SendAsync("ReciveMessage", new models.ChatMessage()
-                {
-                    color = "red",
-                    date = DateTime.Now.ToShortDateString(),
-                    message = "You are banned for " + ban.Reason + " to " + ban.To.ToLongTimeString(),
-                    senderPib = "StudentMasterBot",
-                    senderId = "StudentMasterBot"
-                });
-            }
-            else
-            {
+            //var ban = _banRepository.GetQueryable(x => x.userId == Context.User.Identity.Name).FirstOrDefault();
+            //if (ban != null && ban.To.mi)
+            //{
+            //    await Clients.User(Context.User.Identity.Name).SendAsync("ReciveMessage", new models.ChatMessage()
+            //    {
+            //        color = "red",
+            //        date = DateTime.Now.ToShortDateString(),
+            //        message = "You are banned for " + ban.Reason + " to " + ban.To.ToLongTimeString(),
+            //        senderPib = "StudentMasterBot",
+            //        senderId = "StudentMasterBot"
+            //    });
+            //}
+            //else
+            //{
 
                 if (category < 1)
                     category = _userRepository.GetQueryable(x => x.Id == Context.User.Identity.Name).Include(x => x.myClass).FirstOrDefault().myClass.Id;
@@ -173,7 +173,7 @@ namespace StudentMaster.API.Hubs
                     senderPib = $"{sender.FirstName} {sender.Name} {sender.LastName}",
                     senderAvatar = sender.img
                 });
-            }
+            //}
         }
         [Authorize]
         public void getAllMessageWithUser(string uid)
@@ -223,7 +223,7 @@ namespace StudentMaster.API.Hubs
             var uid = Context.User.Identity.Name;
             var result = new List<Contact>();
 
-            var msgs = _chatRepository.GetQueryable(x => x.senderId == Context.User.Identity.Name || x.ownerId == Context.User.Identity.Name).Include(x=>x.Owner).Include(x=>x.Sender).ToList();
+            var msgs = _chatRepository.GetQueryable(x => (x.senderId == Context.User.Identity.Name || x.ownerId == Context.User.Identity.Name) && (x.room == null || x.room == "")).Include(x=>x.Owner).Include(x=>x.Sender).ToList();
             
             msgs.OrderBy(x => x.date);
 
