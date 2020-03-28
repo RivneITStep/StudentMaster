@@ -21,6 +21,7 @@ import { ImageCropperModule } from 'ngx-image-cropper';
 import { ShowImgComponent } from './components/show-img/show-img.component';
 import { LoadingFailedComponent } from './components/loading-failed/loading-failed.component';
 import { LoadingComponent } from './components/loading/loading.component';
+import { GroupChatComponent } from './components/group-chat/group-chat.component';
 
 const THIRD_MODULES = [
   MaterialModule,
@@ -41,6 +42,7 @@ const COMPONENTS = [
   ErrorCodeComponent,
   LoadingFailedComponent,
   LoadingComponent,
+  GroupChatComponent
 ];
 const DIRECTIVES = [];
 const PIPES = [];

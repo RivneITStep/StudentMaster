@@ -59,7 +59,7 @@ export class ChangeClassInStudentComponent implements OnInit {
       this.tools.showNotification('Success');
     }, () => {
       this.isLoading = false;
-    })
+    });
   }
   update() {
     this.isLoading = true;

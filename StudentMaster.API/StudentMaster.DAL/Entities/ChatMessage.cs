@@ -18,6 +18,7 @@ namespace StudentMaster.DAL.Entities
         [ForeignKey("senderId")]
         public User Sender { get; set; }
         public string color { get; set; }
-        public string date { get; set; }
+        public DateTime date { get; set; }
+        public string room { get; set; }
     }
 }

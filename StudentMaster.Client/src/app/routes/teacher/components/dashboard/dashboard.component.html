@@ -4,6 +4,7 @@
       <button mat-stroked-button color="accent" style="margin:1rem;" (click)="this.addHomeWork()"
       class="cell-md-3 cell-12">Add homework</button>
       <br>
+      <app-group-chat [class] = "item.id"></app-group-chat>
       <table mat-table [dataSource]="dataSource">
 
         <!-- Position Column -->

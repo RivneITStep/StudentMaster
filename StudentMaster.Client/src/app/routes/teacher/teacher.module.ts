@@ -7,6 +7,7 @@ import { SharedModule } from '@shared';
 import { AddMarkComponent } from './components/add-mark/add-mark.component';
 import { AddHomeworkComponent } from './components/add-homework/add-homework.component';
 import { HomeworksComponent } from './components/homeworks/homeworks.component';
+import { RoutesModule } from '../routes.module';
 
 @NgModule({
   declarations: [DashboardComponent, AddMarkComponent, AddHomeworkComponent, HomeworksComponent],
